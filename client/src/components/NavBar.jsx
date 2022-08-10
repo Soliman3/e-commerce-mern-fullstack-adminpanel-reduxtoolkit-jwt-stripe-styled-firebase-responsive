@@ -11,14 +11,14 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 // Styling...
 const Container = styled.div`
     height:55px;
+    padding: 10px 20px;
 `
 const WrapperContainer = styled.div`
-    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 `
-const LeftSideNavBar = styled.div`
+const CenterSideNavBar = styled.div`
     flex: 1;
     display: flex;
     align-items: center;
@@ -33,14 +33,16 @@ const SearchContainer = styled.div`
     border-radius: 5px;
     margin-left:25px;
     padding: 15px;
+    width: 100%;
 `
 const SearchInput = styled.input`
     border: none;
+    width:100%;
 `
 
-const CenterSideNavBar = styled.div`
+const LeftSideNavBar = styled.div`
     flex: 1;
-    text-align: center;
+    text-align: left;
 `
 const BrandLogo = styled.h1`
     font-weight: bold;
@@ -49,7 +51,6 @@ const RightSideNavBar = styled.div`
     flex: 1;
     display: flex;
     align-items: center;
-    
     justify-content: flex-end;
 `
 const MenuItem = styled.div`
@@ -62,17 +63,19 @@ export default function NavBar() {
     return (
         <Container>
             <WrapperContainer>
+                
                 <LeftSideNavBar>
-                    <LanguageOption>AR</LanguageOption>
+                    <BrandLogo>Logo</BrandLogo>
+                </LeftSideNavBar>
+                <CenterSideNavBar>
+                    
                     <SearchContainer>
                         <SearchInput />
                         <SearchIcon style={{fontSize: "16px", color: "gray"}}/>
                     </SearchContainer>
-                </LeftSideNavBar>
-                <CenterSideNavBar>
-                    <BrandLogo>Logo</BrandLogo>
                 </CenterSideNavBar>
                 <RightSideNavBar>
+                <LanguageOption>AR</LanguageOption>
                 <MenuItem>REGISTER</MenuItem>
                 <MenuItem>LOGIN</MenuItem>
                     <MenuItem>
