@@ -3,10 +3,13 @@ import React from 'react'
 // import styled component library for styling...
 import styled from 'styled-components'
 
+
 // import other react component...
 import NavBar from '../components/NavBar'
 import Offers from '../components/Offers'
 import Slider from '../components/Slider'
+import Categories from '../components/Categories'
+import Products from '../components/Products'
 
 
 // styling...
@@ -20,7 +23,9 @@ export default function Home() {
         <Container>
             <Offers />
             <NavBar />
-            <Slider/>
+            <Slider />
+            <Categories />
+            <Products/>
         </Container>
     )
 }

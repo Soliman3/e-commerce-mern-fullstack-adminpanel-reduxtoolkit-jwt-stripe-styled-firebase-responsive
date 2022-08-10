@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 // import styled component library for styling...
 import styled from 'styled-components'
 
@@ -9,6 +9,13 @@ import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutl
 // import required images...
 import ImageForSlider from '../images/2.png'
 
+// import Slider data...
+import { SliderItems } from '../Data/sliderData'
+
+
+
+
+// Styling...
 const Container = styled.div`
     display: flex;
     width: 100%;
@@ -17,6 +24,7 @@ const Container = styled.div`
     overflow: hidden;
     position: relative;
 
+    
 `
 const SliderArrow = styled.div`
     width: 60px;
@@ -31,8 +39,8 @@ const SliderArrow = styled.div`
     position: absolute;
     top:0;
     bottom: 0;
-    left: ${props=> props.direction=== 'left' && '15px'};
-    right: ${props=> props.direction=== 'right' && '15px'};
+    left: ${props => props.direction === 'left' && '15px'};
+    right: ${props => props.direction === 'right' && '15px'};
     margin: auto;
     z-index: 2;
 
@@ -40,14 +48,62 @@ const SliderArrow = styled.div`
 const SliderWrapper = styled.div`
     height: 100%;
     display: flex;
-    transform: translateX(0vw);
+    transform: translateX(${props => props.slideIndex * -100}vw);
+    
 `
 const Slide = styled.div`
     display:flex;
     align-items: center;
     width: 100vw;
     height: 100vh;
-    background-color: ${props=> props.bg};
+    background-color: ${props => props.bg};
+    transition: all 1s ease;
+    
+    -webkit-animation: fadeInTop 1.2s both;
+    -moz-animation: fadeInTop 1.2s both;
+    -o-animation: fadeInTop 1.2s both;
+    animation: fadeInTop 1.2s both;
+    @-webkit-keyframes fadeInTop {
+        0%{
+            opacity: 0;
+            -webkit-transform: translateY(-100px);
+        }
+        100%{
+            opacity: 1;
+            -webkit-transform: translateY(0px);
+        }
+    }
+    @-moz-keyframes fadeInTop {
+        0%{
+            opacity: 0;
+            -moz-transform: translateY(-100px);
+        }
+        100%{
+            opacity: 1;
+            -moz-transform: translateY(0px);
+        }
+    }
+    @-o-keyframes fadeInTop {
+        0%{
+            opacity: 0;
+            -o-transform: translateY(-100px);
+        }
+        100%{
+            opacity: 1;
+            -o-transform: translateY(0px);
+        }
+    }
+    @keyframes fadeInTop {
+        0%{
+            opacity: 0;
+            transform: translateY(-100px);
+        }
+        100%{
+            opacity: 1;
+            transform: translateY(0px);
+        }
+    }
+    
 `
 const SliderImageContainer = styled.div`
     flex: 1;
@@ -74,55 +130,67 @@ const SlideButton = styled.button`
     background-color: transparent;
     cursor: pointer ;
     padding: 15px;
+    
+    &:hover {
+        animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+        }
+        @keyframes shake {
+            10%, 90% {
+                transform: translate3d(-1px, 0, 0);
+            }
+            
+            20%, 80% {
+                transform: translate3d(2px, 0, 0);
+            }
+
+            30%, 50%, 70% {
+                transform: translate3d(-4px, 0, 0);
+            }
+
+            40%, 60% {
+                transform: translate3d(4px, 0, 0);
+            }
+            }
 `
 export default function Slider() {
 
-    const [ slideIndex, setSlideIndex ] = useState(0)
+    const [slideIndex, setSlideIndex] = useState(0)
 
     const handleSlider = (direction) => {
-        
+        if (direction === 'left') {
+            setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2)
+        } else {
+            setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0)
+        }
     }
-  return (
-    <Container>
-          <SliderArrow direction="left" onClick={()=>handleSlider('left')}>
-              <ArrowBackIosOutlinedIcon/>
-          </SliderArrow>
-          <SliderWrapper>
-              <Slide bg="yellow">
-                  <SliderImageContainer>
-                      <SliderImage src={ImageForSlider} />
-                  </SliderImageContainer>
-                  <SliderInfoContainer>
-                      <SlideTitle>SPRING SALES</SlideTitle>
-                      <SlideDescription>DON'T MISS THIS HUGE SALE THIS SEASON</SlideDescription>
-                      <SlideButton>SHOP NOW</SlideButton>
-                  </SliderInfoContainer>
-              </Slide>
-              <Slide bg="red">
-                  <SliderImageContainer>
-                      <SliderImage src={ImageForSlider} />
-                  </SliderImageContainer>
-                  <SliderInfoContainer>
-                      <SlideTitle>ACCESSORIES SALES</SlideTitle>
-                      <SlideDescription>DON'T MISS THIS HUGE SALE THIS SEASON</SlideDescription>
-                      <SlideButton>SHOP NOW</SlideButton>
-                  </SliderInfoContainer>
-              </Slide>
-              <Slide bg="green">
-                  <SliderImageContainer>
-                      <SliderImage src={ImageForSlider} />
-                  </SliderImageContainer>
-                  <SliderInfoContainer>
-                      <SlideTitle>APPLIANCE SALES</SlideTitle>
-                      <SlideDescription>DON'T MISS THIS HUGE SALE THIS SEASON</SlideDescription>
-                      <SlideButton>SHOP NOW</SlideButton>
-                  </SliderInfoContainer>
-              </Slide>
-          </SliderWrapper>
-          <SliderArrow direction="right" onClick={()=>handleSlider('right')} >
-              <ArrowForwardIosOutlinedIcon/>
-          </SliderArrow>
-          
-    </Container>
-  )
+
+    return (
+        <Container>
+            <SliderArrow direction="left" onClick={() => handleSlider('left')}>
+                <ArrowBackIosOutlinedIcon />
+            </SliderArrow>
+            <SliderWrapper slideIndex={slideIndex}>
+                {SliderItems.map((slide) => (
+                    <Slide bg={slide.bg} key={slide.id}>
+                        <SliderImageContainer>
+                            <SliderImage src={slide.img} />
+                        </SliderImageContainer>
+                        <SliderInfoContainer>
+                            <SlideTitle>{slide.title}</SlideTitle>
+                            <SlideDescription>{slide.description}</SlideDescription>
+                            <SlideButton>SHOP NOW</SlideButton>
+                        </SliderInfoContainer>
+                    </Slide>))}
+
+
+            </SliderWrapper>
+            <SliderArrow direction="right" onClick={() => handleSlider('right')} >
+                <ArrowForwardIosOutlinedIcon />
+            </SliderArrow>
+
+        </Container>
+    )
 }
