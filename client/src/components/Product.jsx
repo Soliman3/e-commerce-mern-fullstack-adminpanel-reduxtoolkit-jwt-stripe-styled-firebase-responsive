@@ -22,6 +22,7 @@ const ProductInfo = styled.div`
     background-color: rgba(0,0,0,0.18);
     transition: all 0.5s ease;
     opacity: 0;
+    border-radius: 15px;
 `
 const Container = styled.div`
     flex: 1;
@@ -33,7 +34,7 @@ const Container = styled.div`
     align-items: center;
     background-color: #f3fbf8;
     position: relative;
-
+    border-radius: 15px;
     &:hover ${ProductInfo}{
         opacity:1;
     }
@@ -41,11 +42,13 @@ const Container = styled.div`
         transition: all 0.5s ease;
         transform: scale(1.04);
         box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        border-radius: 15px;
     }
 `
 const ProductImage = styled.img`
     height: 75%;
     z-index: 2;
+    
 `
 const Circle = styled.div`
     width: 200px;
@@ -64,9 +67,11 @@ const ActionIcons = styled.div`
     justify-content: center;
     margin: 12px;
     transition: all 0.5s ease;
+    border-radius: 15px;
     &:hover{
         transform: scale(1.2);
         background-color:#f3fbf8;
+        border-radius: 15px;
     }
 `
 

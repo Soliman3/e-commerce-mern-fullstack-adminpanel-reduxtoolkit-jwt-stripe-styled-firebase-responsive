@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { useInView } from 'react-intersection-observer'
 // import styled component library for styling...
 import styled from 'styled-components'
 
@@ -23,7 +24,6 @@ const Container = styled.div`
     background-color:white;
     overflow: hidden;
     position: relative;
-
     
 `
 const SliderArrow = styled.div`
@@ -43,7 +43,6 @@ const SliderArrow = styled.div`
     right: ${props => props.direction === 'right' && '15px'};
     margin: auto;
     z-index: 2;
-
 `
 const SliderWrapper = styled.div`
     height: 100%;
@@ -131,32 +130,34 @@ const SlideButton = styled.button`
     cursor: pointer ;
     padding: 15px;
     
-    &:hover {
-        animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-        transform: translate3d(0, 0, 0);
-        backface-visibility: hidden;
-        perspective: 1000px;
+    animation: ${props=> props.myElementIsVisible ===true && 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both'};
+    transform: ${props=> props.myElementIsVisible === true && 'translate3d(0, 0, 0)'};
+    backface-visibility: ${props=> props.myElementIsVisible === true && 'hidden'};
+    perspective: ${props=> props.myElementIsVisible === true && '1000px'};
+
+    @keyframes shake {
+        10%, 90% {
+            transform: translate3d(-1px, 0, 0);
         }
-        @keyframes shake {
-            10%, 90% {
-                transform: translate3d(-1px, 0, 0);
-            }
-            
-            20%, 80% {
-                transform: translate3d(2px, 0, 0);
-            }
-
-            30%, 50%, 70% {
-                transform: translate3d(-4px, 0, 0);
-            }
-
-            40%, 60% {
-                transform: translate3d(4px, 0, 0);
-            }
-            }
+        
+        20%, 80% {
+            transform: translate3d(2px, 0, 0);
+        }
+        30%, 50%, 70% {
+            transform: translate3d(-4px, 0, 0);
+        }
+        40% , 60% {
+            transform: translate3d(4px, 0, 0);
+        }
+        }
 `
 export default function Slider() {
 
+    // intersection observer for animation...
+    const { ref: myRef, inView: myElementIsVisible} = useInView()
+    console.log("shake", myElementIsVisible)
+
+    // react hooks for react slider...
     const [slideIndex, setSlideIndex] = useState(0)
 
     const handleSlider = (direction) => {
@@ -169,19 +170,19 @@ export default function Slider() {
 
     return (
         <Container>
-            <SliderArrow direction="left" onClick={() => handleSlider('left')}>
+            <SliderArrow direction="left" onClick={() => handleSlider('left')} >
                 <ArrowBackIosOutlinedIcon />
             </SliderArrow>
-            <SliderWrapper slideIndex={slideIndex}>
+            <SliderWrapper slideIndex={slideIndex} ref={myRef} myElementIsVisible={myElementIsVisible}>
                 {SliderItems.map((slide) => (
-                    <Slide bg={slide.bg} key={slide.id}>
+                    <Slide bg={slide.bg} key={slide.id} >
                         <SliderImageContainer>
                             <SliderImage src={slide.img} />
                         </SliderImageContainer>
                         <SliderInfoContainer>
                             <SlideTitle>{slide.title}</SlideTitle>
                             <SlideDescription>{slide.description}</SlideDescription>
-                            <SlideButton>SHOP NOW</SlideButton>
+                            <SlideButton ref={myRef} myElementIsVisible={myElementIsVisible}>SHOP NOW</SlideButton>
                         </SliderInfoContainer>
                     </Slide>))}
 

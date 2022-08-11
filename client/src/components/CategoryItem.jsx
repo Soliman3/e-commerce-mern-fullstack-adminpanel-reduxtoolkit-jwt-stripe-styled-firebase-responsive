@@ -20,6 +20,7 @@ const Button = styled.button`
         transform: scale(1.2);
         box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
         transform: rotate(0deg);
+        border-color: white;
     }
 `
 const Container = styled.div`
@@ -46,50 +47,7 @@ const Container = styled.div`
         margin-top: 60px;
     }
     
-    -webkit-animation: fadeInLeft 1.2s both;
-    -moz-animation: fadeInLeft 1.2s both;
-    -o-animation: fadeInLeft 1.2s both;
-    animation: fadeInLeft 1.2s both;
-    @-webkit-keyframes fadeInLeft {
-        0%{
-            opacity: 0;
-            -webkit-transform: translateX(-50px);
-        }
-        100%{
-            opacity: 1;
-            -webkit-transform: translateX(0px);
-        }
-    }
-    @-moz-keyframes fadeInLeft {
-        0%{
-            opacity: 0;
-            -moz-transform: translateX(-50px);
-        }
-        100%{
-            opacity: 1;
-            -moz-transform: translateX(0px);
-        }
-    }
-    @-o-keyframes fadeInLeft {
-        0%{
-            opacity: 0;
-            -o-transform: translateX(-50px);
-        }
-        100%{
-            opacity: 1;
-            -o-transform: translateX(0px);
-        }
-    }
-    @keyframes fadeInLeft {
-        0%{
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-        100%{
-            opacity: 1;
-            transform: translateX(0px);
-        }
-    }
+    
 
 `
 const CategoryImage = styled.img`
