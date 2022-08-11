@@ -10,6 +10,7 @@ import Offers from '../components/Offers'
 import Slider from '../components/Slider'
 import Categories from '../components/Categories'
 import Products from '../components/Products'
+import Newsletter from '../components/Newsletter'
 
 
 // styling...
@@ -25,7 +26,8 @@ export default function Home() {
             <NavBar />
             <Slider />
             <Categories />
-            <Products/>
+            <Products />
+            <Newsletter/>
         </Container>
     )
 }
