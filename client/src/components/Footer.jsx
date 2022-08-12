@@ -7,6 +7,12 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PhoneIcon from '@mui/icons-material/Phone';
+import GitHubIcon from '@mui/icons-material/GitHub';
+
+// import paymentImage from images folder...
+import PaymentTestImage from '../images/PaymentImage.png'
 
 
 //Styling...
@@ -21,9 +27,42 @@ const FooterLeft = styled.div`
 `
 const FooterCenter = styled.div`
     flex: 1;
+    padding: 20px;
+`
+const FooterCenterTitle = styled.h3`
+    margin-bottom: 25px;
+`
+const FooterCenterList = styled.ul`
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+
+`
+const FooterCenterListItem = styled.li`
+    width: 50%;
+    margin-bottom: 10px;
 `
 const FooterRight = styled.div`
     flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+`
+const FooterRightTitle = styled.h3`
+    
+`
+const ContactItem = styled.span`
+    display: flex;
+    gap: 15px;
+    align-items: center;
+
+`
+const PaymentImage = styled.img`
+    width: 50%;
+
 `
 const Brandlogo = styled.h1`
     
@@ -72,8 +111,35 @@ export default function Footer() {
                     </SocialIcons>
                 </SocialIconsContainer>
             </FooterLeft>
-            <FooterCenter></FooterCenter>
-            <FooterRight></FooterRight>
+            <FooterCenter>
+                <FooterCenterTitle>Useful Links</FooterCenterTitle>
+                <FooterCenterList>
+                    <FooterCenterListItem>Home</FooterCenterListItem>
+                    <FooterCenterListItem>Cart</FooterCenterListItem>
+                    <FooterCenterListItem>Mobiles</FooterCenterListItem>
+                    <FooterCenterListItem>Accessories</FooterCenterListItem>
+                    <FooterCenterListItem>Home Appliances</FooterCenterListItem>
+                    <FooterCenterListItem>My Account</FooterCenterListItem>
+                    <FooterCenterListItem>Order Tracking</FooterCenterListItem>
+                    <FooterCenterListItem>Terms and conditions</FooterCenterListItem>
+                </FooterCenterList>
+            </FooterCenter>
+            <FooterRight>
+                <FooterRightTitle>Contact</FooterRightTitle>
+                <ContactItem>
+                    <LocationOnIcon/>
+                1673 Woodland Terrace, Sacramento, California 95814
+                </ContactItem>
+                <ContactItem>
+                    <PhoneIcon/>
+                +1 2345 56 24
+                </ContactItem>
+                <ContactItem>
+                    <GitHubIcon/>
+                www.github.com/asoliman3
+                </ContactItem>
+                <PaymentImage src={PaymentTestImage}/>
+            </FooterRight>
         </Container>
     )
 }
