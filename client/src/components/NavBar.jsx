@@ -12,6 +12,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 const Container = styled.div`
     height:55px;
     padding: 10px 20px;
+    
 `
 const WrapperContainer = styled.div`
     display: flex;

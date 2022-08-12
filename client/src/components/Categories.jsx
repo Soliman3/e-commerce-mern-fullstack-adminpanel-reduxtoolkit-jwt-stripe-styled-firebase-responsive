@@ -65,7 +65,7 @@ const Container = styled.div`
 // Categories react functional component...
 export default function Categories() {
     const { ref: myRef, inView: myElementIsVisible } = useInView()
-    console.log("myElementIsVisible", myElementIsVisible)
+    
     return (
         <Container ref={myRef} myElementIsVisible={myElementIsVisible}>
             {categories.map(section => (<CategoryItem section={section} key={section.id} />))}

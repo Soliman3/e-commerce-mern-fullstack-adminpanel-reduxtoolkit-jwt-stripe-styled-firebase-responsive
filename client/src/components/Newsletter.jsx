@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { useInView } from 'react-intersection-observer';
 import styled from 'styled-components'
 
 // import icons from mui5 library...
@@ -17,11 +17,101 @@ const Container = styled.div`
 const Title = styled.h1`
     margin-bottom: 20px;
     font-size: 70px;
+
+    -webkit-animation: ${props=> props.isVisible ===true && 'fadeInLeft 1.2s both'};
+    -moz-animation: ${props=> props.isVisible ===true && 'fadeILeftp 1.2s both'};
+    -o-animation: ${props=> props.isVisible ===true && 'fadeILeftp 1.2s both'};
+    animation: ${props=> props.isVisible ===true && 'fadeILeftp 1.2s both'};
+    @-webkit-keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            -webkit-transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            -webkit-transform: translateX(0px);
+        }
+    }
+    @-moz-keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            -moz-transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            -moz-transform: translateX(0px);
+        }
+    }
+    @-o-keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            -o-transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            -o-transform: translateX(0px);
+        }
+    }
+    @keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            transform: translateX(0px);
+        }
+    }
 `
 const Description = styled.div`
     font-weight: 400;
     font-size: 26px;
     margin-bottom: 20px;
+
+    -webkit-animation: ${props=> props.isVisible ===true && 'fadeInLeft 2.5s both'};
+    -moz-animation: ${props=> props.isVisible ===true && 'fadeILeftp 2.5s both'};
+    -o-animation: ${props=> props.isVisible ===true && 'fadeILeftp 2.5s both'};
+    animation: ${props=> props.isVisible ===true && 'fadeILeftp 2.5s both'};
+    @-webkit-keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            -webkit-transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            -webkit-transform: translateX(0px);
+        }
+    }
+    @-moz-keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            -moz-transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            -moz-transform: translateX(0px);
+        }
+    }
+    @-o-keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            -o-transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            -o-transform: translateX(0px);
+        }
+    }
+    @keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            transform: translateX(0px);
+        }
+    }
 `
 const InputContainer = styled.div`
     width: 50%;
@@ -30,6 +120,50 @@ const InputContainer = styled.div`
     display: flex;
     justify-content: space-between;
 
+    -webkit-animation: ${props=> props.isVisible ===true && 'fadeInLeft 3.5s both'};
+    -moz-animation: ${props=> props.isVisible ===true && 'fadeILeftp 3.5s both'};
+    -o-animation: ${props=> props.isVisible ===true && 'fadeILeftp 3.5s both'};
+    animation: ${props=> props.isVisible ===true && 'fadeILeftp 3.5s both'};
+    @-webkit-keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            -webkit-transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            -webkit-transform: translateX(0px);
+        }
+    }
+    @-moz-keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            -moz-transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            -moz-transform: translateX(0px);
+        }
+    }
+    @-o-keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            -o-transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            -o-transform: translateX(0px);
+        }
+    }
+    @keyframes fadeILeftp {
+        0%{
+            opacity: 0;
+            transform: translateX(-400px);
+        }
+        100%{
+            opacity: 1;
+            transform: translateX(0px);
+        }
+    }
 `
 const Input = styled.input`
     border: none;
@@ -49,11 +183,13 @@ const Button = styled.button`
 `
 // NewsLetter react functional component...
 export default function Newsletter() {
+    // intersection observer to render the animation when scroll to it...
+    const { ref:referance, inView: isVisible } = useInView()
   return (
     <Container>
-          <Title>OFFERS SUBSCRIPTION</Title>
-          <Description>Get instance emails about the latest offers</Description>
-          <InputContainer>
+          <Title ref={referance} isVisible={isVisible}>OFFERS SUBSCRIPTION</Title>
+          <Description ref={referance} isVisible={isVisible}>Get instance emails about the latest offers</Description>
+          <InputContainer ref={referance} isVisible={isVisible}>
               <Input placeholder='Enter Your Email'/>
               <Button>
                   <SendIcon/>

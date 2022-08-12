@@ -69,7 +69,7 @@ const Container = styled.div`
 // Products react functional component...
 export default function Products() {
   const { ref: myRef, inView: myElementIsVisible } = useInView()
-  console.log("myElementIsVisible", myElementIsVisible)
+
   // intersection observer for animation...
   /*const myRef = useRef()
   const [myElementIsVisible, setMyElementIsVisible] = useState()

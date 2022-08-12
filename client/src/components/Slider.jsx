@@ -1,7 +1,9 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 // import styled component library for styling...
 import styled from 'styled-components'
+// import Confetti for celebration effects...
+import Confetti from 'react-confetti'
 
 // import icons from mui5 library...
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
@@ -150,12 +152,24 @@ const SlideButton = styled.button`
             transform: translate3d(4px, 0, 0);
         }
         }
+        &:hover{
+            transform: scale(1.2);
+            border: 2px solid white;
+        }
+        &:active{
+            transform: scale(1);
+            background-color: aqua;
+            color: black;
+            border: none;
+            border-radius: 19px;
+            transition: all 0.5s ease;
+        }
+    
 `
 export default function Slider() {
-
+    // ########################################################
     // intersection observer for animation...
-    const { ref: myRef, inView: myElementIsVisible} = useInView()
-    console.log("shake", myElementIsVisible)
+    const { ref: shakeRef, inView: myElementIsVisible } = useInView()
 
     // react hooks for react slider...
     const [slideIndex, setSlideIndex] = useState(0)
@@ -167,13 +181,29 @@ export default function Slider() {
             setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0)
         }
     }
+    // ########################################################
+    // handling confetti hooks...
+  const confettiRef = useRef(null) // to determine the ref location of confetti...
+  const [startConfetti, setStartConfetti] = useState(false) // to toggle start and close confetti show...
+  const [confettiWidth, setConfettiWidth] = useState(null) // to get the width of the displayed div...
+  const [confettiHeight, setConfettiHeight] = useState(null) // to get the height of displayed div...
 
+  // getting current height and width by useEffect hook...
+  useEffect(() => {
+    setConfettiWidth(confettiRef.current.clientWidth)
+    setConfettiHeight(confettiRef.current.clientHeight)
+  },[])
+
+  // handleConfetti function to handle on mouse Enter and leave reaction...
+  const handleConfetti = (toggle) => {
+    setStartConfetti(toggle)
+  }
     return (
-        <Container>
+        <Container ref={confettiRef} onMouseEnter={()=> handleConfetti(true)} onMouseLeave={()=> handleConfetti(false)}>
             <SliderArrow direction="left" onClick={() => handleSlider('left')} >
                 <ArrowBackIosOutlinedIcon />
             </SliderArrow>
-            <SliderWrapper slideIndex={slideIndex} ref={myRef} myElementIsVisible={myElementIsVisible}>
+            <SliderWrapper slideIndex={slideIndex} ref={shakeRef} myElementIsVisible={myElementIsVisible} >
                 {SliderItems.map((slide) => (
                     <Slide bg={slide.bg} key={slide.id} >
                         <SliderImageContainer>
@@ -182,7 +212,7 @@ export default function Slider() {
                         <SliderInfoContainer>
                             <SlideTitle>{slide.title}</SlideTitle>
                             <SlideDescription>{slide.description}</SlideDescription>
-                            <SlideButton ref={myRef} myElementIsVisible={myElementIsVisible}>SHOP NOW</SlideButton>
+                            <SlideButton ref={shakeRef} myElementIsVisible={myElementIsVisible}>SHOP NOW</SlideButton>
                         </SliderInfoContainer>
                     </Slide>))}
 
@@ -191,7 +221,12 @@ export default function Slider() {
             <SliderArrow direction="right" onClick={() => handleSlider('right')} >
                 <ArrowForwardIosOutlinedIcon />
             </SliderArrow>
-
+            <Confetti
+                width={confettiWidth} 
+                height={confettiHeight}
+                recycle={startConfetti}
+                numberOfPieces={100}
+            />
         </Container>
     )
 }

@@ -22,6 +22,12 @@ const Button = styled.button`
         transform: rotate(0deg);
         border-color: white;
     }
+    &:active{
+        color:black;
+        background-color: aqua;
+        border: none;
+        border-radius: 19px;
+    }
 `
 const Container = styled.div`
     flex: 1;
