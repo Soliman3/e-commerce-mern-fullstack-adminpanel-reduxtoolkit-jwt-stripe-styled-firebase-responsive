@@ -39,6 +39,7 @@ const SearchContainer = styled.div`
 const SearchInput = styled.input`
     border: none;
     width:100%;
+    outline: none;
 `
 
 const LeftSideNavBar = styled.div`
