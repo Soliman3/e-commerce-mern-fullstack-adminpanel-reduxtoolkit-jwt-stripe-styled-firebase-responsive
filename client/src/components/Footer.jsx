@@ -136,7 +136,7 @@ export default function Footer() {
                 </ContactItem>
                 <ContactItem>
                     <GitHubIcon/>
-                www.github.com/asoliman3
+                www.github.com/soliman3
                 </ContactItem>
                 <PaymentImage src={PaymentTestImage}/>
             </FooterRight>
