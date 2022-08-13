@@ -10,7 +10,7 @@ import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 
 // import required images...
-import ImageForSlider from '../images/2.png'
+// import ImageForSlider from '../images/2.png'
 
 // import Slider data...
 import { SliderItems } from '../Data/sliderData'
