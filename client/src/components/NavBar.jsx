@@ -1,5 +1,8 @@
 import React from 'react'
 
+// for responsive design NavBar...
+import {mobile} from '../responsive'
+
 // import styled component library for styling...
 import styled from 'styled-components'
 
@@ -10,9 +13,11 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 // Styling...
 const Container = styled.div`
-    height:55px;
+    height:50px;
     padding: 10px 20px;
-    
+    ${mobile({ height: '35px', padding:'10px 20px 15px 20px' })};
+    align-items: center;
+
 `
 const WrapperContainer = styled.div`
     display: flex;
@@ -27,6 +32,7 @@ const CenterSideNavBar = styled.div`
 const LanguageOption = styled.span`
     cursor: pointer;
     font-size: 14px;
+    ${mobile({display: 'none'})}
 `
 const SearchContainer = styled.div`
     display: flex;
@@ -35,30 +41,36 @@ const SearchContainer = styled.div`
     margin-left:25px;
     padding: 15px;
     width: 100%;
+    ${mobile({padding: '10px'})}
 `
 const SearchInput = styled.input`
     border: none;
     width:100%;
     outline: none;
+    ${mobile({width: '50px'})}
 `
 
 const LeftSideNavBar = styled.div`
     flex: 1;
     text-align: left;
+    ${mobile({flex: '0.25'})}
 `
 const BrandLogo = styled.h1`
     font-weight: bold;
+    ${mobile({fontSize: '18px'})}
 `
 const RightSideNavBar = styled.div`
-    flex: 1;
+    flex: 1.5;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    ${mobile({justifyContent: 'center'})}
 `
 const MenuItem = styled.div`
     cursor:pointer;
     font-size: 14px;
     margin-left: 25px;
+    ${mobile({marginLeft: '10px',fontSize: '12px'})};
 `
 // NavBar react functional component...
 export default function NavBar() {
@@ -72,7 +84,7 @@ export default function NavBar() {
                 <CenterSideNavBar>
                     
                     <SearchContainer>
-                        <SearchInput />
+                        <SearchInput placeholder='Search'/>
                         <SearchIcon style={{fontSize: "16px", color: "gray"}}/>
                     </SearchContainer>
                 </CenterSideNavBar>

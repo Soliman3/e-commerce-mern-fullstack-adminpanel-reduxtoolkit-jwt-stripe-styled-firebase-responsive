@@ -16,6 +16,9 @@ import ItemImage from '../images/2.png'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
+// responsive for single product page...
+import { mobile } from '../responsive'
+
 // Styling...
 const Container = styled.div`
     
@@ -23,7 +26,7 @@ const Container = styled.div`
 const SingleProductWrapper = styled.div`
     display: flex;
     padding: 50px;
-    
+    ${mobile({flexDirection: 'column', padding: '25px'})}
 `
 const ProductImageContainer = styled.div`
     flex:1;
@@ -36,6 +39,7 @@ const ProductInfoContainer = styled.div`
     padding: 135px 50px;
     display: flex;
     flex-direction: column;
+    ${mobile({padding: '20px 20px'})}
     
 `
 const ProductTitle = styled.h1`
@@ -86,6 +90,7 @@ const AddToCartContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 50%;
+    ${mobile({width: "100%"})}
 `
 const QuantityContainer = styled.div`
     display: flex;
@@ -101,6 +106,7 @@ const Quantity = styled.span`
     margin: 0px 8px;
     border: 2px solid black;
     border-radius: 10px;
+    ${mobile({width:'30px', hieght: '30px'})}
 `
 const AddToCartButton = styled.button`
     cursor: pointer;
@@ -108,11 +114,13 @@ const AddToCartButton = styled.button`
     padding: 15px;
     font-weight: 700;
     background-color: white;
+    ${mobile({backgroundColor: "yellow", border: 'none'})}
 
     &:hover{
         transform: scale(1.2);
         transition: all 1s ease;
         border: 2px solid aqua;
+        ${mobile({border:'none'})}
     }
     
     &:active{

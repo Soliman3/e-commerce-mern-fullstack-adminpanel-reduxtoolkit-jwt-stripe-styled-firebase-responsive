@@ -4,6 +4,8 @@ import styled from 'styled-components'
 // import required image from images folder...
 import backgroundImage from '../images/homeAppliances.jpg'
 
+// for responsive design For login page...
+import { mobile } from '../responsive'
 
 // Styling...
 const Container = styled.div`
@@ -26,6 +28,7 @@ const Wrapper = styled.div`
   padding: 25px;
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  ${mobile({width:'70%'})}
 `
 const LoginForm = styled.form`
   display: flex;

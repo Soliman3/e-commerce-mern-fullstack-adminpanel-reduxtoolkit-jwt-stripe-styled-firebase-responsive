@@ -20,7 +20,7 @@ const Container = styled.div`
 `
 
 // Home react function component for home page...
-export default function Home() {
+export default function Home({type}) {
     return (
         <Container>
             <Offers />

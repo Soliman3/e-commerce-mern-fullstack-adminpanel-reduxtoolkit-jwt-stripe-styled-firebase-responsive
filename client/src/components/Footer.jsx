@@ -14,10 +14,14 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 // import paymentImage from images folder...
 import PaymentTestImage from '../images/PaymentImage.png'
 
+// for responsive design NavBar...
+import { mobile } from '../responsive';
+
 
 //Styling...
 const Container = styled.div`
    display: flex;
+   ${mobile({flexDirection: 'column'})}
 `
 const FooterLeft = styled.div`
     flex: 1;
@@ -50,6 +54,7 @@ const FooterRight = styled.div`
     display: flex;
     flex-direction: column;
     gap: 15px;
+    ${mobile({backgroundColor: 'yellow'})}
 `
 const FooterRightTitle = styled.h3`
     

@@ -1,6 +1,6 @@
 import OfferFirstSlide from '../images/2.png'
 import OfferSecondSlide from '../images/2.png'
-import OfferThirdSlide from '../images/2.png'
+import OfferThirdSlide from '../images/hover.png'
 
 export const SliderItems = [
     {

@@ -3,14 +3,18 @@ import React from 'react'
 // import styled component library for styling...
 import styled from 'styled-components'
 
+// for responsive design NavBar...
+import { mobile } from '../responsive'
+
 // Styling...
 const CategoryTitle = styled.h1`
     color: white;
     margin-bottom: 20px;
+    ${mobile({fontSize:'22px'})}
 `
 const Button = styled.button`
     padding: 10px;
-    border: 1px solid black;
+    border: 1px solid white;
     cursor: pointer;
     background-color: transparent;
     color: white;
@@ -32,16 +36,17 @@ const Button = styled.button`
 const Container = styled.div`
     flex: 1;
     margin: 5px;
-    height: 70vh;
     position: relative;
     width: 25%;
     height: 25%;
+    ${mobile({height: '100%',width: '100%'})}
     
     &:hover ${CategoryTitle} {
         transform: scale(1.5);
         box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
         background-color: rgba(0,0,0,0.18);
         transition: all 1s ease;
+        ${mobile({transform:'scale(1.1)'})}
         
     }
     &:hover {
@@ -51,6 +56,7 @@ const Container = styled.div`
     }
     &:hover ${Button}{
         margin-top: 60px;
+        
     }
     
     
@@ -73,6 +79,7 @@ const CategoryInfo = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+  
     
 `
 

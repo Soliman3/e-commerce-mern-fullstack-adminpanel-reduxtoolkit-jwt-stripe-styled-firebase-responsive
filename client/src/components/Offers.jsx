@@ -4,6 +4,7 @@ import Confetti from 'react-confetti'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { mobile } from '../responsive'
 
 
 const Container = styled.div`
@@ -25,6 +26,7 @@ const OfferMessage = styled.span`
     &:hover{
       transition: all 1s ease;
       transform: scale(1.2);
+      ${mobile({transform: 'none', fontWeight: 'bold'})};
     }
 `
 export default function Offers() {

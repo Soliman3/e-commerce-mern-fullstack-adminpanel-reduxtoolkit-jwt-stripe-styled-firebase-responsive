@@ -16,12 +16,17 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 // import Confetti for celebration effects...
 import Confetti from 'react-confetti'
 
+// responsive for Cart page...
+import { mobile } from '../responsive'
+
 // Styling...
 const Container = styled.div`
 
 `
 const Wrapper = styled.div`
     padding: 25px;
+    ${mobile({padding:'10px 0px', margin: '0px 10px'})}
+    
 `
 const Title = styled.h1`
     text-align: center;
@@ -33,6 +38,7 @@ const TopContaier = styled.div`
     justify-content: space-between;
     padding: 25px;
     margin: 0px 25px;
+    ${mobile({padding: '0px', margin: '25px 10px'})}
 `
 const TopConatinerButton = styled.button`
     cursor: pointer;
@@ -41,6 +47,7 @@ const TopConatinerButton = styled.button`
     border: ${props => props.type === 'bgfilled' && 'none'};
     background-color: ${props => props.type === 'bgfilled' ? 'black' : 'transparent'};
     color: ${props => props.type === 'bgfilled' ? 'white' : 'black'};
+    
 `
 const TopContainerDetails = styled.div`
     
@@ -49,9 +56,11 @@ const TopContainerText = styled.span`
     cursor: pointer;
     margin: 0px 10px;
     text-decoration: underline;
+    ${mobile({display:'none'})}
 `
 const BottomContainer = styled.div`
     display: flex;
+    ${mobile({flexDirection:'column'})}
     justify-content: space-between;
 `
 const ProductInfo = styled.div`
@@ -61,20 +70,24 @@ const Product = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 15px;
+    ${mobile({flexDirection: 'column'})}
 `
 const ProductWrapper = styled.div`
     flex:2;
     display: flex;
+    
 
 `
 const ProductImage = styled.img`
-    width: 180px;
+    width: 50%;
+    ${mobile({ width: '45%'})}
 `
 const ProductDetails = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding: 10px;
+    ${mobile({padding: '0px 10px 0px 25px', justifyContent: 'none'})}
 `
 const ProductName = styled.span`
     
@@ -87,6 +100,7 @@ const ProductColor = styled.div`
     height: 25px;
     border-radius: 50%;
     background-color: ${props => props.color};
+    ${mobile({width:'15px', height:'15px'})}
 `
 const ProductSize = styled.span`
     
@@ -97,11 +111,14 @@ const PriceDetails = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    ${mobile({ flexDirection:'row', justifyContent: 'space-between' , margin: '0px 35px'})}
+    
 `
 const ProductQuantityContainer = styled.div`
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    ${mobile({margin: '0px 35px 0px 0px'})}
 `
 
 const Quantity = styled.span`
@@ -111,6 +128,7 @@ const Quantity = styled.span`
 const ProductPrice = styled.span`
     font-weight: 400;
     font-size: 35px;
+    ${mobile({fontSize: '25px'})}
 `
 const HorizontalLine = styled.hr`
     border:none;
@@ -143,6 +161,8 @@ const SummaryItemPrice = styled.span`
 const CheckOutButton = styled.button`
     padding: 15px;
     width: 100%;
+    font-size: 20px;
+    ${mobile({backgroundColor: 'yellow', border: 'none'})}
 
     &:hover{
         transform: scale(0.9);

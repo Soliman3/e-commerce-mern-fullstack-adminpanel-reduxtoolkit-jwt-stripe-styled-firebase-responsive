@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
+
 import { useInView } from 'react-intersection-observer'
 // import styled component library for styling...
 import styled from 'styled-components'
+
 // import Confetti for celebration effects...
 import Confetti from 'react-confetti'
 
@@ -15,7 +17,8 @@ import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutl
 // import Slider data...
 import { SliderItems } from '../Data/sliderData'
 
-
+// for responsive design NavBar...
+import {mobile} from '../responsive'
 
 
 // Styling...
@@ -26,6 +29,7 @@ const Container = styled.div`
     background-color:white;
     overflow: hidden;
     position: relative;
+    ${mobile({display:'none'})}
     
 `
 const SliderArrow = styled.div`
@@ -132,10 +136,10 @@ const SlideButton = styled.button`
     cursor: pointer ;
     padding: 15px;
     
-    animation: ${props=> props.myElementIsVisible ===true && 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both'};
-    transform: ${props=> props.myElementIsVisible === true && 'translate3d(0, 0, 0)'};
-    backface-visibility: ${props=> props.myElementIsVisible === true && 'hidden'};
-    perspective: ${props=> props.myElementIsVisible === true && '1000px'};
+    animation: ${props => props.myElementIsVisible === true && 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both'};
+    transform: ${props => props.myElementIsVisible === true && 'translate3d(0, 0, 0)'};
+    backface-visibility: ${props => props.myElementIsVisible === true && 'hidden'};
+    perspective: ${props => props.myElementIsVisible === true && '1000px'};
 
     @keyframes shake {
         10%, 90% {
@@ -183,23 +187,23 @@ export default function Slider() {
     }
     // ########################################################
     // handling confetti hooks...
-  const confettiRef = useRef(null) // to determine the ref location of confetti...
-  const [startConfetti, setStartConfetti] = useState(false) // to toggle start and close confetti show...
-  const [confettiWidth, setConfettiWidth] = useState(null) // to get the width of the displayed div...
-  const [confettiHeight, setConfettiHeight] = useState(null) // to get the height of displayed div...
+    const confettiRef = useRef(null) // to determine the ref location of confetti...
+    const [startConfetti, setStartConfetti] = useState(false) // to toggle start and close confetti show...
+    const [confettiWidth, setConfettiWidth] = useState(null) // to get the width of the displayed div...
+    const [confettiHeight, setConfettiHeight] = useState(null) // to get the height of displayed div...
 
-  // getting current height and width by useEffect hook...
-  useEffect(() => {
-    setConfettiWidth(confettiRef.current.clientWidth)
-    setConfettiHeight(confettiRef.current.clientHeight)
-  },[])
+    // getting current height and width by useEffect hook...
+    useEffect(() => {
+        setConfettiWidth(confettiRef.current.clientWidth)
+        setConfettiHeight(confettiRef.current.clientHeight)
+    }, [])
 
-  // handleConfetti function to handle on mouse Enter and leave reaction...
-  const handleConfetti = (toggle) => {
-    setStartConfetti(toggle)
-  }
+    // handleConfetti function to handle on mouse Enter and leave reaction...
+    const handleConfetti = (toggle) => {
+        setStartConfetti(toggle)
+    }
     return (
-        <Container ref={confettiRef} onMouseEnter={()=> handleConfetti(true)} onMouseLeave={()=> handleConfetti(false)}>
+        <Container ref={confettiRef} onMouseEnter={() => handleConfetti(true)} onMouseLeave={() => handleConfetti(false)}>
             <SliderArrow direction="left" onClick={() => handleSlider('left')} >
                 <ArrowBackIosOutlinedIcon />
             </SliderArrow>
@@ -222,7 +226,7 @@ export default function Slider() {
                 <ArrowForwardIosOutlinedIcon />
             </SliderArrow>
             <Confetti
-                width={confettiWidth} 
+                width={confettiWidth}
                 height={confettiHeight}
                 recycle={startConfetti}
                 numberOfPieces={100}

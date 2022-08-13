@@ -5,6 +5,9 @@ import styled from 'styled-components'
 // import icons from mui5 library...
 import SendIcon from '@mui/icons-material/Send';
 
+// for responsive design NavBar...
+import { mobile } from '../responsive'
+
 // Styling...
 const Container = styled.div`
     display: flex;
@@ -17,7 +20,7 @@ const Container = styled.div`
 const Title = styled.h1`
     margin-bottom: 20px;
     font-size: 70px;
-
+    ${mobile({ margin: '15px 15px', fontSize: '50px'})}
     -webkit-animation: ${props=> props.isVisible ===true && 'fadeInLeft 1.2s both'};
     -moz-animation: ${props=> props.isVisible ===true && 'fadeILeftp 1.2s both'};
     -o-animation: ${props=> props.isVisible ===true && 'fadeILeftp 1.2s both'};
@@ -67,6 +70,7 @@ const Description = styled.div`
     font-weight: 400;
     font-size: 26px;
     margin-bottom: 20px;
+    ${mobile({margin:'10px 25px', fontSize:'20'})};
 
     -webkit-animation: ${props=> props.isVisible ===true && 'fadeInLeft 2.5s both'};
     -moz-animation: ${props=> props.isVisible ===true && 'fadeILeftp 2.5s both'};
@@ -119,11 +123,17 @@ const InputContainer = styled.div`
     gap:6px;
     display: flex;
     justify-content: space-between;
-
+    ${mobile({width: '80%', marginTop: '25px'})}
     -webkit-animation: ${props=> props.isVisible ===true && 'fadeInLeft 3.5s both'};
     -moz-animation: ${props=> props.isVisible ===true && 'fadeILeftp 3.5s both'};
     -o-animation: ${props=> props.isVisible ===true && 'fadeILeftp 3.5s both'};
-    animation: ${props=> props.isVisible ===true && 'fadeILeftp 3.5s both'};
+    animation: ${props => props.isVisible === true && 'fadeILeftp 3.5s both'};
+    ${mobile({
+        webkitAnimation: 'none',
+        mozAnimation: 'none',
+        oAnimation: 'none',
+        animation: 'none'
+    })}
     @-webkit-keyframes fadeILeftp {
         0%{
             opacity: 0;
@@ -179,7 +189,7 @@ const Button = styled.button`
     border-radius:8px;
     border: 1px solid black;
     background-color: transparent;
-    
+    ${mobile({ flex: '3.5'})}
 `
 // NewsLetter react functional component...
 export default function Newsletter() {
@@ -188,7 +198,7 @@ export default function Newsletter() {
   return (
     <Container>
           <Title ref={referance} isVisible={isVisible}>OFFERS SUBSCRIPTION</Title>
-          <Description ref={referance} isVisible={isVisible}>Get instance emails about the latest offers</Description>
+          <Description ref={referance} isVisible={isVisible}>Get instance emails for the latest offers</Description>
           <InputContainer ref={referance} isVisible={isVisible}>
               <Input placeholder='Enter Your Email'/>
               <Button>

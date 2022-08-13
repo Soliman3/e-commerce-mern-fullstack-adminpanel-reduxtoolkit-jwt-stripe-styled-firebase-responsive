@@ -10,8 +10,15 @@ import styled from 'styled-components'
 // import Categories data...
 import { products } from '../Data/productsData'
 
+// for responsive design NavBar...
+import { mobile } from '../responsive'
+
 // Styling...
 const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+`
+const ProductContainer = styled.div`
     
     display: flex;
     padding: 20px;
@@ -20,10 +27,10 @@ const Container = styled.div`
     gap:35px;
     margin: 0px 18px;
 
-    -webkit-animation: ${props=> props.myElementIsVisible ===true && 'fadeInTop 2.2s both'};
-    -moz-animation: ${props=> props.myElementIsVisible ===true && 'fadeInTop 2.2s both'};
-    -o-animation: ${props=> props.myElementIsVisible ===true && 'fadeInTop 2.2s both'};
-    animation: ${props=> props.myElementIsVisible ===true && 'fadeInTop 2.2s both'};
+    -webkit-animation: ${props => props.myElementIsVisible === true && 'fadeInTop 2.2s both'};
+    -moz-animation: ${props => props.myElementIsVisible === true && 'fadeInTop 2.2s both'};
+    -o-animation: ${props => props.myElementIsVisible === true && 'fadeInTop 2.2s both'};
+    animation: ${props => props.myElementIsVisible === true && 'fadeInTop 2.2s both'};
     @-webkit-keyframes fadeInTop {
         0%{
             opacity: 0;
@@ -66,26 +73,46 @@ const Container = styled.div`
     }
     
 `
+const TitleContainer = styled.div`
+    display: ${props=> props.type === 'filter'? 'none': 'flex'};
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    
+    ${mobile({marginTop: '30px'})}
+`
+const Title = styled.h1`
+    font-size: 70px;
+    border: 5px solid black;
+    padding: 15px 35px;
+    ${mobile({fontSize: '35px'})}
+`
 // Products react functional component...
-export default function Products() {
-  const { ref: myRef, inView: myElementIsVisible } = useInView()
+export default function Products({type}) {
+    const { ref: myRef, inView: myElementIsVisible } = useInView()
 
-  // intersection observer for animation...
-  /*const myRef = useRef()
-  const [myElementIsVisible, setMyElementIsVisible] = useState()
-  console.log('myElementIsVisible', myElementIsVisible)
+    // intersection observer for animation...
+    /*const myRef = useRef()
+    const [myElementIsVisible, setMyElementIsVisible] = useState()
+    console.log('myElementIsVisible', myElementIsVisible)
+  
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            const entry = entries[0]
+            setMyElementIsVisible(entry.isIntersecting)
+        })
+        observer.observe(myRef.current)
+    },[])*/
+    return (
+        <Container>
 
-  useEffect(() => {
-      const observer = new IntersectionObserver((entries) => {
-          const entry = entries[0]
-          setMyElementIsVisible(entry.isIntersecting)
-      })
-      observer.observe(myRef.current)
-  },[])*/
-  return (
-    <Container ref={myRef} myElementIsVisible={myElementIsVisible}>
-          {products.map(item => (<Product item={item} key={item.id} />))}
-          
-    </Container>
-  )
+            <TitleContainer type={type}>
+                <Title>Most Popular</Title>
+            </TitleContainer>
+            <ProductContainer ref={myRef} myElementIsVisible={myElementIsVisible}>
+                {products.map(item => (<Product item={item} key={item.id} />))}
+
+            </ProductContainer>
+        </Container>
+    )
 }

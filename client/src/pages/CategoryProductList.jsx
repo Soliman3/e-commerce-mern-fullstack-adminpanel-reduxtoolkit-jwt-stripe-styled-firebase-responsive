@@ -1,11 +1,19 @@
 import React from 'react'
+
+// import styled component library for styling...
 import styled from 'styled-components'
+
+// import other react components...
 import Footer from '../components/Footer'
 import NavBar from '../components/NavBar'
 import Newsletter from '../components/Newsletter'
 import Offers from '../components/Offers'
 import Products from '../components/Products'
+import { mobile } from '../responsive'
 
+
+
+// Styling...
 const Container = styled.div`
     
 `
@@ -15,14 +23,13 @@ const CategoryTitle = styled.h1`
 const FilterContainer = styled.div`
     display: flex;
     justify-content: space-between;
+    ${mobile({flexDirection: 'column'})}
 `
 const Filter = styled.div`
     margin: 25px 40px;
     display: flex;
     align-items: center;
-
-
-    
+    ${mobile({margin: '10px 40px'})}
 `
 const FilterText = styled.span`
     font-size: 20px;
@@ -36,7 +43,7 @@ const FilterSelect = styled.select`
 const FilterOption = styled.option`
     font-size: 17px;
 `
-export default function CategoryProductList() {
+export default function CategoryProductList({type}) {
     return (
         <Container>
             <NavBar />
@@ -72,7 +79,7 @@ export default function CategoryProductList() {
                      </FilterSelect>
                 </Filter>
             </FilterContainer>
-            <Products />
+            <Products type='filter'/>
             <Newsletter />
             <Footer />
         </Container>
