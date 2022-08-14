@@ -6,10 +6,10 @@ import { singin, singup } from '../controllers/authenticationController.js';
 const router = express.Router();
 
 // Create New User...
-router.post('/singup', singup)
+router.post('/signup', singup)
 
 // Sing In...
-router.post('/singin', singin)
+router.post('/signin', singin)
 
 
 export default router;
