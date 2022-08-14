@@ -1,7 +1,17 @@
 import express from 'express'
-import mongoose from 'mongoose';
+// import Mongoose library to deal with mongoDB...
+import mongoose from 'mongoose'
+//import dotenv library to secure my credentials...
 import dotenv from 'dotenv'
+// for handling cross origin requests
 import cors from 'cors'
+// import routes...
+import authenticationRoutes from './routes/authenticationRoutes.js'
+import cartRoutes from './routes/cartRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
+import productRoutes from './routes/productRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+
 
 // app configuration...
 const app = express();
@@ -24,7 +34,11 @@ const Connection = ()=>{
 
 
 // api routes...
-
+app.use('/api/auth', authenticationRoutes)
+app.use('/api/carts', cartRoutes)
+app.use('/api/orders', orderRoutes)
+app.use('/api/products', productRoutes)
+app.use('/api/users', userRoutes)
 
 
 // listen to server...
