@@ -7,7 +7,7 @@ import { createError } from '../error.js'
 export const createCart = async (req, res, next) => {
     const newCart = new Cart(req.body)
     try {
-        const savedCart = newCart.sace()
+        const savedCart = newCart.save()
         res.status(201).json(savedCart)
     } catch (error) {
         next(error)

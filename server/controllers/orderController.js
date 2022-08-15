@@ -8,7 +8,7 @@ export const createOrder = async (req, res, next) => {
     const newOrder = new Order(req.body)
     try {
         const savedOrder = newOrder.save()
-        res.status(201).json(savedOrder)
+        res.status(200).json(savedOrder)
     } catch (error) {
         next(error)
     }
@@ -54,3 +54,32 @@ export const getAllOrders = async (req, res, next) => {
     }
 }
 
+// Get Monthly Revenues...
+export const getMonthlyRevenues = async (req, res, next) => {
+    // current date...
+    const date = new Date()
+    // last month from current date...
+    const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
+    // last two month...
+    const previousTwoMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1))     
+    
+    try {
+        const revenues = await Order.aggregate([
+            { $match: { createdAt: { $gte: previousTwoMonth } } },
+            {
+                $project: {
+                    month: { $month: "$createdAt" },
+                    sales: "$amount",
+                },
+            },    
+                { $group: {
+                    _id: "$month",
+                    total: { $sum: "$sales" },
+                        },
+                },
+        ]);
+        res.status(200).json(revenues)
+    } catch (error) {
+        next(error)
+    }
+}

@@ -1,5 +1,5 @@
 import express from 'express'
-import { createOrder, deleteOrder, getAllOrders, getUserOrder, updateOrder } from '../controllers/orderController.js';
+import { createOrder, deleteOrder, getAllOrders, getMonthlyRevenues, getUserOrder, updateOrder } from '../controllers/orderController.js';
 import { verifyToken, verifyTokenAndAdmin, verifyTokenAndAuthorization } from '../verifyToken.js';
 
 
@@ -20,5 +20,8 @@ const router = express.Router();
     
     // Get All Orders...
     router.get('/find', verifyTokenAndAdmin, getAllOrders)
+    
+    // Get Monthly Revenues...
+    router.get('/revenues', verifyTokenAndAdmin, getMonthlyRevenues)
 
 export default router;
