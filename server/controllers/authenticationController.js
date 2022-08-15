@@ -42,7 +42,7 @@ export const singin = async (req, res, next) => {
             id: user._id,
             isAdmin: user.isAdmin
         }, process.env.JWT_SEC,
-            { expiresIn: '3m' }
+            { expiresIn: '1h' }
         );
         // exclude password from response...
         const { password, ...other } = user._doc
