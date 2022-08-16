@@ -7,7 +7,7 @@ import OffersixthSlide from '../images/2.png'
 import OfferseventhSlide from '../images/2.png'
 import OffereighthSlide from '../images/2.png'
 
-export const products = [
+export const mostPopularProducts = [
     {
         id: 1,
         img: OfferFirstSlide,

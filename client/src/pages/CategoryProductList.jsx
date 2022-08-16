@@ -44,6 +44,19 @@ const FilterSelect = styled.select`
 const FilterOption = styled.option`
     font-size: 17px;
 `
+const ButtonReset = styled.button`
+    background-color: aqua;
+    color: black;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+    margin-left: 40px;
+    font-size: 10px;
+    &:hover{
+        background-color: yellow;
+        font-size: 14px;
+    }
+`
 export default function CategoryProductList({ type }) {
     // useLayoutEffect to scroll to the top of the page when navigate to it...
     useLayoutEffect(() => {
@@ -60,15 +73,15 @@ export default function CategoryProductList({ type }) {
         const value = e.target.value
         setFilter({...filter, [e.target.name]: value})
     }
-    console.log(filter);
+    
     // get sort input value...
     const [sort, setSort] = useState('Newest')
-    console.log(sort)
+
     return (
         <Container>
             <NavBar />
             <Offers />
-            <CategoryTitle>Mobile Phones</CategoryTitle>
+            <CategoryTitle>{category.toUpperCase()}</CategoryTitle>
             <FilterContainer>
                 <Filter>
                     <FilterText>product filter</FilterText>
@@ -79,16 +92,36 @@ export default function CategoryProductList({ type }) {
                         <FilterOption>Golden</FilterOption>
                         <FilterOption>Black</FilterOption>
                      </FilterSelect>
-                     <FilterSelect name='size' onChange={handleFilter}>
+                     
+                        {category==='mobile' && (
+                            <>
+                        <FilterSelect name='size' onChange={handleFilter}>
                         <FilterOption disabled >Size</FilterOption>
-                        <FilterOption>1.65 inch</FilterOption>
-                        <FilterOption>1.80 inch</FilterOption>
-                        <FilterOption>2.40 inch</FilterOption>
-                        <FilterOption>2.44 inch</FilterOption>
-                        <FilterOption>2.79 inch</FilterOption>
-                        <FilterOption>2.80 inch</FilterOption>
-                     </FilterSelect>
-                    
+                            <FilterOption>1.65 inch</FilterOption>
+                            <FilterOption>1.80 inch</FilterOption>
+                            <FilterOption>2.40 inch</FilterOption>
+                            <FilterOption>2.44 inch</FilterOption>
+                            <FilterOption>2.79 inch</FilterOption>
+                            <FilterOption>2.80 inch</FilterOption>
+                        </FilterSelect>
+                        </>
+                        )}
+                        {category==='appliances' && (
+                            <>
+                         <FilterSelect name='size' onChange={handleFilter}>
+                         <FilterOption disabled >Size</FilterOption>
+                            <FilterOption>small</FilterOption>
+                            <FilterOption>large</FilterOption>
+                            <FilterOption>medium</FilterOption>
+                        </FilterSelect>
+                        </>
+                        )}
+                        {category==='accessories' && (
+                            <>
+                        </>
+                        )}
+                        
+                        <ButtonReset onClick={(e)=>setFilter({})}>Reset Filters</ButtonReset>
                 </Filter>
                 <Filter>
                     <FilterText>sort</FilterText>
@@ -99,7 +132,7 @@ export default function CategoryProductList({ type }) {
                      </FilterSelect>
                 </Filter>
             </FilterContainer>
-            <Products type='filter'/>
+            <Products type='filter' category={category} filter={filter} sort={sort} />
             <Newsletter />
             <Footer />
         </Container>

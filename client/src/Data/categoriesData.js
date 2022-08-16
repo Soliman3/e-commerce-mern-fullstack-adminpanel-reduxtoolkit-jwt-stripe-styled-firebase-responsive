@@ -12,7 +12,7 @@ export const categories = [
     {
         id: 2,
         img: OfferSecondSlide,
-        title: "ACCESSORIES ",
+        title: "Accessories",
         category: "accessories",
     },
     {

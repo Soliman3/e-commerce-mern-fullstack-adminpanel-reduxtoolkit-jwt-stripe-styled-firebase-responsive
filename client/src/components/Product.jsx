@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import { Link } from 'react-router-dom';
 
 // Styling...
 const ProductInfo = styled.div`
@@ -86,7 +87,9 @@ export default function Product({ item }) {
                     <AddShoppingCartOutlinedIcon />
                 </ActionIcons>
                 <ActionIcons>
-                    <SearchOutlinedIcon />
+                    <Link to={`/product/${item._id}`}>
+                        <SearchOutlinedIcon />
+                    </Link>
                 </ActionIcons>
                 <ActionIcons>
                     <FavoriteBorderOutlinedIcon />

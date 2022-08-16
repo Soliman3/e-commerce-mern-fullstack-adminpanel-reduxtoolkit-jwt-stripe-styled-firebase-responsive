@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
+// fetching data from api...
+import axios from 'axios'
 
 // import required react components...
 import Product from './Product'
@@ -8,7 +10,7 @@ import Product from './Product'
 import styled from 'styled-components'
 
 // import Categories data...
-import { products } from '../Data/productsData'
+import { mostPopularProducts } from '../Data/productsData'
 
 // for responsive design NavBar...
 import { mobile } from '../responsive'
@@ -88,21 +90,47 @@ const Title = styled.h1`
     ${mobile({fontSize: '35px'})}
 `
 // Products react functional component...
-export default function Products({type}) {
-    const { ref: myRef, inView: myElementIsVisible } = useInView()
-
+export default function Products({ type, category, filter, sort }) {
+    
     // intersection observer for animation...
-    /*const myRef = useRef()
-    const [myElementIsVisible, setMyElementIsVisible] = useState()
-    console.log('myElementIsVisible', myElementIsVisible)
-  
+    const { ref: myRef, inView: myElementIsVisible } = useInView();
+
+    // fetching products by axios...
+    const [products, setProducts] = useState([])
+    const [filteredProducts, setFilteredProducts] = useState([])
     useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            const entry = entries[0]
-            setMyElementIsVisible(entry.isIntersecting)
-        })
-        observer.observe(myRef.current)
-    },[])*/
+        const getProducts = async () => {
+            try {
+                const response = await axios.get(category? `/products/find?category=${category}`: '/products/find');
+                setProducts(response.data)
+            } catch (error) {
+                console.log(error);
+            };
+        }
+        getProducts()
+    }, [category]);
+    
+    // effect of filtering...
+    useEffect(() => {
+        category && setFilteredProducts(
+            products.filter(item => Object.entries(filter).every(([key, value]) => 
+           item[key].includes(value)))
+        )
+    }, [products, category, filter])
+    
+    // effect of sorting...
+    useEffect(() => {
+        if (sort === 'Newest') {
+            setFilteredProducts((previous) =>
+                [...previous].sort((a, b) => a.createdAt - b.createdAt));
+        } else if(sort ==='asc'){
+                setFilteredProducts((previous) =>
+                [...previous].sort((a, b) => a.price - b.price));
+        }else {
+            setFilteredProducts((previous) =>
+                [...previous].sort((a, b) => b.price - a.price));
+        }
+    },[sort])
     return (
         <Container>
 
@@ -110,7 +138,9 @@ export default function Products({type}) {
                 <Title>Most Popular</Title>
             </TitleContainer>
             <ProductContainer ref={myRef} myElementIsVisible={myElementIsVisible}>
-                {products.map(item => (<Product item={item} key={item.id} />))}
+                {category ?
+                    filteredProducts.map(item => (<Product item={item} key={item._id} />))
+                    : products.slice(0,6).map(item => (<Product item={item} key={item._id} />))}
 
             </ProductContainer>
         </Container>

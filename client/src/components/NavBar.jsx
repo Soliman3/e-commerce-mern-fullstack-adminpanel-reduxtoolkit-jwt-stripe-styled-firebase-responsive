@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import SearchIcon from '@mui/icons-material/Search';
 import { Badge } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { useNavigate } from 'react-router-dom';
 
 // Styling...
 const Container = styled.div`
@@ -57,7 +58,8 @@ const LeftSideNavBar = styled.div`
 `
 const BrandLogo = styled.h1`
     font-weight: bold;
-    ${mobile({fontSize: '18px'})}
+    ${mobile({ fontSize: '18px' })}
+    cursor: pointer;
 `
 const RightSideNavBar = styled.div`
     flex: 1.5;
@@ -74,12 +76,16 @@ const MenuItem = styled.div`
 `
 // NavBar react functional component...
 export default function NavBar() {
+    const navigate = useNavigate()
+    const handleNavigate = ()=> {
+        navigate('/')
+    }
     return (
         <Container>
             <WrapperContainer>
                 
                 <LeftSideNavBar>
-                    <BrandLogo>Logo</BrandLogo>
+                    <BrandLogo onClick={handleNavigate}>Logo</BrandLogo>
                 </LeftSideNavBar>
                 <CenterSideNavBar>
                     
