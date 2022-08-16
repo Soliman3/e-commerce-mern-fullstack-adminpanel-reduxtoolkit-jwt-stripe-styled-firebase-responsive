@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-
+import axios from 'axios'
 
 // import other component...
 import Footer from '../components/Footer'
@@ -17,6 +17,9 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 // responsive for single product page...
 import { mobile } from '../responsive'
+
+// useLocation hook to fetch current locaiton url...
+import { useLocation } from 'react-router-dom'
 
 // Styling...
 const Container = styled.div`
@@ -130,18 +133,36 @@ const AddToCartButton = styled.button`
     }
 `
 export default function Product() {
+    // to get product id from the url...
+    const location = useLocation()
+    const productId = location.pathname.split("/")[2]
+
+    // fetching product data by id from server by axios...
+        const [product, setProduct] = useState({})
+    
+    useEffect(() => {
+        const getProduct = async () => {
+            try {
+                const response = await axios.get(`/products/find/${productId}`)
+                    setProduct(response.data)
+            } catch (error) {
+            }
+        }
+        getProduct()
+    }, [productId])
+    console.log(product);
   return (
     <Container>
           <NavBar />
           <Offers />
           <SingleProductWrapper>
               <ProductImageContainer>
-                  <ProductImage src={ItemImage}/>
+                  <ProductImage src={product.image}/>
               </ProductImageContainer>
               <ProductInfoContainer>
-                  <ProductTitle>Iphone 13mini</ProductTitle>
-                  <ProductDescription>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda nemo non rerum qui sunt quae fugit enim quaerat provident illo omnis illum eos dolores, quis recusandae voluptatum temporibus ratione beatae. Distinctio nobis, nemo sint molestias nam odit eius quibusdam nisi?</ProductDescription>
-                  <ProductPrice>$ 729.00</ProductPrice>  
+                  <ProductTitle>{product.title}</ProductTitle>
+                  <ProductDescription>{product.description}</ProductDescription>
+                  <ProductPrice>$ {product.price}</ProductPrice>  
                   <FilterContainer>
                   <Filter>
                       <FilterTitle>Color</FilterTitle>
@@ -152,12 +173,7 @@ export default function Product() {
                   <Filter>
                           <FilterTitle>Size</FilterTitle>
                           <FilterSize>
-                            <FilterSizeOption>1.65 inch</FilterSizeOption>
-                            <FilterSizeOption>1.80 inch</FilterSizeOption>
-                            <FilterSizeOption>2.40 inch</FilterSizeOption>
-                            <FilterSizeOption>2.44 inch</FilterSizeOption>
-                            <FilterSizeOption>2.79 inch</FilterSizeOption>
-                            <FilterSizeOption>2.80 inch</FilterSizeOption>
+                              {product.size.map(s => (<FilterSizeOption key={s}>{s}</FilterSizeOption>))}
                           </FilterSize>
                   </Filter>
                   </FilterContainer>

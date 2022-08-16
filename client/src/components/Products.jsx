@@ -112,6 +112,7 @@ export default function Products({ type, category, filter, sort }) {
     
     // effect of filtering...
     useEffect(() => {
+
         category && setFilteredProducts(
             products.filter(item => Object.entries(filter).every(([key, value]) => 
            item[key].includes(value)))
@@ -130,7 +131,7 @@ export default function Products({ type, category, filter, sort }) {
             setFilteredProducts((previous) =>
                 [...previous].sort((a, b) => b.price - a.price));
         }
-    },[sort])
+    }, [sort])
     return (
         <Container>
 

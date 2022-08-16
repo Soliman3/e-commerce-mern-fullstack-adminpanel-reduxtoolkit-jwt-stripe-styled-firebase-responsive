@@ -87,10 +87,10 @@ export default function CategoryProductList({ type }) {
                     <FilterText>product filter</FilterText>
                         <FilterSelect name='color' onChange={handleFilter}>
                         <FilterOption disabled >Color</FilterOption>
-                        <FilterOption>Gray</FilterOption>
-                        <FilterOption>Silver</FilterOption>
-                        <FilterOption>Golden</FilterOption>
-                        <FilterOption>Black</FilterOption>
+                        <FilterOption>gray</FilterOption>
+                        <FilterOption>silver</FilterOption>
+                        <FilterOption>gold</FilterOption>
+                        <FilterOption>black</FilterOption>
                      </FilterSelect>
                      
                         {category==='mobile' && (
@@ -127,8 +127,8 @@ export default function CategoryProductList({ type }) {
                     <FilterText>sort</FilterText>
                         <FilterSelect onChange={(e)=> setSort(e.target.value)}>
                         <FilterOption value="Newest">Newest</FilterOption>
-                        <FilterOption value="asc">Price (asc)</FilterOption>
-                        <FilterOption value="desc">Price (desc)</FilterOption>
+                        <FilterOption value="asc">asc</FilterOption>
+                        <FilterOption value="desc">desc</FilterOption>
                      </FilterSelect>
                 </Filter>
             </FilterContainer>
