@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 // import styled component library for styling...
 import styled from 'styled-components'
@@ -87,11 +88,13 @@ const CategoryInfo = styled.div`
 export default function CategoryItem({ section }) {
     return (
         <Container>
+            <Link to={`/products/${section.category}`}>
             <CategoryImage src={section.img} />
             <CategoryInfo>
                 <CategoryTitle>{section.title}</CategoryTitle>
                 <Button>SHOP NOW</Button>
             </CategoryInfo>
+            </Link>
         </Container>
     )
 }

@@ -7,15 +7,18 @@ export const categories = [
         id: 1,
         img: OfferFirstSlide,
         title: "MOBILE",
+        category: "mobile",
     },
     {
         id: 2,
         img: OfferSecondSlide,
         title: "ACCESSORIES ",
+        category: "accessories",
     },
     {
         id: 3,
         img: OfferThirdSlide,
         title: "HOME APPLIANCE",
+        category: "appliances",
     }
 ]

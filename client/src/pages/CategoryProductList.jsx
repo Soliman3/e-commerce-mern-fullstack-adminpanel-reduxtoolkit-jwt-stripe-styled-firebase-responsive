@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useLayoutEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 // import styled component library for styling...
 import styled from 'styled-components'
@@ -43,7 +44,26 @@ const FilterSelect = styled.select`
 const FilterOption = styled.option`
     font-size: 17px;
 `
-export default function CategoryProductList({type}) {
+export default function CategoryProductList({ type }) {
+    // useLayoutEffect to scroll to the top of the page when navigate to it...
+    useLayoutEffect(() => {
+        window.scrollTo(0,0)
+    })
+
+    // get location...
+    const location = useLocation()
+    const category = location.pathname.split('/')[2]
+    
+    // get filter input values...
+    const [filter, setFilter] = useState({})
+    const handleFilter = (e) => {
+        const value = e.target.value
+        setFilter({...filter, [e.target.name]: value})
+    }
+    console.log(filter);
+    // get sort input value...
+    const [sort, setSort] = useState('Newest')
+    console.log(sort)
     return (
         <Container>
             <NavBar />
@@ -52,15 +72,15 @@ export default function CategoryProductList({type}) {
             <FilterContainer>
                 <Filter>
                     <FilterText>product filter</FilterText>
-                        <FilterSelect>
-                        <FilterOption disabled selected>Color</FilterOption>
+                        <FilterSelect name='color' onChange={handleFilter}>
+                        <FilterOption disabled >Color</FilterOption>
                         <FilterOption>Gray</FilterOption>
                         <FilterOption>Silver</FilterOption>
                         <FilterOption>Golden</FilterOption>
                         <FilterOption>Black</FilterOption>
                      </FilterSelect>
-                     <FilterSelect>
-                        <FilterOption disabled selected>Size</FilterOption>
+                     <FilterSelect name='size' onChange={handleFilter}>
+                        <FilterOption disabled >Size</FilterOption>
                         <FilterOption>1.65 inch</FilterOption>
                         <FilterOption>1.80 inch</FilterOption>
                         <FilterOption>2.40 inch</FilterOption>
@@ -72,10 +92,10 @@ export default function CategoryProductList({type}) {
                 </Filter>
                 <Filter>
                     <FilterText>sort</FilterText>
-                        <FilterSelect>
-                        <FilterOption  selected>Newest</FilterOption>
-                        <FilterOption>Price (asc)</FilterOption>
-                        <FilterOption>Price (desc)</FilterOption>
+                        <FilterSelect onChange={(e)=> setSort(e.target.value)}>
+                        <FilterOption value="Newest">Newest</FilterOption>
+                        <FilterOption value="asc">Price (asc)</FilterOption>
+                        <FilterOption value="desc">Price (desc)</FilterOption>
                      </FilterSelect>
                 </Filter>
             </FilterContainer>

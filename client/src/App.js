@@ -1,9 +1,23 @@
 import Home from "./pages/Home";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Product from "./pages/Product";
+import CategoryProductList from './pages/CategoryProductList'
+import Cart from './pages/Cart'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 function App() {
   return (
-    <Home/>
+    <BrowserRouter>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route path="/products/:category" element={<CategoryProductList />} />
+        <Route path="/product/:id" element={<Product/>} />
+        <Route path="/cart" element={<Cart/>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register/>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
