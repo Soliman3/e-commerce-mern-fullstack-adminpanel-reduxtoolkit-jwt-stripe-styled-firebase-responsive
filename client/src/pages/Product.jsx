@@ -151,7 +151,20 @@ export default function Product() {
         getProduct()
     }, [productId])
     console.log(product);
-  return (
+
+    // handling quantity...
+    const [quantity, setQuantity] = useState(1)
+    const handleQuantity = (type) => {
+        // decrease quantity but ignore negative numbers as logic...
+        if (type === 'dec' && quantity>0) {
+            setQuantity(quantity - 1)
+            // increasing quantity with limit of only 5 units...
+        } else if(type === 'inc' && quantity<5){
+            setQuantity(quantity +1)
+        }
+    }
+  
+    return (
     <Container>
           <NavBar />
           <Offers />
@@ -165,23 +178,22 @@ export default function Product() {
                   <ProductPrice>$ {product.price}</ProductPrice>  
                   <FilterContainer>
                   <Filter>
-                      <FilterTitle>Color</FilterTitle>
-                      <FilterColor color='Gold'/>
-                      <FilterColor color='Gray'/>
-                      <FilterColor color='Silver'/>
+                          <FilterTitle>Color</FilterTitle>
+                          {product?.color?.map(c => (<FilterColor color={c} key={c} />))}
+                      
                   </Filter>
                   <Filter>
                           <FilterTitle>Size</FilterTitle>
                           <FilterSize>
-                              {product.size.map(s => (<FilterSizeOption key={s}>{s}</FilterSizeOption>))}
+                          {product?.size?.map(s => (<FilterSizeOption size={s} key={s}>{s}</FilterSizeOption>))}
                           </FilterSize>
                   </Filter>
                   </FilterContainer>
                   <AddToCartContainer>
                       <QuantityContainer>
-                          <RemoveCircleOutlineIcon />
-                            <Quantity>1</Quantity>
-                          <AddCircleOutlineIcon />
+                          <RemoveCircleOutlineIcon onClick={()=> handleQuantity('dec')} />
+                          <Quantity>{quantity}</Quantity>
+                          <AddCircleOutlineIcon onClick={()=> handleQuantity('inc')} />
                       </QuantityContainer>
                       <AddToCartButton>ADD TO CART</AddToCartButton>
                   </AddToCartContainer>
