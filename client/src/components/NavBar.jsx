@@ -1,4 +1,6 @@
 import React from 'react'
+// useSelector to use redux toolkit in cart notification quantity...
+import { useSelector } from 'react-redux';
 
 // for responsive design NavBar...
 import {mobile} from '../responsive'
@@ -10,6 +12,8 @@ import styled from 'styled-components'
 import SearchIcon from '@mui/icons-material/Search';
 import { Badge } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+
+// use navigate...
 import { useNavigate } from 'react-router-dom';
 
 // Styling...
@@ -80,6 +84,9 @@ export default function NavBar() {
     const handleNavigate = ()=> {
         navigate('/')
     }
+    // handle state of cart notification quantity...
+    const notificationCartQuantity = useSelector((state) => state.cart.cartQuantity)
+    
     return (
         <Container>
             <WrapperContainer>
@@ -99,7 +106,7 @@ export default function NavBar() {
                 <MenuItem>REGISTER</MenuItem>
                 <MenuItem>LOGIN</MenuItem>
                     <MenuItem>
-                        <Badge color="secondary" badgeContent={99}>
+                        <Badge color="secondary" badgeContent={notificationCartQuantity}>
                             <ShoppingCartOutlinedIcon />
                         </Badge>
                     </MenuItem>

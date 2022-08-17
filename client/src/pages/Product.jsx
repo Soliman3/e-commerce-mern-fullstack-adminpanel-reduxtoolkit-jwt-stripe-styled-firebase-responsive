@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import axios from 'axios'
 
@@ -20,6 +21,7 @@ import { mobile } from '../responsive'
 
 // useLocation hook to fetch current locaiton url...
 import { useLocation } from 'react-router-dom'
+import { addProductToCart, removeProductFromCart } from '../redux/cartSlice'
 
 // Styling...
 const Container = styled.div`
@@ -92,7 +94,8 @@ const AddToCartContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 50%;
-    ${mobile({width: "100%"})}
+    ${mobile({ width: "100%" })}
+    gap: 5px;
 `
 const QuantityContainer = styled.div`
     display: flex;
@@ -113,15 +116,41 @@ const Quantity = styled.span`
 const AddToCartButton = styled.button`
     cursor: pointer;
     border: 2px solid black;
-    padding: 15px;
+    border-radius: 10px;
+    padding: 5px 15px ;
     font-weight: 700;
     background-color: white;
     ${mobile({backgroundColor: "yellow", border: 'none'})}
 
     &:hover{
-        transform: scale(1.2);
+        border: none;
+        background-color: aqua;
+        ${mobile({border:'none'})}
+    }
+    
+    &:active{
+        transform: scale(1);
         transition: all 1s ease;
-        border: 2px solid aqua;
+        background-color: aqua;
+        border-radius: 19px;
+    }
+`
+const RemoveFromCartButton = styled.button`
+    cursor: pointer;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 5px 15px ;
+    font-weight: 700;
+    background-color: white;
+    margin-left: 20px;
+    ${mobile({ backgroundColor: "white", border: 'red' })}
+    
+
+    &:hover{
+        
+        border: none;
+        background-color: red;
+        color: white;
         ${mobile({border:'none'})}
     }
     
@@ -153,17 +182,32 @@ export default function Product() {
     console.log(product);
 
     // handling quantity...
-    const [quantity, setQuantity] = useState(1)
+    const [orderedQuantity, setOrderedQuantity] = useState(1)
     const handleQuantity = (type) => {
         // decrease quantity but ignore negative numbers as logic...
-        if (type === 'dec' && quantity>0) {
-            setQuantity(quantity - 1)
+        if (type === 'dec' && orderedQuantity>0) {
+            setOrderedQuantity(orderedQuantity - 1)
             // increasing quantity with limit of only 5 units...
-        } else if(type === 'inc' && quantity<5){
-            setQuantity(quantity +1)
+        } else if(type === 'inc' && orderedQuantity<5){
+            setOrderedQuantity(orderedQuantity +1)
         }
     }
-  
+// handle color selection...
+    const [selectedColor, setSelectedColor] = useState()
+    const [selectedSize, setSelectedSize] = useState()
+ 
+// handle Add to Cart...
+    const dispatch = useDispatch()
+
+    const handleAddCart = () => {
+        dispatch( addProductToCart({...product, orderedQuantity, selectedColor, selectedSize}))    
+    }
+
+// handle remove from Cart...
+    const handleRemoveCart = () => {
+        dispatch( removeProductFromCart({...product, orderedQuantity, selectedColor, selectedSize}))    
+    }
+
     return (
     <Container>
           <NavBar />
@@ -179,23 +223,24 @@ export default function Product() {
                   <FilterContainer>
                   <Filter>
                           <FilterTitle>Color</FilterTitle>
-                          {product?.color?.map(c => (<FilterColor color={c} key={c} />))}
+                          {product?.color?.map(c => (<FilterColor color={c} key={c} onClick={()=> setSelectedColor(c)}/>))}
                       
                   </Filter>
                   <Filter>
                           <FilterTitle>Size</FilterTitle>
                           <FilterSize>
-                          {product?.size?.map(s => (<FilterSizeOption size={s} key={s}>{s}</FilterSizeOption>))}
+                          {product?.size?.map(s => (<FilterSizeOption size={s} key={s} onChage={(e)=> setSelectedSize(e.target.value)}>{s}</FilterSizeOption>))}
                           </FilterSize>
                   </Filter>
                   </FilterContainer>
                   <AddToCartContainer>
                       <QuantityContainer>
                           <RemoveCircleOutlineIcon onClick={()=> handleQuantity('dec')} />
-                          <Quantity>{quantity}</Quantity>
+                          <Quantity>{orderedQuantity}</Quantity>
                           <AddCircleOutlineIcon onClick={()=> handleQuantity('inc')} />
                       </QuantityContainer>
-                      <AddToCartButton>ADD TO CART</AddToCartButton>
+                        <AddToCartButton onClick={handleAddCart}>ADD TO CART</AddToCartButton>
+                        <RemoveFromCartButton onClick={handleRemoveCart}>REMOVE FROM CART</RemoveFromCartButton>
                   </AddToCartContainer>
               </ProductInfoContainer>
           </SingleProductWrapper>
