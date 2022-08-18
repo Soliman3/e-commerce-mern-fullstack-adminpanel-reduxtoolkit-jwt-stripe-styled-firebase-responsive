@@ -229,7 +229,7 @@ export default function Product() {
                   <Filter>
                           <FilterTitle>Size</FilterTitle>
                           <FilterSize>
-                          {product?.size?.map(s => (<FilterSizeOption size={s} key={s} onChage={(e)=> setSelectedSize(e.target.value)}>{s}</FilterSizeOption>))}
+                          {product?.size?.map(s => (<FilterSizeOption size={s} key={s} onChange={(e)=> setSelectedSize(e.target.value)}>{s}</FilterSizeOption>))}
                           </FilterSize>
                   </Filter>
                   </FilterContainer>

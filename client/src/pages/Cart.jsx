@@ -18,6 +18,7 @@ import Confetti from 'react-confetti'
 
 // responsive for Cart page...
 import { mobile } from '../responsive'
+import { useSelector } from 'react-redux'
 
 // Styling...
 const Container = styled.div`
@@ -197,7 +198,12 @@ export default function Cart() {
     const handleConfetti = (toggle) => {
         setStartConfetti(toggle)
     }
+    // ########################################################
 
+    // get shopping added products from cart redux toolkit...
+    const cart = useSelector((state)=> state.cart)
+    const shippingFees = 4.99;
+    const shippingDiscount = 0.99
     return (
         <Container ref={confettiRef}>
             <NavBar />
@@ -214,86 +220,46 @@ export default function Cart() {
                 </TopContaier>
                 <BottomContainer>
                     <ProductInfo>
-                        <Product>
+                        {cart?.products?.map((product)=>(<><Product>
                             <ProductWrapper>
-                                <ProductImage src={hover} />
+                                <ProductImage src={product.image} />
                                 <ProductDetails>
-                                    <ProductName><b>Name:</b> LG Hover</ProductName>
-                                    <ProductId><b>ID:</b> 5865559980</ProductId>
-                                    <ProductColor color='gray' />
-                                    <ProductSize><b>Size:</b> 10kg</ProductSize>
+                                    <ProductName><b>Name:</b>{product.title}</ProductName>
+                                    <ProductId><b>ID:</b>{product._id}</ProductId>
+                                    <ProductColor color={product.selectedColor} />
+                                    <ProductSize><b>Size:</b>{product.selectedSize}</ProductSize>
                                 </ProductDetails>
 
                             </ProductWrapper>
                             <PriceDetails>
                                 <ProductQuantityContainer>
                                     <RemoveCircleOutlineIcon />
-                                    <Quantity>2</Quantity>
+                                    <Quantity>{product.orderedQuantity}</Quantity>
                                     <AddCircleOutlineIcon />
                                 </ProductQuantityContainer>
-                                <ProductPrice>$ 350.00</ProductPrice>
+                                <ProductPrice>{product.orderedQuantity*product.price}</ProductPrice>
                             </PriceDetails>
                         </Product>
                         <HorizontalLine/>
-                        <Product>
-                            <ProductWrapper>
-                                <ProductImage src={lcd} />
-                                <ProductDetails>
-                                    <ProductName><b>Name:</b> Sumsung Crystal UHD</ProductName>
-                                    <ProductId><b>ID:</b> 58641580</ProductId>
-                                    <ProductColor color='silver' />
-                                    <ProductSize><b>Size:</b> 64inch</ProductSize>
-                                </ProductDetails>
-
-                            </ProductWrapper>
-                            <PriceDetails>
-                                <ProductQuantityContainer>
-                                    <RemoveCircleOutlineIcon />
-                                    <Quantity>1</Quantity>
-                                    <AddCircleOutlineIcon />
-                                </ProductQuantityContainer>
-                                <ProductPrice>$ 280.00</ProductPrice>
-                            </PriceDetails>
-                        </Product>
-                        <HorizontalLine/>
-                        <Product>
-                            <ProductWrapper>
-                                <ProductImage src={iron} />
-                                <ProductDetails>
-                                    <ProductName><b>Name:</b> Rawenta Iron</ProductName>
-                                    <ProductId><b>ID:</b> 5864877980</ProductId>
-                                    <ProductColor color='#a31c12' />
-                                    <ProductSize><b>Size:</b> large</ProductSize>
-                                </ProductDetails>
-
-                            </ProductWrapper>
-                            <PriceDetails>
-                                <ProductQuantityContainer>
-                                    <RemoveCircleOutlineIcon />
-                                    <Quantity>1</Quantity>
-                                    <AddCircleOutlineIcon />
-                                </ProductQuantityContainer>
-                                <ProductPrice>$ 90.00</ProductPrice>
-                            </PriceDetails>
-                        </Product>
+                        </>))}
                     </ProductInfo>
                     <ProductSummary>
                         <SummaryTitle>CheckOut Order Summary</SummaryTitle>
                         <SummaryItem>
                             <SummaryItemText>Subtotal</SummaryItemText>
-                            <SummaryItemPrice>$ 1,070.00</SummaryItemPrice>
+                            <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem>
                             <SummaryItemText>Shipping Estimated fees</SummaryItemText>
-                            <SummaryItemPrice>$ 4.99</SummaryItemPrice>
+                            <SummaryItemPrice>$ {shippingFees}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem>
                             <SummaryItemText>Shipping Discount</SummaryItemText>
-                            <SummaryItemPrice>$ -0.99</SummaryItemPrice>
+                            <SummaryItemPrice>$ -{shippingDiscount}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem type='net'>
                             <SummaryItemText>Balance</SummaryItemText>
-                            <SummaryItemPrice>$ 1,074.00</SummaryItemPrice>
+                            <SummaryItemPrice>$ {cart.total + shippingFees - shippingDiscount}</SummaryItemPrice>
                         </SummaryItem>
                         <CheckOutButton  onMouseEnter={() => handleConfetti(true)} onMouseLeave={() => handleConfetti(false)}>CHECKOUT</CheckOutButton>
                     </ProductSummary>

@@ -14,7 +14,7 @@ import { Badge } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 // use navigate...
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Styling...
 const Container = styled.div`
@@ -104,12 +104,14 @@ export default function NavBar() {
                 <RightSideNavBar>
                 <LanguageOption>AR</LanguageOption>
                 <MenuItem>REGISTER</MenuItem>
-                <MenuItem>LOGIN</MenuItem>
+                    <MenuItem>LOGIN</MenuItem>
+                    <Link to="/cart">
                     <MenuItem>
                         <Badge color="secondary" badgeContent={notificationCartQuantity}>
                             <ShoppingCartOutlinedIcon />
                         </Badge>
                     </MenuItem>
+                    </Link>
                 </RightSideNavBar>
             </WrapperContainer>
         </Container>

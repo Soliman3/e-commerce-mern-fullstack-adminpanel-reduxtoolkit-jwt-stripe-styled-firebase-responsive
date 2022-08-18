@@ -10,7 +10,7 @@ const cartSlice = createSlice({
     reducers:{
         addProductToCart: (state, action)=> {
                 state.cartQuantity += 1
-                state.products.pop(action.payload)
+                state.products.push(action.payload)
                 state.total += action.payload.price * action.payload.orderedQuantity  
         },
         removeProductFromCart: (state, action) => {
