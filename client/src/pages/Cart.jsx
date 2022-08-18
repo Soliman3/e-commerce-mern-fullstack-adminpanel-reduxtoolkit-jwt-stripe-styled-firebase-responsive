@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
+import StripeCheckout from 'react-stripe-checkout'
 import styled from 'styled-components'
 import Footer from '../components/Footer'
 import NavBar from '../components/NavBar'
 import Offers from '../components/Offers'
-
-// import required image from images folder...
-import hover from '../images/hover.jpg'
-import lcd from '../images/lcd.jpg'
-import iron from '../images/iron.jpg'
 
 // import Icons from mui5 library...
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -18,8 +15,11 @@ import Confetti from 'react-confetti'
 
 // responsive for Cart page...
 import { mobile } from '../responsive'
-import { useSelector } from 'react-redux'
 
+// import requited image form image folder...
+import profileImage from '../images/1.jpg'
+import axios from 'axios'
+import { Navigate, useNavigate } from 'react-router-dom'
 // Styling...
 const Container = styled.div`
 
@@ -198,12 +198,34 @@ export default function Cart() {
     const handleConfetti = (toggle) => {
         setStartConfetti(toggle)
     }
-    // ########################################################
 
+    // ########################################################
     // get shopping added products from cart redux toolkit...
     const cart = useSelector((state)=> state.cart)
-    const shippingFees = 4.99;
-    const shippingDiscount = 0.99
+    const shippingFees = cart.total>0 ? 4.99 : 0 ;
+    const shippingDiscount = cart.total>0 ? 0.99 : 0 ;
+    const netRequired = cart.total + shippingFees - shippingDiscount;
+    const netRequiredStripe = netRequired * 100
+
+    // ########################################################
+    // implement stripe payment gateway in react...
+    const [stripeToken, setStripeToken] = useState()
+    const navigate = useNavigate()
+
+    const onToken = (token) => {
+        setStripeToken(token)
+    }
+
+    useEffect(() => {
+        const makeTokenRequest = async (e) => {
+            
+            try {
+               const response = await axios.post('/checkout/payment', { tokenId: stripeToken.id , amount: netRequiredStripe })
+                navigate("/success" , {stripeData: response.data})
+            } catch (error) {}
+        }
+        stripeToken && makeTokenRequest()
+    }, [stripeToken, navigate])
     return (
         <Container ref={confettiRef}>
             <NavBar />
@@ -220,7 +242,9 @@ export default function Cart() {
                 </TopContaier>
                 <BottomContainer>
                     <ProductInfo>
-                        {cart?.products?.map((product)=>(<><Product>
+                        {cart?.products?.map((product) => (
+                            <>
+                            <Product key={product._id}>
                             <ProductWrapper>
                                 <ProductImage src={product.image} />
                                 <ProductDetails>
@@ -255,13 +279,28 @@ export default function Cart() {
                         </SummaryItem>
                         <SummaryItem>
                             <SummaryItemText>Shipping Discount</SummaryItemText>
-                            <SummaryItemPrice>$ -{shippingDiscount}</SummaryItemPrice>
+                            <SummaryItemPrice>$ {shippingDiscount>0 && "-" }{shippingDiscount}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem type='net'>
                             <SummaryItemText>Balance</SummaryItemText>
-                            <SummaryItemPrice>$ {cart.total + shippingFees - shippingDiscount}</SummaryItemPrice>
+                            <SummaryItemPrice>$ {netRequired}</SummaryItemPrice>
                         </SummaryItem>
-                        <CheckOutButton  onMouseEnter={() => handleConfetti(true)} onMouseLeave={() => handleConfetti(false)}>CHECKOUT</CheckOutButton>
+                        {cart.total>0 && (<StripeCheckout
+                            name="Soliman3"
+                            image={profileImage}
+                            billingAddress
+                            shippingAddress
+                            description={`Total Amount is ${netRequired}`}
+                            amount={netRequired * 100}
+                            token={onToken}
+                            stripeKey="pk_test_51LWy6lGEnqb9IsrZ3cscm6T2c7D5u3jlo42NSSCK4DzF8inHvTDSA0vnUjLQJRfNjvmq7maqK7G3LUvFhB66AvyZ00QSCH358s"
+                            
+                        >
+                            <CheckOutButton onMouseEnter={() => handleConfetti(true)} onMouseLeave={() => handleConfetti(false)}>CHECKOUT</CheckOutButton>
+                                 
+                        </StripeCheckout>)
+                            }
+                        
                     </ProductSummary>
                 </BottomContainer>
                 <Confetti
