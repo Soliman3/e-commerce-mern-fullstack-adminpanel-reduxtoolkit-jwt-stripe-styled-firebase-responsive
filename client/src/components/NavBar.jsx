@@ -1,6 +1,6 @@
 import React from 'react'
 // useSelector to use redux toolkit in cart notification quantity...
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // for responsive design NavBar...
 import {mobile} from '../responsive'
@@ -15,6 +15,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 // use navigate...
 import { Link, useNavigate } from 'react-router-dom';
+import { loginFailer, loginStart, logOut } from '../redux/userSlice';
 
 // Styling...
 const Container = styled.div`
@@ -37,6 +38,7 @@ const CenterSideNavBar = styled.div`
 const LanguageOption = styled.span`
     cursor: pointer;
     font-size: 14px;
+    margin-right: 25px;
     ${mobile({display: 'none'})}
 `
 const SearchContainer = styled.div`
@@ -78,8 +80,13 @@ const MenuItem = styled.div`
     margin-left: 25px;
     ${mobile({marginLeft: '10px',fontSize: '12px'})};
 `
+const LogOut = styled.span`
+    font-size: 14px;
+    margin-right: 25px;
+`
 // NavBar react functional component...
 export default function NavBar() {
+    const user = useSelector((state) => state.user.currentUser)
     const navigate = useNavigate()
     const handleNavigate = ()=> {
         navigate('/')
@@ -87,6 +94,15 @@ export default function NavBar() {
     // handle state of cart notification quantity...
     const notificationCartQuantity = useSelector((state) => state.cart.cartQuantity)
     
+    // handle Log Out...
+    const dispatch = useDispatch()
+    const handleLogOut = () => {
+        dispatch(loginStart())
+        try {
+            dispatch(logOut()).then(navigate('/'))
+        } catch (error) {
+        }
+    }
     return (
         <Container>
             <WrapperContainer>
@@ -102,9 +118,13 @@ export default function NavBar() {
                     </SearchContainer>
                 </CenterSideNavBar>
                 <RightSideNavBar>
-                <LanguageOption>AR</LanguageOption>
-                <MenuItem>REGISTER</MenuItem>
-                    <MenuItem>LOGIN</MenuItem>
+                    <LanguageOption user={user}>AR</LanguageOption>
+                    <Link to='/register' style={{color:'inherit', backgroundColor: 'inherit', textDecoration: 'none'}}>
+                    {user ? <LogOut onClick={handleLogOut}>Log out</LogOut> :<MenuItem>REGISTER</MenuItem>}
+                    </Link>
+                    <Link to="/login" style={{color: 'inherit', backgroundColor: "inherit", textDecoration: 'none'}}>
+                    {user? user.firstName :<MenuItem>LOGIN</MenuItem>}
+                    </Link>
                     <Link to="/cart">
                     <MenuItem>
                         <Badge color="secondary" badgeContent={notificationCartQuantity}>

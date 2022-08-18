@@ -1,4 +1,6 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 // import required image from images folder...
@@ -30,6 +32,12 @@ const Wrapper = styled.div`
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   
+`
+const RegisterFormWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 `
 const RegisterForm = styled.form`
   display: flex;
@@ -77,24 +85,43 @@ const RegisterButton = styled.button`
 `
 // Register react functional component...
 export default function Register() {
+  // ##########################
+  // register...
+  const [firstName, setFirstName] = useState()
+  const [lastName, setLastName] = useState()
+  const [username, setUsername] = useState()
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+  const [confirmPassword, setConfirmPassword] = useState()
+  const navigate = useNavigate()
+
+  const handleRegister = async (e) => {
+    e.preventDefault()
+    try {
+      await axios.post('/auth/signup', {firstName, lastName, username, email, password }).then(navigate('/login'))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Container prop={backgroundImage}>
       <Wrapper>
-        <RegisterForm>
+        <RegisterFormWrapper>
           <RegisterTitle>CREATE NEW ACCOUNT</RegisterTitle>
           <RegisterForm>
-            <RegisterInput placeholder='First Name'/>
-            <RegisterInput placeholder='Last Name'/>
-            <RegisterInput placeholder='User Name'/>
-            <RegisterInput placeholder='email'/>
-            <RegisterInput placeholder='Password'/>
-            <RegisterInput placeholder='Confirem Password'/>
+            <RegisterInput placeholder='First Name' onChange={(e)=> setFirstName(e.target.value)} />
+            <RegisterInput placeholder='Last Name' onChange={(e)=> setLastName(e.target.value)} />
+            <RegisterInput placeholder='User Name' onChange={(e)=> setUsername(e.target.value)} />
+            <RegisterInput placeholder='email' onChange={(e)=> setEmail(e.target.value)} />
+            <RegisterInput placeholder='Password' onChange={(e)=> setPassword(e.target.value)} />
+            <RegisterInput placeholder='Confirem Password' onChange={(e)=> setConfirmPassword(e.target.value)} />
             <RegisterAgreement>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam placeat officiis necessitatibus quas iste architecto quibusdam voluptatem, quia numquam vel iure optio! Pariatur non adipisci asperiores eius? Maxime, fuga ab exercitationem aut in dicta, labore odit amet aperiam fugit ea.
             </RegisterAgreement>
-            <RegisterButton>CREATE</RegisterButton>
+            <RegisterButton onClick={handleRegister}>CREATE</RegisterButton>
           </RegisterForm>
-        </RegisterForm>
+        </RegisterFormWrapper>
       </Wrapper>
     </Container>
   )

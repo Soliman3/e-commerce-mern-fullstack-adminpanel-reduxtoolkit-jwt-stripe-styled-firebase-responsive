@@ -11,6 +11,8 @@ export const singup = async (req, res, next) => {
     const hash = bcrypt.hashSync(req.body.password, salt);
     // Creating constant for caching new user request data with encrypted password...
     const newUser = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         username: req.body.username,
         email: req.body.email,
         password: hash,

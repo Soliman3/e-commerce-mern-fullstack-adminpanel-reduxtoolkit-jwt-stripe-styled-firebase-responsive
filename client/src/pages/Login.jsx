@@ -34,6 +34,14 @@ const Wrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   ${mobile({width:'70%'})}
 `
+const LoginFormWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+`
 const LoginForm = styled.form`
   display: flex;
   flex-wrap: wrap;
@@ -105,7 +113,7 @@ export default function Login() {
     dispatch(loginStart())
     try {
       const response = await axios.post('/auth/signin', {username, password})
-      dispatch(loginSuccess(response.data)).then(navigate('/'))
+      dispatch(loginSuccess(response.data))
     } catch (error) {
       dispatch(loginFailer())
     }
@@ -113,17 +121,17 @@ export default function Login() {
   return (
     <Container prop={backgroundImage}>
       <Wrapper>
-        <LoginForm>
+        <LoginFormWrapper>
           <LoginTitle>SIGN IN TO YOUR ACCOUNT</LoginTitle>
           <LoginForm>
             <LoginInput placeholder='User Name' onChange={(e)=>setUsername(e.target.value)} />
             <LoginInput placeholder='Password' type='password' onChange={(e)=>setPassword(e.target.value)} />
             <LoginButton onClick={handleLogin}>Login</LoginButton>
-            {user.error && <ErrorLogin>Wrong username or password , please try again</ErrorLogin>}
+            {user.error && <><ErrorLogin>Wrong username or password , please try again</ErrorLogin></>}
             <Link>Forget your password?</Link>
             <Link>Create a new account</Link>
           </LoginForm>
-        </LoginForm>
+        </LoginFormWrapper>
       </Wrapper>
     </Container>
   )
