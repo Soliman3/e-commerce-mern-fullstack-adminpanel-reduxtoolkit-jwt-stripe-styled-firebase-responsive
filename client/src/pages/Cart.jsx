@@ -211,7 +211,7 @@ export default function Cart() {
     // implement stripe payment gateway in react...
     const [stripeToken, setStripeToken] = useState()
     const navigate = useNavigate()
-
+    
     const onToken = (token) => {
         setStripeToken(token)
     }
@@ -221,7 +221,7 @@ export default function Cart() {
             
             try {
                const response = await axios.post('/checkout/payment', { tokenId: stripeToken.id , amount: netRequiredStripe })
-                navigate("/success" , {stripeData: response.data})
+                navigate("/success" , {stripeData: response.data, products: cart})
             } catch (error) {}
         }
         stripeToken && makeTokenRequest()

@@ -179,7 +179,6 @@ export default function Product() {
         }
         getProduct()
     }, [productId])
-    console.log(product);
 
     // handling quantity...
     const [orderedQuantity, setOrderedQuantity] = useState(1)

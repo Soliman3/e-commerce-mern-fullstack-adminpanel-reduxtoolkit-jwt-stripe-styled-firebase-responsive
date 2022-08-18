@@ -1,8 +1,12 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 // import required image from images folder...
 import backgroundImage from '../images/homeAppliances.jpg'
+import { loginFailer, loginStart, loginSuccess } from '../redux/userSlice'
 
 // for responsive design For login page...
 import { mobile } from '../responsive'
@@ -81,18 +85,41 @@ const Link = styled.a`
   color: blue;
   font-weight: 400;
 `
+const ErrorLogin = styled.span`
+  font-size: 12px;
+  color: red;
+`
 
 // Login react functional component...
 export default function Login() {
+  // ###############################3
+  // login...
+  const [username, setUsername] = useState()
+  const [password, setPassword] = useState()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const user = useSelector((state)=>state.user)
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    dispatch(loginStart())
+    try {
+      const response = await axios.post('/auth/signin', {username, password})
+      dispatch(loginSuccess(response.data)).then(navigate('/'))
+    } catch (error) {
+      dispatch(loginFailer())
+    }
+  }
   return (
     <Container prop={backgroundImage}>
       <Wrapper>
         <LoginForm>
           <LoginTitle>SIGN IN TO YOUR ACCOUNT</LoginTitle>
           <LoginForm>
-            <LoginInput placeholder='User Name'/>
-            <LoginInput placeholder='Password'/>
-            <LoginButton>Login</LoginButton>
+            <LoginInput placeholder='User Name' onChange={(e)=>setUsername(e.target.value)} />
+            <LoginInput placeholder='Password' type='password' onChange={(e)=>setPassword(e.target.value)} />
+            <LoginButton onClick={handleLogin}>Login</LoginButton>
+            {user.error && <ErrorLogin>Wrong username or password , please try again</ErrorLogin>}
             <Link>Forget your password?</Link>
             <Link>Create a new account</Link>
           </LoginForm>
