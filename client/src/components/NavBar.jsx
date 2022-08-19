@@ -99,7 +99,8 @@ export default function NavBar() {
     const handleLogOut = () => {
         dispatch(loginStart())
         try {
-            dispatch(logOut()).then(navigate('/'))
+            dispatch(logOut())
+                .then(navigate('/'))
         } catch (error) {
         }
     }

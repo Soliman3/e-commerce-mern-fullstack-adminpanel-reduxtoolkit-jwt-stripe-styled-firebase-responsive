@@ -61,6 +61,8 @@ const LoginInput = styled.input`
   margin: 10px 0;
   border-radius: 10px;
   border: none;
+  font-size: 18px;
+
 `
 
 const LoginButton = styled.button`
