@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import StripeCheckout from 'react-stripe-checkout'
 import styled from 'styled-components'
 import Footer from '../components/Footer'
@@ -20,6 +20,7 @@ import { mobile } from '../responsive'
 import profileImage from '../images/1.jpg'
 import axios from 'axios'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { getStripeData } from '../redux/cartSlice'
 // Styling...
 const Container = styled.div`
 
@@ -211,7 +212,7 @@ export default function Cart() {
     // implement stripe payment gateway in react...
     const [stripeToken, setStripeToken] = useState()
     const navigate = useNavigate()
-    
+    const dispatch = useDispatch()
     const onToken = (token) => {
         setStripeToken(token)
     }
@@ -220,12 +221,23 @@ export default function Cart() {
         const makeTokenRequest = async (e) => {
             
             try {
-               const response = await axios.post('/checkout/payment', { tokenId: stripeToken.id , amount: netRequiredStripe })
-                navigate("/success" , {stripeData: response.data, products: cart})
+                const response = await axios.post('/checkout/payment', { tokenId: stripeToken.id, amount: netRequiredStripe })
+                dispatch(getStripeData(response.data))
+                navigate("/success")
+                
             } catch (error) {}
         }
         stripeToken && makeTokenRequest()
-    }, [stripeToken, navigate])
+    }, [stripeToken, cart.total, navigate])
+
+    // ########################################################
+    // emty shopping Cart....
+    const user = useSelector((state) => state.user.currentUser)
+    
+    
+            
+        
+    
     return (
         <Container ref={confettiRef}>
             <NavBar />
@@ -242,7 +254,8 @@ export default function Cart() {
                 </TopContaier>
                 <BottomContainer>
                     <ProductInfo>
-                        {cart?.products?.map((product) => (
+                        {user && <>
+                            {cart?.products?.map((product) => (
                             <>
                             <Product key={product._id}>
                             <ProductWrapper>
@@ -266,24 +279,27 @@ export default function Cart() {
                         </Product>
                         <HorizontalLine/>
                         </>))}
+                        </>}
+                        
                     </ProductInfo>
+                    
                     <ProductSummary>
                         <SummaryTitle>CheckOut Order Summary</SummaryTitle>
                         <SummaryItem>
                             <SummaryItemText>Subtotal</SummaryItemText>
-                            <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+                            <SummaryItemPrice>$ {!user? 0: cart.total}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem>
                             <SummaryItemText>Shipping Estimated fees</SummaryItemText>
-                            <SummaryItemPrice>$ {shippingFees}</SummaryItemPrice>
+                            <SummaryItemPrice>$ {!user? 0: shippingFees}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem>
                             <SummaryItemText>Shipping Discount</SummaryItemText>
-                            <SummaryItemPrice>$ {shippingDiscount>0 && "-" }{shippingDiscount}</SummaryItemPrice>
+                            <SummaryItemPrice>$ {user && shippingDiscount>0 && "-" }{!user? 0: shippingDiscount}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem type='net'>
                             <SummaryItemText>Balance</SummaryItemText>
-                            <SummaryItemPrice>$ {netRequired}</SummaryItemPrice>
+                            <SummaryItemPrice>$ {!user? 0 : netRequired}</SummaryItemPrice>
                         </SummaryItem>
                         {cart.total>0 && (<StripeCheckout
                             name="Soliman3"

@@ -104,6 +104,11 @@ export default function NavBar() {
         } catch (error) {
         }
     }
+
+    // ########################################################
+    // emty shopping Cart if there aren't user logged....
+    const loggedUser = useSelector((state) => state.user.currentUser)
+
     return (
         <Container>
             <WrapperContainer>
@@ -127,10 +132,11 @@ export default function NavBar() {
                     {user? user.firstName :<MenuItem>LOGIN</MenuItem>}
                     </Link>
                     <Link to="/cart">
-                    <MenuItem>
-                        <Badge color="secondary" badgeContent={notificationCartQuantity}>
+                        <MenuItem>
+                        {loggedUser && (<Badge color="secondary" badgeContent={notificationCartQuantity}>
                             <ShoppingCartOutlinedIcon />
-                        </Badge>
+                        </Badge>)}
+                        
                     </MenuItem>
                     </Link>
                 </RightSideNavBar>

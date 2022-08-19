@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
 import { createError } from './error.js';
 
-export const verifyToken = (req, res, next) => {
-    const authHeader = req.headers.token;
+export const verifyToken = async (req, res, next) => {
+    const authHeader = await req.headers.token;
     if (!authHeader) return next(createError(401, "not authenticated"));
     const token = authHeader.split(" ")[1];
         jwt.verify(token, process.env.JWT_SEC, (err, user) => {

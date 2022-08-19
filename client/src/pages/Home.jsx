@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 // import styled component library for styling...
 import styled from 'styled-components'
@@ -14,13 +14,14 @@ import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
 
 
+
 // styling...
 const Container = styled.div`
     
 `
 
 // Home react function component for home page...
-export default function Home({type}) {
+export default function Home({ type }) {
     return (
         <Container>
             <Offers />

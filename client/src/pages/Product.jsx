@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import axios from 'axios'
 
@@ -21,7 +21,7 @@ import { mobile } from '../responsive'
 
 // useLocation hook to fetch current locaiton url...
 import { useLocation } from 'react-router-dom'
-import { addProductToCart, removeProductFromCart } from '../redux/cartSlice'
+import { addProductToCart, emtyProductCart, removeProductFromCart } from '../redux/cartSlice'
 
 // Styling...
 const Container = styled.div`
@@ -179,7 +179,14 @@ export default function Product() {
         }
         getProduct()
     }, [productId])
+    // handling userId...
+    const user = useSelector((state)=> state.user.currentUser)
+    const [userId, setUserId] = useState()
 
+    useEffect(() => {
+       setUserId(user._id) 
+    }, [user._id])
+    console.log(userId);
     // handling quantity...
     const [orderedQuantity, setOrderedQuantity] = useState(1)
     const handleQuantity = (type) => {
@@ -199,7 +206,8 @@ export default function Product() {
     const dispatch = useDispatch()
 
     const handleAddCart = () => {
-        dispatch( addProductToCart({...product, orderedQuantity, selectedColor, selectedSize}))    
+        dispatch(addProductToCart({ ...product, orderedQuantity, selectedColor, selectedSize, userId }))
+        
     }
 
 // handle remove from Cart...
