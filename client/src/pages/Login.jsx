@@ -117,7 +117,6 @@ export default function Login() {
     try {
       const response = await publicRequest.post('/auth/signin', {username, password})
       dispatch(loginSuccess(response.data))
-      console.log(response.data)
     } catch (error) {
       dispatch(loginFailer())
     }

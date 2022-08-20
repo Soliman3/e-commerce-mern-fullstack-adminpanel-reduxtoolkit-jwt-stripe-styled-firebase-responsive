@@ -226,7 +226,6 @@ export default function Cart() {
                 const response = await userRequest.post('/checkout/payment', { tokenId: stripeToken.id, amount: netRequiredStripe })
                 dispatch(getStripeData(response.data))
                 navigate("/success")
-                console.log(response)
             } catch (error) {console.log(error)}
         }
         stripeToken && makeTokenRequest()

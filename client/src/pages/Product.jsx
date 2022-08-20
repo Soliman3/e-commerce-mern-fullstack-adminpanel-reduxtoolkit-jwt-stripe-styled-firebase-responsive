@@ -22,7 +22,7 @@ import { mobile } from '../responsive'
 
 // useLocation hook to fetch current locaiton url...
 import { useLocation } from 'react-router-dom'
-import { addProductToCart, emtyProductCart, removeProductFromCart } from '../redux/cartSlice'
+import { addProductToCart, removeProductFromCart, removeOnlySelectedProduct } from '../redux/cartSlice'
 
 // Styling...
 const Container = styled.div`
@@ -207,15 +207,17 @@ export default function Product() {
     const dispatch = useDispatch()
 
     const handleAddCart = () => {
-        dispatch(addProductToCart({ ...product, orderedQuantity, selectedColor, selectedSize, userId }))
+        
+        orderedQuantity>0 && dispatch(addProductToCart({ ...product, orderedQuantity, selectedColor, selectedSize, userId }))
         
     }
 
 // handle remove from Cart...
     const handleRemoveCart = () => {
-        dispatch( removeProductFromCart({...product, orderedQuantity, selectedColor, selectedSize}))    
+        dispatch(removeProductFromCart({ ...product, orderedQuantity, selectedColor, selectedSize }))  
+        dispatch(removeOnlySelectedProduct({product}))
     }
-
+    
     return (
     <Container>
           <NavBar />

@@ -11,16 +11,20 @@ const cartSlice = createSlice({
     },
     reducers:{
         addProductToCart: (state, action) => {
+           
                 state.userId = action.payload
                 state.cartQuantity += 1
                 state.products.push(action.payload)
-                state.total += action.payload.price * action.payload.orderedQuantity  
+                state.total += action.payload.price * action.payload.orderedQuantity
+            
         },
         removeProductFromCart: (state, action) => {
-            if(state.cartQuantity>0){
+            if (state.cartQuantity > 0) {
             state.cartQuantity -= 1
-            state.products.filter(cartItem=> cartItem.id !== action.payload.id)
             state.total -= action.payload.price * action.payload.orderedQuantity} 
+        },
+        removeOnlySelectedProduct: (state, action) => {
+                state.products.pop(action.payload)
         },
         emtyProductCart: (state) => {
             state.stripeData= null
@@ -34,5 +38,5 @@ const cartSlice = createSlice({
     },
 })
 
-export const { addProductToCart, removeProductFromCart, emtyProductCart, getStripeData } = cartSlice.actions;
+export const { addProductToCart, removeProductFromCart, emtyProductCart, getStripeData, removeOnlySelectedProduct } = cartSlice.actions;
 export default cartSlice.reducer;
