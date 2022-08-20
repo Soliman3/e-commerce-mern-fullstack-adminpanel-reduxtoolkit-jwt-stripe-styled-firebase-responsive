@@ -7,8 +7,8 @@ import { createError } from '../error.js'
 export const createOrder = async (req, res, next) => {
     const newOrder = new Order(req.body)
     try {
-        const savedOrder = newOrder.save()
-        res.status(200).json(savedOrder)
+        const savedOrder = await newOrder.save()
+        res.status(200).json(savedOrder)    
     } catch (error) {
         next(error)
     }

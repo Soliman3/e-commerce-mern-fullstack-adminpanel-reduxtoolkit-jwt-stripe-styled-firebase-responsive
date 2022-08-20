@@ -23,6 +23,7 @@ const cartSlice = createSlice({
             state.total -= action.payload.price * action.payload.orderedQuantity} 
         },
         emtyProductCart: (state) => {
+            state.stripeData= null
             state.cartQuantity = 0
             state.products = []
             state.total = 0

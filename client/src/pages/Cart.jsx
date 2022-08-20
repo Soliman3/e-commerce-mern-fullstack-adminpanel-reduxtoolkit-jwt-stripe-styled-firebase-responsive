@@ -20,7 +20,7 @@ import { mobile } from '../responsive'
 import profileImage from '../images/1.jpg'
 
 import axios from 'axios'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { getStripeData } from '../redux/cartSlice'
 import { userRequest } from '../requestAxiosMethod'
 // Styling...
@@ -226,8 +226,8 @@ export default function Cart() {
                 const response = await userRequest.post('/checkout/payment', { tokenId: stripeToken.id, amount: netRequiredStripe })
                 dispatch(getStripeData(response.data))
                 navigate("/success")
-                
-            } catch (error) {}
+                console.log(response)
+            } catch (error) {console.log(error)}
         }
         stripeToken && makeTokenRequest()
     }, [stripeToken, cart.total, navigate])
