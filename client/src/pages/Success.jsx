@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components'
 import { emtyProductCart } from '../redux/cartSlice';
+import { userRequest } from '../requestAxiosMethod';
 
 const Container = styled.div`
     display: flex;
@@ -28,7 +29,7 @@ export default function Success() {
     useEffect(() => {
       const createOrder = async () => {
         try {
-          const response = await axios.post("/orders", {
+          const response = await userRequest.post("/orders", {
             userId: currentUser._id,
             products: cart.products.map((item) => ({
               productId: item._id,

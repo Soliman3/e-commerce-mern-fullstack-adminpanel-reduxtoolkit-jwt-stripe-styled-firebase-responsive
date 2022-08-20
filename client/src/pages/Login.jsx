@@ -7,6 +7,7 @@ import styled from 'styled-components'
 // import required image from images folder...
 import backgroundImage from '../images/homeAppliances.jpg'
 import { loginFailer, loginStart, loginSuccess } from '../redux/userSlice'
+import { publicRequest } from '../requestAxiosMethod'
 
 // for responsive design For login page...
 import { mobile } from '../responsive'
@@ -114,7 +115,7 @@ export default function Login() {
     e.preventDefault()
     dispatch(loginStart())
     try {
-      const response = await axios.post('/auth/signin', {username, password})
+      const response = await publicRequest.post('/auth/signin', {username, password})
       dispatch(loginSuccess(response.data))
       console.log(response.data)
     } catch (error) {

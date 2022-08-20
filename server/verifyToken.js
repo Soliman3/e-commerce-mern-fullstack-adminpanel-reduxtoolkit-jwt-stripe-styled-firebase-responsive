@@ -3,6 +3,7 @@ import { createError } from './error.js';
 
 export const verifyToken = async (req, res, next) => {
     const authHeader = await req.headers.token;
+    console.log(authHeader)
     if (!authHeader) return next(createError(401, "not authenticated"));
     const token = authHeader.split(" ")[1];
         jwt.verify(token, process.env.JWT_SEC, (err, user) => {

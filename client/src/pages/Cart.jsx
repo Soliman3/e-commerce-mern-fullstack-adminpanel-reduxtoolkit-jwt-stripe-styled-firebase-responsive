@@ -18,9 +18,11 @@ import { mobile } from '../responsive'
 
 // import requited image form image folder...
 import profileImage from '../images/1.jpg'
+
 import axios from 'axios'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { getStripeData } from '../redux/cartSlice'
+import { userRequest } from '../requestAxiosMethod'
 // Styling...
 const Container = styled.div`
 
@@ -221,7 +223,7 @@ export default function Cart() {
         const makeTokenRequest = async (e) => {
             
             try {
-                const response = await axios.post('/checkout/payment', { tokenId: stripeToken.id, amount: netRequiredStripe })
+                const response = await userRequest.post('/checkout/payment', { tokenId: stripeToken.id, amount: netRequiredStripe })
                 dispatch(getStripeData(response.data))
                 navigate("/success")
                 
