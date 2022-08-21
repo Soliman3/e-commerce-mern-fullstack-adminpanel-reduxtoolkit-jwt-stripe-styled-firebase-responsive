@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { NotificationsNone, SettingsOutlined } from '@mui/icons-material/';
 
 // import required image from images library...
-import profilePhoto from '../../images/1.jpg'
+import profilePhoto from '../images/1.jpg'
 // Styling...
 const Container = styled.div`
     display:flex;
