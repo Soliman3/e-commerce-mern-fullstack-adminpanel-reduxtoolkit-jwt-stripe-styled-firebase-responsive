@@ -1,10 +1,15 @@
+import TopBar from "./components/topBar/TopBar";
+import styled from "styled-components";
 
+// Styling..
+const Container = styled.div`
 
+`
 function App() {
   return (
-    <div className="App">
-      App
-    </div>
+    <Container>
+      <TopBar />
+    </Container>
   );
 }
 
