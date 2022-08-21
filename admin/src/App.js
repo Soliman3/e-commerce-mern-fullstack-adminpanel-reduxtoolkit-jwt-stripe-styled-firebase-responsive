@@ -1,7 +1,7 @@
 import TopBar from "./components/TopBar";
 import styled from "styled-components";
 import SideBar from "./components/SideBar";
-import OtherPages from "./components/OtherPages";
+import Home from "./pages/Home";
 
 // Styling..
 const Container = styled.div`
@@ -16,7 +16,7 @@ function App() {
       <TopBar />
       <Main>
         <SideBar />
-        <OtherPages />
+        <Home />
       </Main>
     </Container>
   );

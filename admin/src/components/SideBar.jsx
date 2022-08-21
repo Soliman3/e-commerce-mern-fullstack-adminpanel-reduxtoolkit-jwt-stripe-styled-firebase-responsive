@@ -78,11 +78,7 @@ const SideBarItem = styled.li`
     transform: scale(1.1);
     color: white;
   }
-  &:focus {
-    background-color: red;
-    width: 80%;
-    color: white;
-  }
+  
   `
 
 // SideBar React Functional Component...

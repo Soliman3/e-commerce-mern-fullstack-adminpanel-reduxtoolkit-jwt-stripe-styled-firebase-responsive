@@ -69,7 +69,7 @@ const ProfileImage = styled.img`
     cursor: pointer;
 `
 const TopBarNotificationNumber = styled.span`
-    margin-bottom: 3px;
+
 `
 export default function TopBar() {
   return (
