@@ -14,6 +14,7 @@ import {
   CurrencyBitcoinOutlined,
   AssignmentTurnedInOutlined,
 } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 // Styling...
 const Container = styled.div`
@@ -89,11 +90,12 @@ export default function SideBar() {
         <Menu>
           <SideBarTitle>DashBoard</SideBarTitle>
           <SideBarList>
-
+            <Link to="/" style={{color:'inherit', backgroundColor: 'inherit', textDecoration: 'none'}}>
             <SideBarItem >
               <Apps style={{ fontSize: '18px' }} />
               Home
             </SideBarItem>
+            </Link>
             <SideBarItem>
               <Timeline style={{ fontSize: '18px' }} />
               Analytics
@@ -109,10 +111,12 @@ export default function SideBar() {
         <Menu>
           <SideBarTitle>Quick Menu</SideBarTitle>
           <SideBarList>
+          <Link to="/users" style={{color:'inherit', backgroundColor: 'inherit', textDecoration: 'none'}}>
             <SideBarItem>
               <PersonOutlined style={{ fontSize: '18px' }} />
               Users
-            </SideBarItem>
+              </SideBarItem>
+              </Link>
             <SideBarItem>
               <LocalMallOutlined style={{ fontSize: '18px' }} />
               Products
