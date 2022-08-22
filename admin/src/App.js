@@ -4,6 +4,7 @@ import TopBar from "./components/TopBar";
 import SideBar from "./components/SideBar";
 import Home from "./pages/Home";
 import UserList from "./pages/UserList";
+import UserSinglePage from "./pages/UserSinglePage";
 
 // Styling..
 const Container = styled.div``;
@@ -20,6 +21,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="/users" element={<UserList />} />
+            <Route path="/user/:id" element={<UserSinglePage />} />
           </Routes>
         </Main>
       </BrowserRouter>
