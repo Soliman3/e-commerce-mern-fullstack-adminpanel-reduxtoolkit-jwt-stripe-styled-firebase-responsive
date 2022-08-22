@@ -13,6 +13,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    margin-bottom:30px;
 `
 const FigureItem = styled.div`
     flex: 1;

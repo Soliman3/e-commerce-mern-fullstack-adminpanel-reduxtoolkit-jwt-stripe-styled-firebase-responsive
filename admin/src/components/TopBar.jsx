@@ -2,7 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 // import icons from mui5 library...
-import { NotificationsNone, SettingsOutlined } from '@mui/icons-material/';
+import {
+    SettingsOutlined,
+    NotificationsNone,
+    PowerSettingsNewOutlined
+} from '@mui/icons-material/';
 
 // import required image from images library...
 import profilePhoto from '../images/1.jpg'
@@ -45,13 +49,14 @@ const TopBarRight = styled.div`
 `
 const TopBarRightIcons = styled.div`
     position: relative;
+    cursor: pointer;
 `
 const TopBarRightBadge = styled.span`
     position: absolute;
     background-color: red;
     color: white;
-    width: 17px;
-    height: 17px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
     top:-5px;
     right: -3px;
@@ -60,6 +65,7 @@ const TopBarRightBadge = styled.span`
     justify-content: center;
     font-size: 14px;
     font-weight: bold;
+    
 `
 const ProfileImage = styled.img`
     width: 40px;
@@ -69,28 +75,32 @@ const ProfileImage = styled.img`
     cursor: pointer;
 `
 const TopBarNotificationNumber = styled.span`
-
+    font-size: 12px;
+    margin-bottom: 2px;
 `
 export default function TopBar() {
-  return (
-    <Container>
-          <Wrapper>
-              <TopBarLeft>
-                  <BrandLogo>SOLIMAN</BrandLogo>
-              </TopBarLeft>
-              <TopBarRight>
-                  <TopBarRightIcons>
-                      <SettingsOutlined style={{fontSize: '25px'}} />
-                  </TopBarRightIcons>
-                  <TopBarRightIcons>
-                      <NotificationsNone style={{fontSize: '25px'}} />
-                      <TopBarRightBadge>
-                          <TopBarNotificationNumber>2</TopBarNotificationNumber>
-                      </TopBarRightBadge>
-                  </TopBarRightIcons>
-                  <ProfileImage src={profilePhoto} alt='Profile Image'/>
-              </TopBarRight>
-      </Wrapper>
-    </Container>
-  )
+    return (
+        <Container>
+            <Wrapper>
+                <TopBarLeft>
+                    <BrandLogo>SOLIMAN</BrandLogo>
+                </TopBarLeft>
+                <TopBarRight>
+                    <TopBarRightIcons>
+                        <PowerSettingsNewOutlined style={{ fontSize: '20px' }} />
+                    </TopBarRightIcons>
+                    <TopBarRightIcons>
+                        <SettingsOutlined style={{ fontSize: '20px' }} />
+                    </TopBarRightIcons>
+                    <TopBarRightIcons>
+                        <NotificationsNone style={{ fontSize: '20px' }} />
+                        <TopBarRightBadge>
+                            <TopBarNotificationNumber>2</TopBarNotificationNumber>
+                        </TopBarRightBadge>
+                    </TopBarRightIcons>
+                    <ProfileImage src={profilePhoto} alt='Profile Image' />
+                </TopBarRight>
+            </Wrapper>
+        </Container>
+    )
 }

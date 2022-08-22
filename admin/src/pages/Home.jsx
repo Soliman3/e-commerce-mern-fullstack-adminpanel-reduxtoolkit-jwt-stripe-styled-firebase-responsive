@@ -1,6 +1,9 @@
 import React from 'react'
-import Figures from '../components/Figures'
 import styled from 'styled-components'
+
+// import other needed react components...
+import Figures from '../components/Figures'
+import Charts from '../components/Charts'
 
 
 // Styling...
@@ -9,9 +12,10 @@ const Container = styled.div`
     
 `
 export default function Home() {
-  return (
-    <Container>
-     <Figures/>
-    </Container>
-  )
+    return (
+        <Container>
+            <Figures />
+            <Charts />
+        </Container>
+    )
 }
