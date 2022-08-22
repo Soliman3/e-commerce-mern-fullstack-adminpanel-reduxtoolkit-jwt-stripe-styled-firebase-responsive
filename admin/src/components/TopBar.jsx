@@ -10,6 +10,7 @@ import {
 
 // import required image from images library...
 import profilePhoto from '../images/1.jpg'
+
 // Styling...
 const Container = styled.div`
     display:flex;

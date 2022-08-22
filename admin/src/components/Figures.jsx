@@ -13,13 +13,12 @@ const Container = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-bottom:30px;
 `
 const FigureItem = styled.div`
     flex: 1;
     cursor: pointer;
-    padding: 25px;
-    margin: 25px;
+    padding: 20px;
+    margin:15px 20px 5px 20px;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 

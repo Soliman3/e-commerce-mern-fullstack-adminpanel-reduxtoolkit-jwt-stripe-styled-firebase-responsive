@@ -6,66 +6,23 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 // Styling...
 const Container = styled.div`
-    margin: 20px;
+    margin: 10px 20px 0px 20px;
     padding: 20px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 10px;
 `
 const ChartTitle = styled.div`
-    
+    font-weight:700;
+    font-size: 20px;
+    margin-bottom: 10px;
 `
 
-export default function Charts({}) {
-    // Simple Chart Data...
-    const data = [
-        {
-          name: 'Page A',
-          ActiveUser: 4000,
-          pv: 2400,
-          amt: 2400,
-        },
-        {
-          name: 'Page B',
-          ActiveUser: 3000,
-          pv: 1398,
-          amt: 2210,
-        },
-        {
-          name: 'Page C',
-          ActiveUser: 2000,
-          pv: 9800,
-          amt: 2290,
-        },
-        {
-          name: 'Page D',
-          ActiveUser: 2780,
-          pv: 3908,
-          amt: 2000,
-        },
-        {
-          name: 'Page E',
-          ActiveUser: 1890,
-          pv: 4800,
-          amt: 2181,
-        },
-        {
-          name: 'Page F',
-          ActiveUser: 2390,
-          pv: 3800,
-          amt: 2500,
-        },
-        {
-          name: 'Page G',
-          ActiveUser: 3490,
-          pv: 4300,
-          amt: 2100,
-        },
-      ];
+export default function Charts({ data, title, firstLine, secondLine }) {
   return (
     <Container>
-          <ChartTitle>Revenues Chart</ChartTitle>
-          <ResponsiveContainer width="100%" aspect={4/1}>
-          <LineChart
+      <ChartTitle>{title}</ChartTitle>
+      <ResponsiveContainer width="100%" aspect={4 / 1}>
+        <LineChart
           width={500}
           height={300}
           data={data}
@@ -81,8 +38,8 @@ export default function Charts({}) {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="pv" stroke="blue" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="ActiveUser" stroke="#1cdf0e" />
+          <Line type="monotone" dataKey={secondLine} stroke="blue" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey={firstLine} stroke="#1cdf0e" />
         </LineChart>
       </ResponsiveContainer>
     </Container>
