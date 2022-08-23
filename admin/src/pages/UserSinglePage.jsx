@@ -34,6 +34,7 @@ const AddUser = styled.button`
     align-items: center;
     justify-content: left;
 
+
     &:hover{
     transform: scale(1.1);
     font-weight: bold;
@@ -205,7 +206,7 @@ export default function UserSinglePage() {
         <Container>
             <TitleContainer>
                 <EditUser>Edit</EditUser>
-                <Link to="/newuser">
+                <Link to="/newuser" style={{color:'inherit', backgroundColor: 'inherit', textDecoration: 'none'}}>
                 <AddUser>
                     <AddOutlined style={{ fontSize: '18px', marginRight: '5px' }} />
                     Create
