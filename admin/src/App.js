@@ -12,6 +12,7 @@ import UserSinglePage from "./pages/UserSinglePage";
 import NewUser from "./pages/NewUser";
 import ProductList from "./pages/ProductList";
 import ProductSinglePage from "./pages/ProductSinglePage";
+import NewProduct from "./pages/NewProduct";
 
 // Styling..
 const Container = styled.div``;
@@ -32,6 +33,7 @@ function App() {
             <Route path="/newuser" element={<NewUser />} />
             <Route path="/products" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductSinglePage />} />
+            <Route path="/newproduct" element={<NewProduct />} />
           </Routes>
         </Main>
       </BrowserRouter>

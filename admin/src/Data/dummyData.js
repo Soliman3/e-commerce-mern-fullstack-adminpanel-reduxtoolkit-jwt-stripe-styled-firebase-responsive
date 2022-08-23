@@ -42,7 +42,33 @@ export const usersData = [
       amt: 2100,
     },
 ];
-  
+
+export const productsData = [
+  {
+    name: 'Jan',
+    Sales: 2500,
+    Returns: 1500,
+    amt: 2400,
+  },
+  {
+    name: 'Feb',
+    Sales: 3000,
+    Returns: 2000,
+    amt: 2210,
+  },
+  {
+    name: 'Mar',
+    Sales: 1000,
+    Returns: 1500,
+    amt: 2290,
+  },
+  {
+    name: 'Apr',
+    Sales: 2780,
+    Returns: 650,
+    amt: 2000,
+  },
+];
 // ###############################33333
 
 export const userRows = [
