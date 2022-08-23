@@ -57,3 +57,16 @@ export const userRows = [
   { id: 9, userName: 'Snow', Avatar: "https://i.ibb.co/q1Z3PDZ/1.jpg", email: "ahmed.asoliman1@gmail.com", status: 'Active', transaction: "$300.00" },
   { id: 10, userName: 'Snow' , Avatar: "https://i.ibb.co/q1Z3PDZ/1.jpg",  email: "ahmed.asoliman1@gmail.com", status: 'Active', transaction: "$300.00"},
 ];
+
+export const productRows = [
+  { id: 1, productName: 'Iphone 12mini', productImage: "https://i.ibb.co/GsH4D2J/2.png", stock: 142, status: 'Active', price: "$300.00" },
+  { id: 2, productName: 'Iphone 12mini', productImage: "https://i.ibb.co/GsH4D2J/2.png", stock: 142, status: 'Active', price: "$300.00" },
+  { id: 3, productName: 'Iphone 12mini', productImage: "https://i.ibb.co/GsH4D2J/2.png", stock: 142, status: 'Active', price: "$300.00" },
+  { id: 4, productName: 'Iphone 12mini', productImage: "https://i.ibb.co/GsH4D2J/2.png", stock: 142, status: 'Active', price: "$300.00" },
+  { id: 5, productName: 'Iphone 12mini', productImage: "https://i.ibb.co/GsH4D2J/2.png", stock: 142, status: 'Active', price: "$300.00" },
+  { id: 6, productName: 'Iphone 12mini', productImage: "https://i.ibb.co/GsH4D2J/2.png", stock: 142, status: 'Active', price: "$300.00" },
+  { id: 7, productName: 'Iphone 12mini', productImage: "https://i.ibb.co/GsH4D2J/2.png", stock: 142, status: 'Active', price: "$300.00" },
+  { id: 8, productName: 'Iphone 12mini', productImage: "https://i.ibb.co/GsH4D2J/2.png", stock: 142, status: 'Active', price: "$300.00" },
+  { id: 9, productName: 'Iphone 12mini', productImage: "https://i.ibb.co/GsH4D2J/2.png", stock: 142, status: 'Active', price: "$300.00" },
+  { id: 10, productName: 'Iphone 12mini' , productImage: "https://i.ibb.co/GsH4D2J/2.png",  stock: 142, status: 'Active', price: "$300.00"},
+];

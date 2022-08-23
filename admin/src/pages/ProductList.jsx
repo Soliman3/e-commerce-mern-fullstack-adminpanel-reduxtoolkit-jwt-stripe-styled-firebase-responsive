@@ -8,20 +8,19 @@ import { DataGrid } from '@mui/x-data-grid';
 import { DeleteForeverOutlined } from '@mui/icons-material';
 
 // import dummydata...
-import { userRows } from '../Data/dummyData';
+import { productRows } from '../Data/dummyData';
 // import React Router Dom library for Routing...
 import { Link } from 'react-router-dom';
-
 // Styling...
 const Container = styled.div`
     flex: 4;
 `
-const UserContainer = styled.div`
+const ProductContainer = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
 `
-const UserImage = styled.img`
+const ProductImage = styled.img`
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -41,11 +40,9 @@ const EditButton = styled.button`
     background-color: yellow;
   }
 `
-
-// UserList React Functional Component...
-export default function UserList() {
-    // handle deleting item...
-    const [data, setData] = useState(userRows)
+// Product List React Functional Component...
+export default function ProductList() {
+    const [data, setData] = useState(productRows)
     const handleDelete = (id)=> {
         setData(data.filter((item)=> item.id !== id))
     }
@@ -54,19 +51,18 @@ export default function UserList() {
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         {
-            field: 'user', headerName: 'User ', width: 130, renderCell: (params) => {
+            field: 'product', headerName: 'Product ', width: 300, renderCell: (params) => {
                 return (
-                    <UserContainer>
-                        <UserImage src={params.row.Avatar} alt="" />
-                        {params.row.userName}
-                </UserContainer>
+                    <ProductContainer>
+                        <ProductImage src={params.row.productImage} alt="" />
+                        {params.row.productName}
+                </ProductContainer>
             )
         } },
         {
-          field: 'email',
-          headerName: 'email',
-          type: 'email',
-          width: 300,
+          field: 'stock',
+          headerName: 'Stock',
+          width: 160,
         },
         {
           field: 'status',
@@ -76,8 +72,8 @@ export default function UserList() {
           width: 160,
         },
         {
-            field: 'transaction',
-            headerName: 'Transaction',
+            field: 'price',
+            headerName: 'Price',
             width: 200,
         },
         {
@@ -87,7 +83,7 @@ export default function UserList() {
             renderCell: (params) => {
                 return (
                     <>
-                        <Link to={"/user/"+params.row.id}>
+                        <Link to={"/product/"+params.row.id}>
                             <EditButton>Edit</EditButton>
                         </Link>
                         <DeleteForeverOutlined style={{ color: 'red', cursor: 'pointer', '&:hover': { backgroundColor: "green" } }} onClick={()=>handleDelete(params.row.id)} />
@@ -96,8 +92,6 @@ export default function UserList() {
             }
         },
       ];
-      
-    
   return (
     <Container>
         <DataGrid

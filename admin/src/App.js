@@ -1,11 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
+
+// import React Router Dom for Routing...
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// import required Pages & main components...
 import TopBar from "./components/TopBar";
 import SideBar from "./components/SideBar";
 import Home from "./pages/Home";
 import UserList from "./pages/UserList";
 import UserSinglePage from "./pages/UserSinglePage";
 import NewUser from "./pages/NewUser";
+import ProductList from "./pages/ProductList";
+import ProductSinglePage from "./pages/ProductSinglePage";
 
 // Styling..
 const Container = styled.div``;
@@ -24,6 +30,8 @@ function App() {
             <Route path="/users" element={<UserList />} />
             <Route path="/user/:id" element={<UserSinglePage />} />
             <Route path="/newuser" element={<NewUser />} />
+            <Route path="/products" element={<ProductList />} />
+            <Route path="/product/:id" element={<ProductSinglePage />} />
           </Routes>
         </Main>
       </BrowserRouter>

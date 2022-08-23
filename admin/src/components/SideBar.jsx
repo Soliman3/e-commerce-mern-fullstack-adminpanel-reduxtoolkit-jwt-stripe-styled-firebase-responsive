@@ -116,11 +116,13 @@ export default function SideBar() {
               <PersonOutlined style={{ fontSize: '18px' }} />
               Users
               </SideBarItem>
-              </Link>
+            </Link>
+            <Link to="/products" style={{color:'inherit', backgroundColor: 'inherit', textDecoration: 'none'}}>
             <SideBarItem>
               <LocalMallOutlined style={{ fontSize: '18px' }} />
               Products
             </SideBarItem>
+            </Link>
             <SideBarItem>
               <CurrencyBitcoinOutlined style={{ fontSize: '18px' }} />
               Transactions
