@@ -7,6 +7,9 @@ import { AddOutlined, CalendarToday, LocationSearching, MailOutline, PermIdentit
 // import required image from images library...
 import UserImage from '../images/1.jpg'
 
+// import React Router dom library for pages routing...
+import { Link } from 'react-router-dom'
+
 // Styling...
 const Container = styled.div`
     flex: 4;
@@ -157,10 +160,12 @@ const UserUdateInput = styled.input`
 `
 const UserUpdateFormRight = styled.div`
     display: flex;
+    flex-direction: column;
     flex:1;
     margin: 20px;
+    gap: 35px;
 `
-const UserUdateUpload = styled.div`
+const UserUpateUpload = styled.div`
     
 `
 const UploadImage = styled.img`
@@ -175,6 +180,24 @@ const UploadImageLabel = styled.label`
 const UploadImageInput = styled.input`
     display: none;
 `
+const UserUpdateButtonAction = styled.button`
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    width: 80%;
+    padding: 8px 0px;
+    background-color: gray;
+    color: white;
+
+    &:hover{
+    transform: scale(1.1);
+    font-weight: bold;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+   }
+   &:active{
+    background-color: #0ee80e;
+  }
+`
 
 // User Single Page React Functional Component...
 export default function UserSinglePage() {
@@ -182,10 +205,12 @@ export default function UserSinglePage() {
         <Container>
             <TitleContainer>
                 <EditUser>Edit</EditUser>
+                <Link to="/newuser">
                 <AddUser>
                     <AddOutlined style={{ fontSize: '18px', marginRight: '5px' }} />
                     Create
                 </AddUser>
+                </Link>
             </TitleContainer>
             <UserControl>
                 <UserShow>
@@ -247,11 +272,12 @@ export default function UserSinglePage() {
         
                         </UserUpdateFormLeft>
                         <UserUpdateFormRight>
-                            <UserUdateUpload>
+                            <UserUpateUpload>
                                 <UploadImage src={UserImage} alt="" />
                                 <UploadImageLabel htmlFor='file' ><Publish/></UploadImageLabel>
                                 <UploadImageInput type='file' id="file"/>
-                            </UserUdateUpload>
+                            </UserUpateUpload>
+                            <UserUpdateButtonAction>Update User</UserUpdateButtonAction>
                         </UserUpdateFormRight>
                     </UserUpdateForm>
                 </UserUpdate>
