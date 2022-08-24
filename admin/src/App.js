@@ -22,12 +22,13 @@ const Main = styled.div`
 `;
 function App() {
   return (
-    <Container>
       <BrowserRouter>
-        <TopBar />
+    <Container>
         <Main>
-          <SideBar />
           <Routes>
+            <Route path="/login" element={<Login />} />
+        <TopBar />
+          <SideBar />
             <Route exact path="/" element={<Home />} />
             <Route path="/users" element={<UserList />} />
             <Route path="/user/:id" element={<UserSinglePage />} />
@@ -35,11 +36,10 @@ function App() {
             <Route path="/products" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductSinglePage />} />
             <Route path="/newproduct" element={<NewProduct />} />
-            <Route path="/login" element={<Login />} />
           </Routes>
         </Main>
-      </BrowserRouter>
     </Container>
+      </BrowserRouter>
   );
 }
 

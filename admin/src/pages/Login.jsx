@@ -47,9 +47,6 @@ const LoginButton = styled.button`
         font-weight: bold;
     }
 `
-const LoginForm = styled.form`
-    
-`
 // Login React Functional Page...
 export default function Login() {
     // useState for user name and password to sending it to axios post method authentication...
@@ -72,11 +69,9 @@ export default function Login() {
     return (
         <Container>
             <Title>Sign in to your account</Title>
-            <LoginForm>
                 <UserName type='text' placeholder='User Name' onChange={(e) => setUsername(e.target.value)} />
                 <Password type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
                 <LoginButton onClick={handleLogin}>Login</LoginButton>
-            </LoginForm>
         </Container>
     )
 }

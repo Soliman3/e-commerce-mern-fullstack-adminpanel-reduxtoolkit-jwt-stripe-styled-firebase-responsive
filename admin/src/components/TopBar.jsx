@@ -11,6 +11,11 @@ import {
 // import required image from images library...
 import profilePhoto from '../images/1.jpg'
 
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import { loginStart, logOut } from '../redux/userSlice';
+
 // Styling...
 const Container = styled.div`
     display:flex;
@@ -80,6 +85,20 @@ const TopBarNotificationNumber = styled.span`
     margin-bottom: 2px;
 `
 export default function TopBar() {
+    // handle Logout...
+    const user = useSelector((state) => state.user.currentUser);
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const handleLogout = () => {
+        dispatch(loginStart())
+        try {
+            dispatch(logOut())
+            .then(navigate('/login'))
+        } catch (error) {
+            
+        }
+    }
     return (
         <Container>
             <Wrapper>
@@ -88,7 +107,7 @@ export default function TopBar() {
                 </TopBarLeft>
                 <TopBarRight>
                     <TopBarRightIcons>
-                        <PowerSettingsNewOutlined style={{ fontSize: '20px' }} />
+                        <PowerSettingsNewOutlined onClick={handleLogout} style={{ fontSize: '20px' }} />
                     </TopBarRightIcons>
                     <TopBarRightIcons>
                         <SettingsOutlined style={{ fontSize: '20px' }} />
