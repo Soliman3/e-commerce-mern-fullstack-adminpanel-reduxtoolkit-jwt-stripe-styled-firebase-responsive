@@ -13,6 +13,7 @@ import NewUser from "./pages/NewUser";
 import ProductList from "./pages/ProductList";
 import ProductSinglePage from "./pages/ProductSinglePage";
 import NewProduct from "./pages/NewProduct";
+import Login from "./pages/Login";
 
 // Styling..
 const Container = styled.div``;
@@ -34,6 +35,7 @@ function App() {
             <Route path="/products" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductSinglePage />} />
             <Route path="/newproduct" element={<NewProduct />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </Main>
       </BrowserRouter>
