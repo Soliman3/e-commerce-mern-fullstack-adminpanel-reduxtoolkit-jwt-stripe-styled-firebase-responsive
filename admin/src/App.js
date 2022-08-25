@@ -15,14 +15,14 @@ import ProductSinglePage from "./pages/ProductSinglePage";
 import NewProduct from "./pages/NewProduct";
 import Login from "./pages/Login";
 import { useSelector } from "react-redux";
-import { PrivateRoutes } from "./utils/PrivateRoutes";
+import { PrivateRoutes, RedirectRoute } from "./utils/PrivateRoutes";
 import Page404 from "./pages/Page404";
 
 // Styling..
 const Container = styled.div``;
 const Main = styled.div`
   display: flex;
-`;
+`
 function App() {
   const user = useSelector((state) => state.user?.currentUser?.isAdmin);
   return (
@@ -43,7 +43,9 @@ function App() {
               <Route path="/newproduct" element={<NewProduct />} />
               <Route path="/*" element={<Page404/>}/>
             </Route>
-            <Route path="/login" element={<Login />} />
+            <Route element={<RedirectRoute />}>
+              <Route path="/login" element={<Login />} />
+            </Route>
           </Routes>
         </Main>
       </BrowserRouter>

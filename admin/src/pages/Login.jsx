@@ -86,7 +86,6 @@ export default function Login() {
             response?.data?.isAdmin && dispatch(loginSuccess(response.data))
             response?.data?.isAdmin !== true && setIsAdmin(false)
             response?.data?.isAdmin !== true && dispatch(logOut())
-            navigate('/')
         } catch (error) {
             dispatch(loginFailer())
             
