@@ -89,6 +89,7 @@ const Button = styled.button`
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   }
 `
+const WidgetBody = styled.tbody``
 
 // LargeWidget React Functional Component...
 export default function LargeWidget() {
@@ -96,6 +97,8 @@ export default function LargeWidget() {
     <Container>
       <Title>Recent Transactions</Title>
       <WidgetTable>
+        <WidgetBody>
+
         <WidgetTableTr>
           <WidgetTableTh>Customer</WidgetTableTh>
           <WidgetTableTh>Date</WidgetTableTh>
@@ -138,6 +141,7 @@ export default function LargeWidget() {
           <WidgetTableTdAmount>$ 320.00</WidgetTableTdAmount>
           <WidgetTableTdStatus><Button type="Decline">Decline</Button></WidgetTableTdStatus>
         </WidgetTableTr>
+        </WidgetBody>
       </WidgetTable>
     </Container>
   )

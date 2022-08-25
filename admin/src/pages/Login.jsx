@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { loginStart, loginSuccess, loginFailer } from '../redux/userSlice';
+import { loginStart, loginSuccess, loginFailer, logOut } from '../redux/userSlice';
 import { publicRequest } from '../requestAxiosMethod';
+
+// import icons form mui5 library...
+import {Visibility, VisibilityOff} from '@mui/icons-material';
 
 // use navigate...
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,7 +14,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Container = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
+    height: 100vh;
     flex: 4;
     flex-direction: column;
 `
@@ -55,6 +58,18 @@ const LoginForm = styled.form`
     flex-direction: column;
     width: 100%;
 `
+const ErrorMessage = styled.span`
+    color: red;
+    display: flex;
+    text-align: center;
+`
+const PasswordInputContainer = styled.div`
+    display: flex;
+    margin-left: auto;
+    margin-right: 0;
+    width: 38%;
+    
+`
 // Login React Functional Page...
 export default function Login() {
     // useState for user name and password to sending it to axios post method authentication...
@@ -62,27 +77,45 @@ export default function Login() {
     const [password, setPassword] = useState()
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
     // handle login function...
     const handleLogin = async (e) => {
         e.preventDefault()
         dispatch(loginStart())
         try {
             const response = await publicRequest.post('/auth/signin', { username, password })
-            dispatch(loginSuccess(response.data))
+            response?.data?.isAdmin && dispatch(loginSuccess(response.data))
+            response?.data?.isAdmin !== true && setIsAdmin(false)
+            response?.data?.isAdmin !== true && dispatch(logOut())
         } catch (error) {
             dispatch(loginFailer())
+            
         }
     }
+    // Error message if not authorized to enter admin panel...
+    const [isAdmin, setIsAdmin] = useState(true)
+
+    // Error message if wrong username or password...
+    const user = useSelector((state) => state.user)
+    
+    // handle password visibility...
+    const [isVisible, setIsVisible] = useState('password')
     return (
         <Container>
 
             <Title>Sign in to your account</Title>
             <LoginForm>
                 <UserName type='text' placeholder='User Name' onChange={(e) => setUsername(e.target.value)} />
-                <Password type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
+                <PasswordInputContainer>
+                    {isVisible === 'password' ? (<VisibilityOff style={{ color: 'gray', fontSize: '14px', cursor: 'pointer' }} onClick={() => setIsVisible('text')}/>)
+                        : (<Visibility style={{ color: 'gray', fontSize: '14px', cursor: 'pointer' }} onClick={() => setIsVisible('password')} />)}
+                    
+                    
+                </PasswordInputContainer>
+                <Password type={isVisible} placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
                 <LoginButton onClick={handleLogin}>Login</LoginButton>
             </LoginForm>
+            {!user.error ? isAdmin !== true && (<><ErrorMessage>You are not Authorized !!!</ErrorMessage></>)
+                : (user.error && <><ErrorMessage>Wrong username or password , please try again</ErrorMessage></>)}
         </Container>
     )
 }

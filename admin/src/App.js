@@ -14,29 +14,34 @@ import ProductList from "./pages/ProductList";
 import ProductSinglePage from "./pages/ProductSinglePage";
 import NewProduct from "./pages/NewProduct";
 import Login from "./pages/Login";
+import { useSelector } from "react-redux";
+import PrivateRoutes from "./utils/PrivateRoutes";
 
 // Styling..
-const Container = styled.div`
-`
+const Container = styled.div``;
 const Main = styled.div`
   display: flex;
-`
+`;
 function App() {
+  const user = useSelector((state) => state.user?.currentUser?.isAdmin);
   return (
     <Container>
       <BrowserRouter>
         <TopBar />
         <Main>
-          <SideBar />
+          {user && <SideBar />}
+
           <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/users" element={<UserList />} />
-            <Route path="/user/:id" element={<UserSinglePage />} />
-            <Route path="/newuser" element={<NewUser />} />
-            <Route path="/products" element={<ProductList />} />
-            <Route path="/product/:id" element={<ProductSinglePage />} />
-            <Route path="/newproduct" element={<NewProduct />} />
-            <Route path="/login" element={<Login />} />
+            <Route element={<PrivateRoutes/>}>
+              <Route exact path="/" element={<Home />} />
+              <Route path="/users" element={<UserList />} />
+              <Route path="/user/:id" element={<UserSinglePage />} />
+              <Route path="/newuser" element={<NewUser />} />
+              <Route path="/products" element={<ProductList />} />
+              <Route path="/product/:id" element={<ProductSinglePage />} />
+              <Route path="/newproduct" element={<NewProduct />} />
+            </Route>
+            <Route path="/login" element={user ? <Home /> : <Login />} />
           </Routes>
         </Main>
       </BrowserRouter>

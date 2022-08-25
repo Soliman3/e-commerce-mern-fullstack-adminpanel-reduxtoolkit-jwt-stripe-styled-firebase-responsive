@@ -5,10 +5,10 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
 
 // use navigate...
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // import userSlice actions...
-import { loginStart, loginSuccess, loginFailer, logOut } from '../redux/userSlice'
+import { loginStart, logOut } from '../redux/userSlice'
 
 // import icons from mui5 library...
 import {
@@ -89,8 +89,7 @@ const TopBarNotificationNumber = styled.span`
     margin-bottom: 2px;
 `
 export default function TopBar() {
-    const user = useSelector((state) => state.user)
-    console.log(user);
+    const user = useSelector((state) => state.user?.currentUser?.isAdmin)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 // handle Log Out...
@@ -108,7 +107,7 @@ export default function TopBar() {
                 <TopBarLeft>
                     <BrandLogo>SOLIMAN</BrandLogo>
                 </TopBarLeft>
-                <TopBarRight>
+                {user && (<><TopBarRight>
                     <TopBarRightIcons>
                         <PowerSettingsNewOutlined onClick={handleLogOut} style={{ fontSize: '20px' }} />
                     </TopBarRightIcons>
@@ -122,7 +121,7 @@ export default function TopBar() {
                         </TopBarRightBadge>
                     </TopBarRightIcons>
                     <ProfileImage src={profilePhoto} alt='Profile Image' />
-                </TopBarRight>
+                </TopBarRight></>)}
             </Wrapper>
         </Container>
     )
