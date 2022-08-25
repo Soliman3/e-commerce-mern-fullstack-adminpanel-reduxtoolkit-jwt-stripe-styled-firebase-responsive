@@ -8,7 +8,7 @@ import { publicRequest } from '../requestAxiosMethod';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 
 // use navigate...
-import { Link, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 // Styling...
 const Container = styled.div`
@@ -86,6 +86,7 @@ export default function Login() {
             response?.data?.isAdmin && dispatch(loginSuccess(response.data))
             response?.data?.isAdmin !== true && setIsAdmin(false)
             response?.data?.isAdmin !== true && dispatch(logOut())
+            navigate('/')
         } catch (error) {
             dispatch(loginFailer())
             

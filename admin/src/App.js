@@ -15,7 +15,8 @@ import ProductSinglePage from "./pages/ProductSinglePage";
 import NewProduct from "./pages/NewProduct";
 import Login from "./pages/Login";
 import { useSelector } from "react-redux";
-import PrivateRoutes from "./utils/PrivateRoutes";
+import { PrivateRoutes } from "./utils/PrivateRoutes";
+import Page404 from "./pages/Page404";
 
 // Styling..
 const Container = styled.div``;
@@ -40,8 +41,9 @@ function App() {
               <Route path="/products" element={<ProductList />} />
               <Route path="/product/:id" element={<ProductSinglePage />} />
               <Route path="/newproduct" element={<NewProduct />} />
+              <Route path="/*" element={<Page404/>}/>
             </Route>
-            <Route path="/login" element={user ? <Home /> : <Login />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </Main>
       </BrowserRouter>
