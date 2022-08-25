@@ -1,6 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
+// useSelector to use redux toolkit in cart notification quantity...
+import { useDispatch, useSelector } from 'react-redux';
+
+// use navigate...
+import { Link, useNavigate } from 'react-router-dom';
+
+// import userSlice actions...
+import { loginStart, loginSuccess, loginFailer, logOut } from '../redux/userSlice'
+
 // import icons from mui5 library...
 import {
     SettingsOutlined,
@@ -10,11 +19,6 @@ import {
 
 // import required image from images library...
 import profilePhoto from '../images/1.jpg'
-
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-
-import { loginStart, logOut } from '../redux/userSlice';
 
 // Styling...
 const Container = styled.div`
@@ -85,18 +89,17 @@ const TopBarNotificationNumber = styled.span`
     margin-bottom: 2px;
 `
 export default function TopBar() {
-    // handle Logout...
-    const user = useSelector((state) => state.user.currentUser);
-    const navigate = useNavigate()
+    const user = useSelector((state) => state.user)
+    console.log(user);
     const dispatch = useDispatch()
-
-    const handleLogout = () => {
+    const navigate = useNavigate()
+// handle Log Out...
+    const handleLogOut = () => {
         dispatch(loginStart())
         try {
             dispatch(logOut())
             .then(navigate('/login'))
         } catch (error) {
-            
         }
     }
     return (
@@ -107,7 +110,7 @@ export default function TopBar() {
                 </TopBarLeft>
                 <TopBarRight>
                     <TopBarRightIcons>
-                        <PowerSettingsNewOutlined onClick={handleLogout} style={{ fontSize: '20px' }} />
+                        <PowerSettingsNewOutlined onClick={handleLogOut} style={{ fontSize: '20px' }} />
                     </TopBarRightIcons>
                     <TopBarRightIcons>
                         <SettingsOutlined style={{ fontSize: '20px' }} />

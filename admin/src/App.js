@@ -16,19 +16,19 @@ import NewProduct from "./pages/NewProduct";
 import Login from "./pages/Login";
 
 // Styling..
-const Container = styled.div``;
+const Container = styled.div`
+`
 const Main = styled.div`
   display: flex;
-`;
+`
 function App() {
   return (
-      <BrowserRouter>
     <Container>
-        <Main>
-          <Routes>
-            <Route path="/login" element={<Login />} />
+      <BrowserRouter>
         <TopBar />
+        <Main>
           <SideBar />
+          <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="/users" element={<UserList />} />
             <Route path="/user/:id" element={<UserSinglePage />} />
@@ -36,10 +36,11 @@ function App() {
             <Route path="/products" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductSinglePage />} />
             <Route path="/newproduct" element={<NewProduct />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </Main>
-    </Container>
       </BrowserRouter>
+    </Container>
   );
 }
 

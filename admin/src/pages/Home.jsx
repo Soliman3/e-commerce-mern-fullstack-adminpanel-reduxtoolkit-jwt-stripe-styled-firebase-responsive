@@ -26,8 +26,7 @@ export default function Home() {
             <Charts data={usersData} title='Revenues Chart' firstLine='Active' secondLine='returns' />
             <HomeWidgets>
                 <SmallWidget />
-                <LargeWidget />
-                
+                <LargeWidget /> 
             </HomeWidgets>
         </Container>
     )

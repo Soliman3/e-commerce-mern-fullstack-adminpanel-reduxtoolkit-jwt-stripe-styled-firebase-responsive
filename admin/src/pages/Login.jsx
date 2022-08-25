@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { loginStart, loginSuccess, loginFailer } from '../redux/userSlice';
 import { publicRequest } from '../requestAxiosMethod';
+
+// use navigate...
+import { Link, useNavigate } from 'react-router-dom';
 
 // Styling...
 const Container = styled.div`
@@ -47,6 +49,12 @@ const LoginButton = styled.button`
         font-weight: bold;
     }
 `
+const LoginForm = styled.form`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+`
 // Login React Functional Page...
 export default function Login() {
     // useState for user name and password to sending it to axios post method authentication...
@@ -61,17 +69,20 @@ export default function Login() {
         dispatch(loginStart())
         try {
             const response = await publicRequest.post('/auth/signin', { username, password })
-            dispatch(loginSuccess(response.data)).then(navigate('/'))
+            dispatch(loginSuccess(response.data))
         } catch (error) {
             dispatch(loginFailer())
         }
     }
     return (
         <Container>
+
             <Title>Sign in to your account</Title>
+            <LoginForm>
                 <UserName type='text' placeholder='User Name' onChange={(e) => setUsername(e.target.value)} />
                 <Password type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
                 <LoginButton onClick={handleLogin}>Login</LoginButton>
+            </LoginForm>
         </Container>
     )
 }
