@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 
@@ -7,6 +7,7 @@ import { Visibility } from '@mui/icons-material'
 
 // import required image from images library...
 import firstMemberImage from '../../images/1.jpg'
+import { userRequest } from '../../requestAxiosMethod'
 
 // Styling...
 const Container = styled.div`
@@ -91,75 +92,33 @@ const Button = styled.button`
   }
 `
 export default function SmallWidget() {
+  const [users, setUsers] = useState([])
+  useEffect(() => {
+    const getUsers = async () => {
+      const response = await userRequest.get('/users?latest=true')
+      setUsers(response.data)
+    }
+    getUsers()
+  },[])
   return (
     <Container>
       <Title>New Join Team</Title>
       <List>
-        <Item>
+
+        {users.map((user)=>(<Item key={user._id}>
           <UserImageContainer>
-            <UserImage src={firstMemberImage} />
+            <UserImage src={user.image || firstMemberImage} />
           </UserImageContainer>
           <UserDetails>
-            <UserName>Jone Dewany</UserName>
-            <UserJobTitle>Logistics manager</UserJobTitle>
+            <UserName>{user.firstName + " " + user.lastName}</UserName>
+            <UserJobTitle>{user.username}</UserJobTitle>
           </UserDetails>
           <Button>
             <Visibility style={{marginRight: '10px', fontSize:'18px', opacity: '50% '}}/>
             Display
           </Button>
-        </Item>
-        <Item>
-          <UserImageContainer>
-            <UserImage src={firstMemberImage} />
-          </UserImageContainer>
-          <UserDetails>
-            <UserName>Jone Dewany</UserName>
-            <UserJobTitle>Logistics manager</UserJobTitle>
-          </UserDetails>
-          <Button>
-            <Visibility style={{marginRight: '10px', fontSize:'18px', opacity: '50% '}}/>
-            Display
-          </Button>
-        </Item>
-        <Item>
-          <UserImageContainer>
-            <UserImage src={firstMemberImage} />
-          </UserImageContainer>
-          <UserDetails>
-            <UserName>Jone Dewany</UserName>
-            <UserJobTitle>Logistics manager</UserJobTitle>
-          </UserDetails>
-          <Button>
-            <Visibility style={{marginRight: '10px', fontSize:'18px', opacity: '50% '}}/>
-            Display
-          </Button>
-        </Item>
-        <Item>
-          <UserImageContainer>
-            <UserImage src={firstMemberImage} />
-          </UserImageContainer>
-          <UserDetails>
-            <UserName>Jone Dewany</UserName>
-            <UserJobTitle>Logistics manager</UserJobTitle>
-          </UserDetails>
-          <Button>
-            <Visibility style={{marginRight: '10px', fontSize:'18px', opacity: '50% '}}/>
-            Display
-          </Button>
-        </Item>
-        <Item>
-          <UserImageContainer>
-            <UserImage src={firstMemberImage} />
-          </UserImageContainer>
-          <UserDetails>
-            <UserName>Jone Dewany</UserName>
-            <UserJobTitle>Logistics manager</UserJobTitle>
-          </UserDetails>
-          <Button>
-            <Visibility style={{marginRight: '10px', fontSize:'18px', opacity: '50% '}}/>
-            Display
-          </Button>
-        </Item>
+        </Item>))}
+        
       </List>
     </Container>
   )
