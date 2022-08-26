@@ -95,14 +95,16 @@ export default function SmallWidget() {
   const [users, setUsers] = useState([])
   useEffect(() => {
     const getUsers = async () => {
-      const response = await userRequest.get('/users?latest=true')
-      setUsers(response.data)
+      try {
+        const response = await userRequest.get('/users?latest=true')
+        setUsers(response.data)
+      } catch (error) {}
     }
     getUsers()
   },[])
   return (
     <Container>
-      <Title>New Join Team</Title>
+      <Title>New Join User</Title>
       <List>
 
         {users.map((user)=>(<Item key={user._id}>
