@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 // import other needed react components...
@@ -9,6 +9,7 @@ import Charts from '../components/Charts'
 import { usersData } from '../Data/dummyData'
 import SmallWidget from '../components/widgets/SmallWidget'
 import LargeWidget from '../components/widgets/LargeWidget'
+import { userRequest } from '../requestAxiosMethod'
 
 // Styling...
 const Container = styled.div`
@@ -20,10 +21,43 @@ const HomeWidgets = styled.div`
     display: flex;
 `
 export default function Home() {
+    const [userMonthlyFigures, setUserMonthlyFigures] = useState([])
+
+    const months = useMemo(
+        () => [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+        ], []
+    );
+
+    useEffect(() => {
+        const getUserFigures = async () => {
+            try {
+                const response = await userRequest.get('users/status')
+                response.data.map((item) => {
+                    setUserMonthlyFigures(previous=>[...previous, {name:months[item._id-1], "Active": item.total}])
+                })
+            } catch (error) {
+                
+            }
+        }
+        getUserFigures()
+    }, [months])
+    console.log(userMonthlyFigures)
     return (
         <Container>
             <Figures />
-            <Charts data={usersData} title='Revenues Chart' firstLine='Active' secondLine='returns' />
+            <Charts data={userMonthlyFigures} title='Revenues Chart' firstLine='Active' secondLine='returns' />
             <HomeWidgets>
                 <SmallWidget />
                 <LargeWidget /> 
