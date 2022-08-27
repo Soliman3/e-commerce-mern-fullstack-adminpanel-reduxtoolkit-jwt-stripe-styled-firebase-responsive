@@ -21,6 +21,8 @@ const HomeWidgets = styled.div`
     display: flex;
 `
 export default function Home() {
+    // fetch User Monthly Figures and render in Chart...
+    // ##################################
     const [userMonthlyFigures, setUserMonthlyFigures] = useState([])
 
     const months = useMemo(
@@ -53,7 +55,8 @@ export default function Home() {
         }
         getUserFigures()
     }, [months])
-    console.log(userMonthlyFigures)
+     // ##################################
+    
     return (
         <Container>
             <Figures />

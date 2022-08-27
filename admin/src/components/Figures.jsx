@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 // import icons from mui5 library...
@@ -6,6 +6,7 @@ import {
     ArrowUpward,
     ArrowDownward
 } from '@mui/icons-material'
+import { userRequest } from '../requestAxiosMethod'
 
 // Styled...
 const Container = styled.div`
@@ -52,6 +53,33 @@ const FigureCompare = styled.span`
 
 // Figures React Functional Component...
 export default function Figures() {
+    // fetch total revenues...
+    const [totalRevenues, setTotalRevenues] = useState([])
+    const [progressRate, setProgressRate] = useState(0)
+
+    useEffect(() => {
+        const getTotalRevenues = async () => {
+            const response = await userRequest.get('/orders/revenues')
+            const ids = response.data.map(object => { return object._id })
+            const currentMonth = Math.max.apply(null, ids)
+            const previousMonth = currentMonth -1
+            const indexOfCurrentMonth = response.data.findIndex(object => { return object._id === currentMonth })
+            const indexOfPreviousMonth =response.data.findIndex(object => { return object._id === previousMonth })
+            
+            setTotalRevenues(response.data[indexOfCurrentMonth].total)
+            setProgressRate(Math.floor((response.data[indexOfCurrentMonth].total - response.data[indexOfPreviousMonth].total)/ (response.data[indexOfCurrentMonth].total) * 100))
+            console.log(ids)
+            console.log(currentMonth);
+            console.log(indexOfCurrentMonth);
+            console.log(previousMonth);
+            console.log(indexOfPreviousMonth);
+        }
+        getTotalRevenues()
+    }, [])
+    console.log(progressRate);
+    console.log(totalRevenues);
+
+    
   return (
     <Container>
           <FigureItem>
@@ -68,9 +96,9 @@ export default function Figures() {
           <FigureItem>
               <FigureTitle>Revenues</FigureTitle>
               <FigureAmountContainer>
-                  <FigureAmout>$1,675,000</FigureAmout>
+                  <FigureAmout>${totalRevenues.toLocaleString()}</FigureAmout>
                   <FigureAmountChange>
-                      -8.6
+                      %{progressRate}
                       <ArrowDownward style={{color: 'red'}}/>
                   </FigureAmountChange>
               </FigureAmountContainer>

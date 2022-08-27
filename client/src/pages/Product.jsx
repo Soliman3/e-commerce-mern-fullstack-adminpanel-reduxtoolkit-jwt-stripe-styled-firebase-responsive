@@ -31,7 +31,7 @@ const Container = styled.div`
 const SingleProductWrapper = styled.div`
     display: flex;
     padding: 50px;
-    ${mobile({flexDirection: 'column', padding: '25px'})}
+    ${mobile({flexDirection: 'column', padding: '25px'})};
 `
 const ProductImageContainer = styled.div`
     flex:1;
