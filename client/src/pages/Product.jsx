@@ -215,8 +215,8 @@ export default function Product() {
 // handle remove from Cart...
     const handleRemoveCart = () => {
         
-        dispatch(removeProductFromCart({ ...product, orderedQuantity, selectedColor, selectedSize })) 
-        // dispatch(emtyProductCart())
+        //dispatch(removeProductFromCart({ ...product, orderedQuantity, selectedColor, selectedSize })) 
+        dispatch(emtyProductCart())
     }
     
     return (

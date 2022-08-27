@@ -56,6 +56,8 @@ const Image = styled.img`
   }
 `
 const UserName = styled.span`
+  margin-top: 10px;
+
   &:hover{
     transform: scale(1.1);
     font-weight: bold;
@@ -93,7 +95,9 @@ const Button = styled.button`
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   }
 `
-const WidgetBody = styled.tbody``
+const WidgetBody = styled.tbody`
+
+`
 
 // LargeWidget React Functional Component...
 export default function LargeWidget() {
@@ -105,7 +109,6 @@ export default function LargeWidget() {
       try {
         const response = await userRequest.get('/orders/find')
         setOrders(response.data)
-        console.log(response.data);
       } catch (error) { }
     }
     getOrders()
