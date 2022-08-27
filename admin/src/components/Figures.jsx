@@ -53,10 +53,11 @@ const FigureCompare = styled.span`
 
 // Figures React Functional Component...
 export default function Figures() {
-    // fetch total revenues...
+    // fetch total revenues & total Cost...
     const [totalRevenues, setTotalRevenues] = useState([])
     const [progressRate, setProgressRate] = useState(0)
-
+    const [totalCost, setTotalCost] = useState([])
+    const [costProgressRate, setCostProgressRate] = useState(0)
     useEffect(() => {
         const getTotalRevenues = async () => {
             const response = await userRequest.get('/orders/revenues')
@@ -68,16 +69,18 @@ export default function Figures() {
             
             setTotalRevenues(response.data[indexOfCurrentMonth].total)
             setProgressRate(Math.floor((response.data[indexOfCurrentMonth].total - response.data[indexOfPreviousMonth].total)/ (response.data[indexOfCurrentMonth].total) * 100))
-            console.log(ids)
-            console.log(currentMonth);
-            console.log(indexOfCurrentMonth);
-            console.log(previousMonth);
-            console.log(indexOfPreviousMonth);
+            
+            
+            setTotalCost(response.data[indexOfCurrentMonth].directCost)
+            setCostProgressRate(Math.floor((response.data[indexOfCurrentMonth].directCost - response.data[indexOfPreviousMonth].directCost)/ (response.data[indexOfCurrentMonth].directCost) * 100))
+        
         }
         getTotalRevenues()
     }, [])
-    console.log(progressRate);
-    console.log(totalRevenues);
+        console.log(totalCost);
+        console.log(costProgressRate);
+
+
 
     
   return (
@@ -99,7 +102,9 @@ export default function Figures() {
                   <FigureAmout>${totalRevenues.toLocaleString()}</FigureAmout>
                   <FigureAmountChange>
                       %{progressRate}
-                      <ArrowDownward style={{color: 'red'}}/>
+                      {progressRate > 0 ? (<ArrowUpward style={{ color: 'green' }} />)
+                          :(<ArrowDownward style={{ color: 'red' }} />)}
+                      
                   </FigureAmountChange>
               </FigureAmountContainer>
               <FigureCompare>Compare to last month</FigureCompare>
@@ -107,10 +112,11 @@ export default function Figures() {
           <FigureItem>
               <FigureTitle>Total Expenses</FigureTitle>
               <FigureAmountContainer>
-                  <FigureAmout>$1,000,402</FigureAmout>
+                  <FigureAmout>${totalCost.toLocaleString()}</FigureAmout>
                   <FigureAmountChange>
-                      +13.02
-                      <ArrowUpward style={{color: 'green'}}/>
+                      %{costProgressRate}
+                      {costProgressRate > 0 ? (<ArrowUpward style={{ color: 'green' }} />)
+                          :(<ArrowDownward style={{ color: 'red' }} />)}
                   </FigureAmountChange>
               </FigureAmountContainer>
               <FigureCompare>Compare to last month</FigureCompare>

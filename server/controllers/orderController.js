@@ -70,11 +70,13 @@ export const getMonthlyRevenues = async (req, res, next) => {
                 $project: {
                     month: { $month: "$createdAt" },
                     sales: "$amount",
+                    directCost: "$directCost",
                 },
             },    
                 { $group: {
                     _id: "$month",
                     total: { $sum: "$sales" },
+                    directCost: { $sum: "$directCost"},
                         },
                 },
         ]);
