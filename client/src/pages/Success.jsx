@@ -53,7 +53,8 @@ export default function Success() {
               productId: item._id,
               quantity: item.orderedQuantity,
             })),
-            amount: cart.total ,
+            amount: cart.total,
+            directCost: cart.directCost,
             address: data.billing_details.address,
           });
               setOrderId(response.data._id)

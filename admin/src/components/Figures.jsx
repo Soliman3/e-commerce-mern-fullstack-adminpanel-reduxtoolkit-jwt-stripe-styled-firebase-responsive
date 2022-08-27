@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 // import icons from mui5 library...
@@ -6,6 +6,7 @@ import {
     ArrowUpward,
     ArrowDownward
 } from '@mui/icons-material'
+import { userRequest } from '../requestAxiosMethod'
 
 // Styled...
 const Container = styled.div`
@@ -52,6 +53,36 @@ const FigureCompare = styled.span`
 
 // Figures React Functional Component...
 export default function Figures() {
+    // fetch total revenues & total Cost...
+    const [totalRevenues, setTotalRevenues] = useState([])
+    const [progressRate, setProgressRate] = useState(0)
+    const [totalCost, setTotalCost] = useState([])
+    const [costProgressRate, setCostProgressRate] = useState(0)
+    useEffect(() => {
+        const getTotalRevenues = async () => {
+            const response = await userRequest.get('/orders/revenues')
+            const ids = response.data.map(object => { return object._id })
+            const currentMonth = Math.max.apply(null, ids)
+            const previousMonth = currentMonth -1
+            const indexOfCurrentMonth = response.data.findIndex(object => { return object._id === currentMonth })
+            const indexOfPreviousMonth =response.data.findIndex(object => { return object._id === previousMonth })
+            
+            setTotalRevenues(response.data[indexOfCurrentMonth].total)
+            setProgressRate(Math.floor((response.data[indexOfCurrentMonth].total - response.data[indexOfPreviousMonth].total)/ (response.data[indexOfCurrentMonth].total) * 100))
+            
+            
+            setTotalCost(response.data[indexOfCurrentMonth].directCost)
+            setCostProgressRate(Math.floor((response.data[indexOfCurrentMonth].directCost - response.data[indexOfPreviousMonth].directCost)/ (response.data[indexOfCurrentMonth].directCost) * 100))
+        
+        }
+        getTotalRevenues()
+    }, [])
+        console.log(totalCost);
+        console.log(costProgressRate);
+
+
+
+    
   return (
     <Container>
           <FigureItem>
@@ -68,10 +99,12 @@ export default function Figures() {
           <FigureItem>
               <FigureTitle>Revenues</FigureTitle>
               <FigureAmountContainer>
-                  <FigureAmout>$1,675,000</FigureAmout>
+                  <FigureAmout>${totalRevenues.toLocaleString()}</FigureAmout>
                   <FigureAmountChange>
-                      -8.6
-                      <ArrowDownward style={{color: 'red'}}/>
+                      %{progressRate}
+                      {progressRate > 0 ? (<ArrowUpward style={{ color: 'green' }} />)
+                          :(<ArrowDownward style={{ color: 'red' }} />)}
+                      
                   </FigureAmountChange>
               </FigureAmountContainer>
               <FigureCompare>Compare to last month</FigureCompare>
@@ -79,10 +112,11 @@ export default function Figures() {
           <FigureItem>
               <FigureTitle>Total Expenses</FigureTitle>
               <FigureAmountContainer>
-                  <FigureAmout>$1,000,402</FigureAmout>
+                  <FigureAmout>${totalCost.toLocaleString()}</FigureAmout>
                   <FigureAmountChange>
-                      +13.02
-                      <ArrowUpward style={{color: 'green'}}/>
+                      %{costProgressRate}
+                      {costProgressRate > 0 ? (<ArrowUpward style={{ color: 'green' }} />)
+                          :(<ArrowDownward style={{ color: 'red' }} />)}
                   </FigureAmountChange>
               </FigureAmountContainer>
               <FigureCompare>Compare to last month</FigureCompare>

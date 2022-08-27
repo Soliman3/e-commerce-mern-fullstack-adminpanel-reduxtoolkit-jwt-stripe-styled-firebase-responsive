@@ -22,7 +22,7 @@ import { mobile } from '../responsive'
 
 // useLocation hook to fetch current locaiton url...
 import { useLocation } from 'react-router-dom'
-import { addProductToCart, removeProductFromCart, removeOnlySelectedProduct } from '../redux/cartSlice'
+import { addProductToCart, removeProductFromCart, removeOnlySelectedProduct,emtyProductCart } from '../redux/cartSlice'
 
 // Styling...
 const Container = styled.div`
@@ -31,7 +31,7 @@ const Container = styled.div`
 const SingleProductWrapper = styled.div`
     display: flex;
     padding: 50px;
-    ${mobile({flexDirection: 'column', padding: '25px'})}
+    ${mobile({flexDirection: 'column', padding: '25px'})};
 `
 const ProductImageContainer = styled.div`
     flex:1;
@@ -214,8 +214,9 @@ export default function Product() {
 
 // handle remove from Cart...
     const handleRemoveCart = () => {
-        dispatch(removeProductFromCart({ ...product, orderedQuantity, selectedColor, selectedSize }))  
-        dispatch(removeOnlySelectedProduct({product}))
+        
+        dispatch(removeProductFromCart({ ...product, orderedQuantity, selectedColor, selectedSize })) 
+        // dispatch(emtyProductCart())
     }
     
     return (
