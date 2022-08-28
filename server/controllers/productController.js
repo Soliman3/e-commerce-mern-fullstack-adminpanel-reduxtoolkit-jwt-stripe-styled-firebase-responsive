@@ -15,6 +15,16 @@ export const createProduct = async (req, res, next) => {
     }
 }
 
+// Delete a Product...
+export const deleteProduct = async (req, res, next) => {
+    try {
+        await Product.findByIdAndDelete(req.params.id)
+        res.status(200).json('A product has been deleted successfully')
+    } catch (error) {
+        next(error)
+    }
+}
+
 // Update product...
 export const updateProduct = async (req, res, next) => {
     try {

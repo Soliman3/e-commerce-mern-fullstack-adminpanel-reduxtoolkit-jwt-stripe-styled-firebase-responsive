@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 // import Data Gride for table from mui5 library...
@@ -11,6 +11,17 @@ import { DeleteForeverOutlined } from '@mui/icons-material';
 import { productRows } from '../Data/dummyData';
 // import React Router Dom library for Routing...
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    getProductStart,
+    getProductSuccess,
+    getProductFailure,
+    deleteProductStart,
+    deleteProductSuccess,
+    deleteProductFailure
+} from '../redux/productSlice';
+
+import { publicRequest, userRequest } from '../requestAxiosMethod';
 // Styling...
 const Container = styled.div`
     flex: 4;
@@ -42,35 +53,66 @@ const EditButton = styled.button`
 `
 // Product List React Functional Component...
 export default function ProductList() {
-    const [data, setData] = useState(productRows)
-    const handleDelete = (id)=> {
-        setData(data.filter((item)=> item.id !== id))
-    }
+    // fetching all products from server...
+    // useState to caching the state of fetching products...
+    const products = useSelector((state)=> state.product.products)
+    const dispatch = useDispatch()
+    // useEffect for rendering the fetching function and fetch products data from serever...
+    useEffect(() => {
+        const getProducts = async () => {
+                // dispatch start state in reduxtoolkit productSlice...
+                dispatch(getProductStart())
+            try {
+                // fetching...
+                const response = await publicRequest.get('/products/find')
+
+                // dispatch payload to reduxtoolkit productSlice...
+                dispatch(getProductSuccess(response.data))
+                
+            } catch (error) {
+                // if error happend dispatch error state in reduxtoolkit productSlice...
+                dispatch(getProductFailure())
+            }     
+        }
+        // execute the function...
+        getProducts()
+    },[])
+    console.log(products);
+    // handling deleting product by id...
+    
+    const handleDelete = async (id) => {
+        // dispatch start state in reduxtoolkit productSlice...
+            dispatch(deleteProductStart())
+        try {
+                // sending delete request to the server with token to delete selected product by it's _id...
+            await userRequest.delete(`/products/${id}`)
+                // dispatch payload(product._id) to reduxtoolkit productSlice...
+                dispatch(deleteProductSuccess(id))
+        } catch (error) {
+            // if error happend dispatch error state in reduxtoolkit productSlice...
+                dispatch(deleteProductFailure())
+            }
+        }
+
 
     // table header row...
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
+        { field: '_id', headerName: 'ID', width: 250 },
         {
             field: 'product', headerName: 'Product ', width: 300, renderCell: (params) => {
                 return (
                     <ProductContainer>
                         <ProductImage src={params.row.productImage} alt="" />
-                        {params.row.productName}
+                        {params.row.title}
                 </ProductContainer>
             )
         } },
         {
-          field: 'stock',
+          field: 'inStock',
           headerName: 'Stock',
           width: 160,
         },
-        {
-          field: 'status',
-          headerName: 'Status',
-          description: 'This column has a value getter and is not sortable.',
-          sortable: false,
-          width: 160,
-        },
+        
         {
             field: 'price',
             headerName: 'Price',
@@ -86,7 +128,12 @@ export default function ProductList() {
                         <Link to={"/product/"+params.row.id}>
                             <EditButton>Edit</EditButton>
                         </Link>
-                        <DeleteForeverOutlined style={{ color: 'red', cursor: 'pointer', '&:hover': { backgroundColor: "green" } }} onClick={()=>handleDelete(params.row.id)} />
+                        <DeleteForeverOutlined style={{
+                            color: 'red',
+                            cursor: 'pointer',
+                            '&:hover': { backgroundColor: "green" }
+                        }}
+                            onClick={() => handleDelete(params.row._id)} />
                     </>
                 )
             }
@@ -95,9 +142,10 @@ export default function ProductList() {
   return (
     <Container>
         <DataGrid
-        rows={data}
+        rows={products}
         columns={columns}
         pageSize={10}
+        getRowId = {(row)=> row._id}
         rowsPerPageOptions={[5]}
         checkboxSelection
         disableSelectionOnClick
