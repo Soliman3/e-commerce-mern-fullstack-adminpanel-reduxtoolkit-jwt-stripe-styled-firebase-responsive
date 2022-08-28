@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 // import React Router Dom Library for Routing..
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 // import required components...
 import Charts from '../components/Charts'
@@ -12,6 +12,7 @@ import Charts from '../components/Charts'
 // import produts data from dummyData.js file...
 import { productsData } from '../Data/dummyData'
 import { AddOutlined, Publish } from '@mui/icons-material'
+import { useSelector } from 'react-redux'
 
 // Styling...
 const Container = styled.div`
@@ -36,6 +37,8 @@ const ProductAddNew = styled.button`
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 `
 const ProductTop = styled.div`
     display: flex;
@@ -165,6 +168,12 @@ const ProductUpdateButton = styled.button`
 
 // Product Single Page React Functional Component...
 export default function ProductSinglePage() {
+    // get product by it's id from url...
+    const pageUrl = useLocation()
+    const productId = pageUrl.pathname.split('/')[2]
+    // get the product from redux by it's _id that comes from url...
+    const product = useSelector((state) => state.product.products.find((item) => item._id === productId))
+    console.log(product)
     return (
         <Container>
             <ProductTitleContainer>
@@ -182,25 +191,21 @@ export default function ProductSinglePage() {
                 </ProductTopLeft>
                 <ProductTopRight>
                     <ProductInfoTop>
-                        <ProductInfoImage src="https://i.ibb.co/GsH4D2J/2.png" alt="" />
+                        <ProductInfoImage src={product.image} alt="" />
                     </ProductInfoTop>
                     <ProductInfoBottom>
-                        <ProductInfoName>Iphone 12mini</ProductInfoName>
+                        <ProductInfoName>{product.title}</ProductInfoName>
                         <ProductInfoBottomItem>
                             <ProductInfoBottomKey>Serial</ProductInfoBottomKey>
-                            <ProductInfoBottomValue>09562257110</ProductInfoBottomValue>
+                            <ProductInfoBottomValue>{product._id}</ProductInfoBottomValue>
                         </ProductInfoBottomItem>
                         <ProductInfoBottomItem>
                             <ProductInfoBottomKey>Sales</ProductInfoBottomKey>
                             <ProductInfoBottomValue>12500</ProductInfoBottomValue>
                         </ProductInfoBottomItem>
                         <ProductInfoBottomItem>
-                            <ProductInfoBottomKey>Active</ProductInfoBottomKey>
-                            <ProductInfoBottomValue>Yes</ProductInfoBottomValue>
-                        </ProductInfoBottomItem>
-                        <ProductInfoBottomItem>
                             <ProductInfoBottomKey>In Stock</ProductInfoBottomKey>
-                            <ProductInfoBottomValue>Yes</ProductInfoBottomValue>
+                            <ProductInfoBottomValue>{product.inStock}</ProductInfoBottomValue>
                         </ProductInfoBottomItem>
                     </ProductInfoBottom>
                 </ProductTopRight>
@@ -210,26 +215,28 @@ export default function ProductSinglePage() {
                     <ProductFormLeft>
                         <ProductFormLeftItem>
                             <ProductItemLabel>Product Name</ProductItemLabel>
-                            <ProductItemInput type="text" placeholder="Iphone 12mini" />
+                            <ProductItemInput type="text" placeholder={product.title} />
                         </ProductFormLeftItem>
+                        <ProductFormLeftItem>
+                            <ProductItemLabel>Product Description</ProductItemLabel>
+                            <ProductItemInput type="text" placeholder={product.description} />
+                        </ProductFormLeftItem>
+                        <ProductFormLeftItem>
+                            <ProductItemLabel>Price</ProductItemLabel>
+                            <ProductItemInput type="text" placeholder={product.price} />
+                        </ProductFormLeftItem>
+
                         <ProductFormLeftItem>
                             <ProductItemLabel>In Stock</ProductItemLabel>
                             <ProductItemSelect name="inStock" id="inStock">
-                                <ProductItemOption value="yes">Yes</ProductItemOption>
-                                <ProductItemOption value="no">No</ProductItemOption>
-                            </ProductItemSelect>
-                        </ProductFormLeftItem>
-                        <ProductFormLeftItem>
-                            <ProductItemLabel>Active</ProductItemLabel>
-                            <ProductItemSelect name="active" id="active">
-                                <ProductItemOption value="yes">Yes</ProductItemOption>
-                                <ProductItemOption value="no">No</ProductItemOption>
+                                <ProductItemOption value="true">Yes</ProductItemOption>
+                                <ProductItemOption value="false">No</ProductItemOption>
                             </ProductItemSelect>
                         </ProductFormLeftItem>
                     </ProductFormLeft>
                     <ProductFormRight>
                         <ProductFormImageUpload>
-                            <ProductImage src="https://i.ibb.co/GsH4D2J/2.png" alt="" />
+                            <ProductImage src={product.image} alt="" />
                             <ProductImageUploadLabel for="file"><Publish /></ProductImageUploadLabel>
                             <ProductImageUploadInput type="file" id="file" style={{display: 'none'}} />
                         </ProductFormImageUpload>
