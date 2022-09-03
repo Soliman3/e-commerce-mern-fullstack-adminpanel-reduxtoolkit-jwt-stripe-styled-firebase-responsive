@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 // import styled components for css styling...
 import styled from 'styled-components'
@@ -13,6 +13,7 @@ import Charts from '../components/Charts'
 import { productsData } from '../Data/dummyData'
 import { AddOutlined, Publish } from '@mui/icons-material'
 import { useSelector } from 'react-redux'
+import { userRequest } from '../requestAxiosMethod'
 
 // Styling...
 const Container = styled.div`
@@ -171,8 +172,31 @@ export default function ProductSinglePage() {
     // get product by it's id from url...
     const pageUrl = useLocation()
     const productId = pageUrl.pathname.split('/')[2]
+    const [productChartInfo, setProductChartInfo] = useState([])
     // get the product from redux by it's _id that comes from url...
     const product = useSelector((state) => state.product.products.find((item) => item._id === productId))
+
+    const months = useMemo(
+        () => [
+            'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',
+        ], []
+    );
+
+    useEffect(() => {
+        const getOrderedProductInfo = async () => {
+            try {
+                const response = await userRequest.get("orders/revenues?pid=" + productId )
+                // sort response by id..
+                const sortedResponse = response.data.sort((a,b)=> a._id - b._id)
+                sortedResponse.map((item) => {
+                    setProductChartInfo(previous=>[...previous, {name:months[item._id-1], Sales: item.total}])
+                })
+            } catch (error) {
+                
+            }
+        }
+        getOrderedProductInfo()
+    }, [months, productId])
     console.log(product)
     return (
         <Container>
@@ -187,7 +211,7 @@ export default function ProductSinglePage() {
             </ProductTitleContainer>
             <ProductTop>
                 <ProductTopLeft>
-                    <Charts data={productsData} title="Product Movements" secondLine="Sales" firstLine="Returns" />
+                    <Charts data={productChartInfo} title="Product Movements" secondLine="Sales" firstLine="Returns" />
                 </ProductTopLeft>
                 <ProductTopRight>
                     <ProductInfoTop>

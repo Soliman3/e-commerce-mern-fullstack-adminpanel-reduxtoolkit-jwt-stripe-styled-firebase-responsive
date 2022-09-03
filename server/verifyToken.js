@@ -13,8 +13,8 @@ export const verifyToken = async (req, res, next) => {
         })
 }
     
-export const verifyTokenAndAuthorization = (req, res, next) => {
-    verifyToken(req, res, () => {
+export const verifyTokenAndAuthorization = async (req, res, next) => {
+    await verifyToken(req, res, () => {
         if (req.user.id === req.params.id || req.user.isAdmin){
             next()
         } else {
@@ -23,9 +23,9 @@ export const verifyTokenAndAuthorization = (req, res, next) => {
     })
 }
 
-export const verifyTokenAndAdmin = (req, res, next) => {
-    verifyToken(req, res, () => {
-        if (req.user.isAdmin) {
+export const verifyTokenAndAdmin = async (req, res, next) => {
+   await verifyToken(req, res, async () => {
+         if ( await req.user?.isAdmin) {
             next()
         } else {
             res.status(403).json("You don't have AUTHORIZATION for such action")

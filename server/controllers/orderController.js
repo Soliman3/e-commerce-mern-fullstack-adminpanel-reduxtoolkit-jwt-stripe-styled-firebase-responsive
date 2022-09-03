@@ -56,6 +56,8 @@ export const getAllOrders = async (req, res, next) => {
 
 // Get Monthly Revenues...
 export const getMonthlyRevenues = async (req, res, next) => {
+    // query for productId in product single page...
+    const productId = req.query.pid;
     // current date...
     const date = new Date()
     // last month from current date...
@@ -65,7 +67,7 @@ export const getMonthlyRevenues = async (req, res, next) => {
     
     try {
         const revenues = await Order.aggregate([
-            { $match: { createdAt: { $gte: previousTwoMonth } } },
+            { $match: { createdAt: { $gte: previousTwoMonth }, ...(productId && {products:{$elemMatch: {productId}}}), }, },
             {
                 $project: {
                     month: { $month: "$createdAt" },

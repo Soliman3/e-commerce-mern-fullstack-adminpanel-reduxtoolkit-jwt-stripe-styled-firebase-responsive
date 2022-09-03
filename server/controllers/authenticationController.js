@@ -42,7 +42,7 @@ export const singin = async (req, res, next) => {
         // intialize user token throw user _id and user isAdmin and send jwt...
         const accessToken = jwt.sign({
             id: user._id,
-            isAdmin: user.isAdmin
+            isAdmin: user.isAdmin,
         }, process.env.JWT_SEC,
             { expiresIn: '1d' }
         );
