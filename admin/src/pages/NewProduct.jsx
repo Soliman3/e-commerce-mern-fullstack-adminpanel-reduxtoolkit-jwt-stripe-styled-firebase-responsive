@@ -138,7 +138,6 @@ export default function NewProduct() {
         ); 
        
     }
-console.log(file);
   return (
     <Container>
           <NewProductTitle>Add New Product</NewProductTitle>

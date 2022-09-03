@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 // import React Router Dom Library for Routing..
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 // import required components...
 import Charts from '../components/Charts'
@@ -12,8 +12,13 @@ import Charts from '../components/Charts'
 // import produts data from dummyData.js file...
 import { productsData } from '../Data/dummyData'
 import { AddOutlined, Publish } from '@mui/icons-material'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { userRequest } from '../requestAxiosMethod'
+
+// firebase requires functions from firebase library...
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import app from '../firebase'
+import { updateProductFailure, updateProductStart, updateProductSuccess } from '../redux/productSlice'
 
 // Styling...
 const Container = styled.div`
@@ -197,7 +202,82 @@ export default function ProductSinglePage() {
         }
         getOrderedProductInfo()
     }, [months, productId])
-    console.log(product)
+    // #################################################
+    // handle update product...
+    const [inputs, setInputs] = useState({})
+    const [categories, setCategories] = useState([])
+    const [file, setFile] = useState()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    // handleChange of inputs in group in onetime...
+    const handleChange = (e) => {
+        setInputs((previous) => {
+            return { ...previous, [e.target.name]: e.target.value}
+        })
+    }
+
+    // handle state of categories and split categories by split method...
+    const handleCategories = (e) => {
+        setCategories(e.target.value.split(','))
+    } 
+
+    // send payload to server by axios post method...
+    const handleClick = (e) => {
+        // prevent default event (reloading page) when click create...
+        e.preventDefault() 
+        // upload image & inputs to database throght api post request ...
+        const fileName = new Date().getTime + file?.name;
+        const storage = getStorage(app);
+        const storageRef = ref(storage, fileName);
+
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        // Register three observers:
+        // 1. 'state_changed' observer, called any time the state changes
+        // 2. Error observer, called on failure
+        // 3. Completion observer, called on successful completion
+        uploadTask.on('state_changed', 
+        (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+            case 'paused':
+                console.log('Upload is paused');
+                break;
+            case 'running':
+                console.log('Upload is running');
+                    break;
+            }
+        }, 
+        (error) => {
+            // Handle unsuccessful uploads
+        }, 
+        () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                const product = { ...inputs, image: downloadURL, category: categories }
+                console.log(product);
+                const updateProducts = async () => {
+                    dispatch(updateProductStart())
+                    try {
+                        const response = await userRequest.put(`/products/${productId}`, product )
+                        dispatch(updateProductSuccess(response.data))
+                        .then(navigate('/products'))
+                    } catch (error) {
+                        dispatch(updateProductFailure())
+                    }
+                }
+
+                updateProducts();
+            });
+        }
+        );
+    }
+
     return (
         <Container>
             <ProductTitleContainer>
@@ -239,20 +319,23 @@ export default function ProductSinglePage() {
                     <ProductFormLeft>
                         <ProductFormLeftItem>
                             <ProductItemLabel>Product Name</ProductItemLabel>
-                            <ProductItemInput type="text" placeholder={product.title} />
+                            <ProductItemInput name="title" type="text" placeholder={product.title} onChange={handleChange}/>
                         </ProductFormLeftItem>
                         <ProductFormLeftItem>
                             <ProductItemLabel>Product Description</ProductItemLabel>
-                            <ProductItemInput type="text" placeholder={product.description} />
+                            <ProductItemInput type="text" placeholder={product.description} name="description" onChange={handleChange}/>
                         </ProductFormLeftItem>
                         <ProductFormLeftItem>
                             <ProductItemLabel>Price</ProductItemLabel>
-                            <ProductItemInput type="text" placeholder={product.price} />
+                            <ProductItemInput type="number" placeholder={product.price} name="price" onChange={handleChange}/>
                         </ProductFormLeftItem>
-
+                        <ProductFormLeftItem>
+                            <ProductItemLabel>Categories</ProductItemLabel>
+                            <ProductItemInput type="text" placeholder="" name="category" onChange={handleCategories}/>
+                        </ProductFormLeftItem>
                         <ProductFormLeftItem>
                             <ProductItemLabel>In Stock</ProductItemLabel>
-                            <ProductItemSelect name="inStock" id="inStock">
+                            <ProductItemSelect name="inStock" id="inStock" onChange={handleChange}>
                                 <ProductItemOption value="true">Yes</ProductItemOption>
                                 <ProductItemOption value="false">No</ProductItemOption>
                             </ProductItemSelect>
@@ -262,9 +345,9 @@ export default function ProductSinglePage() {
                         <ProductFormImageUpload>
                             <ProductImage src={product.image} alt="" />
                             <ProductImageUploadLabel for="file"><Publish /></ProductImageUploadLabel>
-                            <ProductImageUploadInput type="file" id="file" style={{display: 'none'}} />
+                            <ProductImageUploadInput type="file" id="file" style={{display: 'none'}} onChange={(e)=> setFile(e.target.files[0])} />
                         </ProductFormImageUpload>
-                        <ProductUpdateButton>Update</ProductUpdateButton>
+                        <ProductUpdateButton onClick={handleClick}>Update</ProductUpdateButton>
                     </ProductFormRight>
                 </ProductBottomForm>
             </ProductBottom>
