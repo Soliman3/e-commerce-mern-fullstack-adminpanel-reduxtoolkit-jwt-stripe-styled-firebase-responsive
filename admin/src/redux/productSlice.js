@@ -40,9 +40,47 @@ export const productSlice = createSlice({
         deleteProductFailure: (state) => {
             state.loading = false
             state.error = true
+        },
+        // ##############################
+        // update products...
+        // starting...
+        updateProductStart: (state) => {
+            state.loading = true
+            state.error = false
+        },
+        // when update success...
+        updateProductSuccess: (state, action) => {
+            state.products[state.products.findIndex((item)=> item._id === action.payload.id)] = action.payload.product
+            state.loading = false
+        },
+        // when update fail...
+        updateProductFailure: (state) => {
+            state.loading = false
+            state.error = true
+        },
+        // ##############################
+        // add products...
+        // starting...
+        addProductStart: (state) => {
+            state.loading = true
+            state.error = false
+        },
+        // when add success...
+        addProductSuccess: (state, action) => {
+            state.products.push(action.payload)
+            state.loading = false
+        },
+        // when add fail...
+        addProductFailure: (state) => {
+            state.loading = false
+            state.error = true
         }
     },
 });
 
-export const { getProductStart, getProductSuccess, getProductFailure, deleteProductStart, deleteProductSuccess, deleteProductFailure } = productSlice.actions;
+export const { getProductStart, getProductSuccess, getProductFailure,
+                deleteProductStart, deleteProductSuccess, deleteProductFailure,
+                updateProductStart, updateProductSuccess, updateProductFailure,
+                addProductStart, addProductSuccess, addProductFailure
+            } = productSlice.actions;
 export default productSlice.reducer;
