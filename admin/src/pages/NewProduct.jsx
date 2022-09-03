@@ -122,7 +122,7 @@ export default function NewProduct() {
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                 const product = { ...inputs, image: downloadURL, category: categories }
                 console.log(product);
-                const addProducts = async (product, dispatch) => {
+                const addProducts = async () => {
                     dispatch(addProductStart())
                     try {
                         const response = await userRequest.post('/products/', product )
@@ -132,7 +132,7 @@ export default function NewProduct() {
                     }
                 }
 
-                addProducts(product, dispatch);
+                addProducts();
             });
         }
         ); 
