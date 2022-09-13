@@ -13,6 +13,7 @@ import Products from '../components/Products'
 import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
 import CategoryBar from '../components/CategoryBar'
+import CategoryHotProduct from '../components/CategoryHotProduct'
 
 
 
@@ -30,6 +31,7 @@ export default function Home({ type }) {
             <CategoryBar/>
             <Slider />
             <Categories />
+            <CategoryHotProduct/>
             <Products />
             <Newsletter />
             <Footer/>
