@@ -9,13 +9,12 @@ import {mobile} from '../responsive'
 import styled from 'styled-components'
 
 // import icons from MUI5 library...
-import SearchIcon from '@mui/icons-material/Search';
 import { Badge } from '@mui/material';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { ShoppingCartOutlined, Search } from '@mui/icons-material';
 
 // use navigate...
 import { Link, useNavigate } from 'react-router-dom';
-import { loginFailer, loginStart, logOut } from '../redux/userSlice';
+import { loginStart, logOut } from '../redux/userSlice';
 
 // Styling...
 const Container = styled.div`
@@ -100,14 +99,10 @@ export default function NavBar() {
         dispatch(loginStart())
         try {
             dispatch(logOut())
-                .then(navigate('/'))
+            navigate('/login')
         } catch (error) {
         }
     }
-
-    // ########################################################
-    // emty shopping Cart if there aren't user logged....
-    const loggedUser = useSelector((state) => state.user.currentUser)
 
     return (
         <Container>
@@ -120,7 +115,7 @@ export default function NavBar() {
                     
                     <SearchContainer>
                         <SearchInput placeholder='Search'/>
-                        <SearchIcon style={{fontSize: "16px", color: "gray"}}/>
+                        <Search style={{fontSize: "16px", color: "gray"}}/>
                     </SearchContainer>
                 </CenterSideNavBar>
                 <RightSideNavBar>
@@ -133,8 +128,8 @@ export default function NavBar() {
                     </Link>
                     <Link to="/cart">
                         <MenuItem>
-                        {loggedUser && (<Badge color="secondary" badgeContent={notificationCartQuantity}>
-                            <ShoppingCartOutlinedIcon />
+                        {user && (<Badge color="secondary" badgeContent={notificationCartQuantity}>
+                            <ShoppingCartOutlined />
                         </Badge>)}
                         
                     </MenuItem>

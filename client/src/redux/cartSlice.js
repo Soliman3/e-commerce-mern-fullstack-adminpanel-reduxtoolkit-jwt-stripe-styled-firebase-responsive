@@ -7,7 +7,8 @@ const cartSlice = createSlice({
         userId: null,
         products: [],
         cartQuantity: 0,
-        total:0,
+        total: 0,
+        directCost: 0,
     },
     reducers:{
         addProductToCart: (state, action) => {
@@ -16,12 +17,16 @@ const cartSlice = createSlice({
                 state.cartQuantity += 1
                 state.products.push(action.payload)
                 state.total += action.payload.price * action.payload.orderedQuantity
+                state.directCost += action.payload.directCost * action.payload.orderedQuantity
             
         },
         removeProductFromCart: (state, action) => {
             if (state.cartQuantity > 0) {
-            state.cartQuantity -= 1
-            state.total -= action.payload.price * action.payload.orderedQuantity} 
+                state.cartQuantity -= 1
+                state.total -= action.payload.price * action.payload.orderedQuantity
+                state.directCost -= action.payload.directCost * action.payload.orderedQuantity
+                state.products.pop(action.payload)
+            } 
         },
         removeOnlySelectedProduct: (state, action) => {
                 state.products.pop(action.payload)
@@ -31,6 +36,7 @@ const cartSlice = createSlice({
             state.cartQuantity = 0
             state.products = []
             state.total = 0
+            state.directCost = 0
         },
         getStripeData: (state, action) => {
             state.stripeData = action.payload

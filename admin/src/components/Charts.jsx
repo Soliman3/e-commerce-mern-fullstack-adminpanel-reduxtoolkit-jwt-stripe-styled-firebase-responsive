@@ -38,7 +38,7 @@ export default function Charts({ data, title, firstLine, secondLine }) {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey={secondLine} stroke="blue" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey={secondLine} stroke="blue" activeDot={{ r: 3 }} />
           <Line type="monotone" dataKey={firstLine} stroke="#1cdf0e" />
         </LineChart>
       </ResponsiveContainer>

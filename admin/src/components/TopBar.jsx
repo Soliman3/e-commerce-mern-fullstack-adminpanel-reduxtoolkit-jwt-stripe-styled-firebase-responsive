@@ -1,6 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
+// useSelector to use redux toolkit in cart notification quantity...
+import { useDispatch, useSelector } from 'react-redux';
+
+// use navigate...
+import { useNavigate } from 'react-router-dom';
+
+// import userSlice actions...
+import { loginStart, logOut } from '../redux/userSlice'
+
 // import icons from mui5 library...
 import {
     SettingsOutlined,
@@ -10,6 +19,7 @@ import {
 
 // import required image from images library...
 import profilePhoto from '../images/1.jpg'
+import { deleteAll } from '../redux/productSlice';
 
 // Styling...
 const Container = styled.div`
@@ -80,18 +90,34 @@ const TopBarNotificationNumber = styled.span`
     margin-bottom: 2px;
 `
 export default function TopBar() {
+    const user = useSelector((state) => state.user?.currentUser?.isAdmin)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+// handle Log Out...
+    const handleLogOut = () => {
+        dispatch(loginStart())
+        try {
+            dispatch(logOut())
+            .then(navigate('/login'))
+        } catch (error) {
+        }
+    }
+    // emty redux products...
+    const handleClick = () => {
+        dispatch(deleteAll())
+    }
     return (
         <Container>
             <Wrapper>
                 <TopBarLeft>
                     <BrandLogo>SOLIMAN</BrandLogo>
                 </TopBarLeft>
-                <TopBarRight>
+                {user && (<><TopBarRight>
                     <TopBarRightIcons>
-                        <PowerSettingsNewOutlined style={{ fontSize: '20px' }} />
+                        <PowerSettingsNewOutlined onClick={handleLogOut} style={{ fontSize: '20px' }} />
                     </TopBarRightIcons>
                     <TopBarRightIcons>
-                        <SettingsOutlined style={{ fontSize: '20px' }} />
+                        <SettingsOutlined style={{ fontSize: '20px' }} onClick={handleClick} />
                     </TopBarRightIcons>
                     <TopBarRightIcons>
                         <NotificationsNone style={{ fontSize: '20px' }} />
@@ -100,7 +126,7 @@ export default function TopBar() {
                         </TopBarRightBadge>
                     </TopBarRightIcons>
                     <ProfileImage src={profilePhoto} alt='Profile Image' />
-                </TopBarRight>
+                </TopBarRight></>)}
             </Wrapper>
         </Container>
     )

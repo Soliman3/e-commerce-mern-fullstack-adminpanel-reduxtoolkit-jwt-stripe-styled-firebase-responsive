@@ -98,7 +98,8 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault()
     try {
-      await axios.post('/auth/signup', {firstName, lastName, username, email, password }).then(navigate('/login'))
+      await axios.post('/auth/signup', { firstName, lastName, username, email, password })
+      navigate('/login')
     } catch (error) {
       console.log(error)
     }

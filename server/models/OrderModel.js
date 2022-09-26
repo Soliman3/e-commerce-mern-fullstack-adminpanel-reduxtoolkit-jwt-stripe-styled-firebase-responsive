@@ -22,6 +22,9 @@ const OrderSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    directCost: {
+        type: Number,
+    },
     address: {
         type: Object,
         required: true,

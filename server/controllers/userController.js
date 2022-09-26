@@ -46,7 +46,7 @@ export const getUser = async (req, res, next) => {
 export const getAllUsers = async (req, res, next) => {
     const query = req.query.latest
     try {
-        const users = query? await User.find().sort({username: -1}).limit(2) : await User.find()
+        const users = query? await User.find().sort({username: -1}).limit(8) : await User.find()
         res.status(200).json(users)
     } catch (error) {
         next(error)

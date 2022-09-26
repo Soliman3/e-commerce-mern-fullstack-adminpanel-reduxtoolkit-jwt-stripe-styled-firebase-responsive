@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import { emtyProductCart } from '../redux/cartSlice';
 import { userRequest } from '../requestAxiosMethod';
@@ -53,7 +53,8 @@ export default function Success() {
               productId: item._id,
               quantity: item.orderedQuantity,
             })),
-            amount: cart.total ,
+            amount: cart.total,
+            directCost: cart.directCost,
             address: data.billing_details.address,
           });
               setOrderId(response.data._id)

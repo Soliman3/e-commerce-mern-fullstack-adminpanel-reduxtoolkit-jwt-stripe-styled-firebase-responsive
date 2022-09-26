@@ -29,6 +29,9 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    directCost: {
+        type: Number,
+    },
     inStock: {
         type: Boolean,
         default: true,

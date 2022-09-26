@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+
+// import moment library for time enhancement...
+import moment from 'moment'
 
 // import required image from images library...
 import firstTransactionImage from '../../images/1.jpg'
+import { userRequest } from '../../requestAxiosMethod'
 
 // Styling...
 const Container = styled.div`
@@ -27,7 +31,7 @@ const WidgetTable = styled.table`
   border-spacing: 30px;
 `
 const WidgetTableTr = styled.tr`
-
+  
 `
 const WidgetTableTh = styled.th`
   text-align: left;
@@ -52,6 +56,8 @@ const Image = styled.img`
   }
 `
 const UserName = styled.span`
+  margin-top: 10px;
+
   &:hover{
     transform: scale(1.1);
     font-weight: bold;
@@ -89,55 +95,47 @@ const Button = styled.button`
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   }
 `
+const WidgetBody = styled.tbody`
+
+`
 
 // LargeWidget React Functional Component...
 export default function LargeWidget() {
+  // fetch orders then set state in setOrders...
+  const [orders, setOrders] = useState([])
+
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        const response = await userRequest.get('/orders/find')
+        setOrders(response.data)
+      } catch (error) { }
+    }
+    getOrders()
+  },[])
   return (
     <Container>
       <Title>Recent Transactions</Title>
       <WidgetTable>
+        <WidgetBody>
+
         <WidgetTableTr>
           <WidgetTableTh>Customer</WidgetTableTh>
           <WidgetTableTh>Date</WidgetTableTh>
           <WidgetTableTh>Amount</WidgetTableTh>
           <WidgetTableTh>Status</WidgetTableTh>
-        </WidgetTableTr>
-        <WidgetTableTr>
+          </WidgetTableTr>
+          {orders.map((order)=>(<WidgetTableTr key={order._id}>
           <WidgetTableTdCustomer>
-            <Image src={firstTransactionImage}/>
-            <UserName>Mike Carol</UserName>
+              <UserName>{order.userId}</UserName>
           </WidgetTableTdCustomer>
-          <WidgetTableTdDate>22 Aug 2022</WidgetTableTdDate>
-          <WidgetTableTdAmount>$ 320.00</WidgetTableTdAmount>
-          <WidgetTableTdStatus><Button type="Approved">Approved</Button></WidgetTableTdStatus>
-        </WidgetTableTr>
-        <WidgetTableTr>
-          <WidgetTableTdCustomer>
-            <Image src={firstTransactionImage}/>
-            <UserName>Mike Carol</UserName>
-          </WidgetTableTdCustomer>
-          <WidgetTableTdDate>22 Aug 2022</WidgetTableTdDate>
-          <WidgetTableTdAmount>$ 320.00</WidgetTableTdAmount>
-          <WidgetTableTdStatus><Button type="Pending">Pending</Button></WidgetTableTdStatus>
-        </WidgetTableTr>
-        <WidgetTableTr>
-          <WidgetTableTdCustomer>
-            <Image src={firstTransactionImage}/>
-            <UserName>Mike Carol</UserName>
-          </WidgetTableTdCustomer>
-          <WidgetTableTdDate>22 Aug 2022</WidgetTableTdDate>
-          <WidgetTableTdAmount>$ 320.00</WidgetTableTdAmount>
-          <WidgetTableTdStatus><Button type="Approved">Approved</Button></WidgetTableTdStatus>
-        </WidgetTableTr>
-        <WidgetTableTr>
-          <WidgetTableTdCustomer>
-            <Image src={firstTransactionImage}/>
-            <UserName>Mike Carol</UserName>
-          </WidgetTableTdCustomer>
-          <WidgetTableTdDate>22 Aug 2022</WidgetTableTdDate>
-          <WidgetTableTdAmount>$ 320.00</WidgetTableTdAmount>
-          <WidgetTableTdStatus><Button type="Decline">Decline</Button></WidgetTableTdStatus>
-        </WidgetTableTr>
+            <WidgetTableTdDate>{moment(order.createdAt).fromNow()}</WidgetTableTdDate>
+            <WidgetTableTdAmount>$ {order.amount}</WidgetTableTdAmount>
+          <WidgetTableTdStatus><Button type={order.status}>{order.status}</Button></WidgetTableTdStatus>
+        </WidgetTableTr>))}
+        
+        
+        </WidgetBody>
       </WidgetTable>
     </Container>
   )

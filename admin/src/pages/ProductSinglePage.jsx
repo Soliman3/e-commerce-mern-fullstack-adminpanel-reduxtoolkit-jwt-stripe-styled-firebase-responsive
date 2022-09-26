@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 // import styled components for css styling...
 import styled from 'styled-components'
 
 // import React Router Dom Library for Routing..
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 // import required components...
 import Charts from '../components/Charts'
@@ -12,6 +12,13 @@ import Charts from '../components/Charts'
 // import produts data from dummyData.js file...
 import { productsData } from '../Data/dummyData'
 import { AddOutlined, Publish } from '@mui/icons-material'
+import { useDispatch, useSelector } from 'react-redux'
+import { userRequest } from '../requestAxiosMethod'
+
+// firebase requires functions from firebase library...
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import app from '../firebase'
+import { updateProductFailure, updateProductStart, updateProductSuccess } from '../redux/productSlice'
 
 // Styling...
 const Container = styled.div`
@@ -36,6 +43,8 @@ const ProductAddNew = styled.button`
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 `
 const ProductTop = styled.div`
     display: flex;
@@ -165,6 +174,110 @@ const ProductUpdateButton = styled.button`
 
 // Product Single Page React Functional Component...
 export default function ProductSinglePage() {
+    // get product by it's id from url...
+    const pageUrl = useLocation()
+    const productId = pageUrl.pathname.split('/')[2]
+    const [productChartInfo, setProductChartInfo] = useState([])
+    // get the product from redux by it's _id that comes from url...
+    const product = useSelector((state) => state.product.products.find((item) => item._id === productId))
+
+    const months = useMemo(
+        () => [
+            'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',
+        ], []
+    );
+
+    useEffect(() => {
+        const getOrderedProductInfo = async () => {
+            try {
+                const response = await userRequest.get("orders/revenues?pid=" + productId )
+                // sort response by id..
+                const sortedResponse = response.data.sort((a,b)=> a._id - b._id)
+                sortedResponse.map((item) => {
+                    setProductChartInfo(previous=>[...previous, {name:months[item._id-1], Sales: item.total}])
+                })
+            } catch (error) {
+                
+            }
+        }
+        getOrderedProductInfo()
+    }, [months, productId])
+    // #################################################
+    // handle update product...
+    const [inputs, setInputs] = useState({})
+    const [categories, setCategories] = useState([])
+    const [file, setFile] = useState()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    // handleChange of inputs in group in onetime...
+    const handleChange = (e) => {
+        setInputs((previous) => {
+            return { ...previous, [e.target.name]: e.target.value}
+        })
+    }
+
+    // handle state of categories and split categories by split method...
+    const handleCategories = (e) => {
+        setCategories(e.target.value.split(','))
+    } 
+
+    // send payload to server by axios post method...
+    const handleClick = (e) => {
+        // prevent default event (reloading page) when click create...
+        e.preventDefault() 
+        // upload image & inputs to database throght api post request ...
+        const fileName = new Date().getTime + file?.name;
+        const storage = getStorage(app);
+        const storageRef = ref(storage, fileName);
+
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        // Register three observers:
+        // 1. 'state_changed' observer, called any time the state changes
+        // 2. Error observer, called on failure
+        // 3. Completion observer, called on successful completion
+        uploadTask.on('state_changed', 
+        (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+            case 'paused':
+                console.log('Upload is paused');
+                break;
+            case 'running':
+                console.log('Upload is running');
+                    break;
+            }
+        }, 
+        (error) => {
+            // Handle unsuccessful uploads
+        }, 
+        () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                const product = { ...inputs, image: downloadURL, category: categories }
+                console.log(product);
+                const updateProducts = async () => {
+                    dispatch(updateProductStart())
+                    try {
+                        const response = await userRequest.put(`/products/${productId}`, product )
+                        dispatch(updateProductSuccess(response.data))
+                        .then(navigate('/products'))
+                    } catch (error) {
+                        dispatch(updateProductFailure())
+                    }
+                }
+
+                updateProducts();
+            });
+        }
+        );
+    }
+
     return (
         <Container>
             <ProductTitleContainer>
@@ -178,29 +291,25 @@ export default function ProductSinglePage() {
             </ProductTitleContainer>
             <ProductTop>
                 <ProductTopLeft>
-                    <Charts data={productsData} title="Product Movements" secondLine="Sales" firstLine="Returns" />
+                    <Charts data={productChartInfo} title="Product Movements" secondLine="Sales" firstLine="Returns" />
                 </ProductTopLeft>
                 <ProductTopRight>
                     <ProductInfoTop>
-                        <ProductInfoImage src="https://i.ibb.co/GsH4D2J/2.png" alt="" />
+                        <ProductInfoImage src={product.image} alt="" />
                     </ProductInfoTop>
                     <ProductInfoBottom>
-                        <ProductInfoName>Iphone 12mini</ProductInfoName>
+                        <ProductInfoName>{product.title}</ProductInfoName>
                         <ProductInfoBottomItem>
                             <ProductInfoBottomKey>Serial</ProductInfoBottomKey>
-                            <ProductInfoBottomValue>09562257110</ProductInfoBottomValue>
+                            <ProductInfoBottomValue>{product._id}</ProductInfoBottomValue>
                         </ProductInfoBottomItem>
                         <ProductInfoBottomItem>
                             <ProductInfoBottomKey>Sales</ProductInfoBottomKey>
                             <ProductInfoBottomValue>12500</ProductInfoBottomValue>
                         </ProductInfoBottomItem>
                         <ProductInfoBottomItem>
-                            <ProductInfoBottomKey>Active</ProductInfoBottomKey>
-                            <ProductInfoBottomValue>Yes</ProductInfoBottomValue>
-                        </ProductInfoBottomItem>
-                        <ProductInfoBottomItem>
                             <ProductInfoBottomKey>In Stock</ProductInfoBottomKey>
-                            <ProductInfoBottomValue>Yes</ProductInfoBottomValue>
+                            <ProductInfoBottomValue>{product.inStock}</ProductInfoBottomValue>
                         </ProductInfoBottomItem>
                     </ProductInfoBottom>
                 </ProductTopRight>
@@ -210,30 +319,35 @@ export default function ProductSinglePage() {
                     <ProductFormLeft>
                         <ProductFormLeftItem>
                             <ProductItemLabel>Product Name</ProductItemLabel>
-                            <ProductItemInput type="text" placeholder="Iphone 12mini" />
+                            <ProductItemInput name="title" type="text" placeholder={product.title} onChange={handleChange}/>
+                        </ProductFormLeftItem>
+                        <ProductFormLeftItem>
+                            <ProductItemLabel>Product Description</ProductItemLabel>
+                            <ProductItemInput type="text" placeholder={product.description} name="description" onChange={handleChange}/>
+                        </ProductFormLeftItem>
+                        <ProductFormLeftItem>
+                            <ProductItemLabel>Price</ProductItemLabel>
+                            <ProductItemInput type="number" placeholder={product.price} name="price" onChange={handleChange}/>
+                        </ProductFormLeftItem>
+                        <ProductFormLeftItem>
+                            <ProductItemLabel>Categories</ProductItemLabel>
+                            <ProductItemInput type="text" placeholder={product.category} name="category" onChange={handleCategories}/>
                         </ProductFormLeftItem>
                         <ProductFormLeftItem>
                             <ProductItemLabel>In Stock</ProductItemLabel>
-                            <ProductItemSelect name="inStock" id="inStock">
-                                <ProductItemOption value="yes">Yes</ProductItemOption>
-                                <ProductItemOption value="no">No</ProductItemOption>
-                            </ProductItemSelect>
-                        </ProductFormLeftItem>
-                        <ProductFormLeftItem>
-                            <ProductItemLabel>Active</ProductItemLabel>
-                            <ProductItemSelect name="active" id="active">
-                                <ProductItemOption value="yes">Yes</ProductItemOption>
-                                <ProductItemOption value="no">No</ProductItemOption>
+                            <ProductItemSelect name="inStock" id="inStock" onChange={handleChange}>
+                                <ProductItemOption value="true">Yes</ProductItemOption>
+                                <ProductItemOption value="false">No</ProductItemOption>
                             </ProductItemSelect>
                         </ProductFormLeftItem>
                     </ProductFormLeft>
                     <ProductFormRight>
                         <ProductFormImageUpload>
-                            <ProductImage src="https://i.ibb.co/GsH4D2J/2.png" alt="" />
+                            <ProductImage src={product.image} alt="" />
                             <ProductImageUploadLabel for="file"><Publish /></ProductImageUploadLabel>
-                            <ProductImageUploadInput type="file" id="file" style={{display: 'none'}} />
+                            <ProductImageUploadInput type="file" id="file" style={{display: 'none'}} onChange={(e)=> setFile(e.target.files[0])} />
                         </ProductFormImageUpload>
-                        <ProductUpdateButton>Update</ProductUpdateButton>
+                        <ProductUpdateButton onClick={handleClick}>Update</ProductUpdateButton>
                     </ProductFormRight>
                 </ProductBottomForm>
             </ProductBottom>
