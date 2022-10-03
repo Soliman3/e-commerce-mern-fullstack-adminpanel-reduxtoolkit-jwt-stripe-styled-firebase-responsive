@@ -12,6 +12,8 @@ import Categories from '../components/Categories'
 import Products from '../components/Products'
 import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
+import CategoryBar from '../components/CategoryBar'
+import CategoryHotProduct from '../components/CategoryHotProduct'
 
 
 
@@ -26,8 +28,10 @@ export default function Home({ type }) {
         <Container>
             <Offers />
             <NavBar />
+            <CategoryBar/>
             <Slider />
             <Categories />
+            <CategoryHotProduct/>
             <Products />
             <Newsletter />
             <Footer/>

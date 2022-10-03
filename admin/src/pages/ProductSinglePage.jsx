@@ -331,7 +331,7 @@ export default function ProductSinglePage() {
                         </ProductFormLeftItem>
                         <ProductFormLeftItem>
                             <ProductItemLabel>Categories</ProductItemLabel>
-                            <ProductItemInput type="text" placeholder="" name="category" onChange={handleCategories}/>
+                            <ProductItemInput type="text" placeholder={product.category} name="category" onChange={handleCategories}/>
                         </ProductFormLeftItem>
                         <ProductFormLeftItem>
                             <ProductItemLabel>In Stock</ProductItemLabel>
