@@ -1,22 +1,22 @@
-import React, { useLayoutEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useLayoutEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 // import styled component library for styling...
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 // import other react components...
-import Footer from '../components/Footer'
-import NavBar from '../components/NavBar'
-import Newsletter from '../components/Newsletter'
-import Offers from '../components/Offers'
-import Products from '../components/Products'
-import { mobile } from '../responsive'
+import Footer from '../components/Footer';
+import NavBar from '../components/NavBar';
+import Newsletter from '../components/Newsletter';
+import Offers from '../components/Offers';
+import Products from '../components/Products';
+import { mobile } from '../responsive';
 
 
 
 // Styling...
 const Container = styled.div`
-    
+
 `
 const CategoryTitle = styled.h1`
     margin: 25px 40px;
@@ -24,13 +24,13 @@ const CategoryTitle = styled.h1`
 const FilterContainer = styled.div`
     display: flex;
     justify-content: space-between;
-    ${mobile({flexDirection: 'column'})}
+    ${mobile({flexDirection: 'column'})};
 `
 const Filter = styled.div`
     margin: 25px 40px;
     display: flex;
     align-items: center;
-    ${mobile({margin: '10px 40px'})}
+    ${mobile({margin: '10px 40px'})};
 `
 const FilterText = styled.span`
     font-size: 20px;
@@ -57,6 +57,7 @@ const ButtonReset = styled.button`
         font-size: 14px;
     }
 `
+
 export default function CategoryProductList({ type }) {
     // useLayoutEffect to scroll to the top of the page when navigate to it...
     useLayoutEffect(() => {

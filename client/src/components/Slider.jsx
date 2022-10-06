@@ -25,7 +25,7 @@ import {mobile} from '../responsive'
 const Container = styled.div`
     display: flex;
     width: 100%;
-    height: 100vh;
+    height: 350px;
     background-color:white;
     overflow: hidden;
     position: relative;
@@ -60,7 +60,7 @@ const Slide = styled.div`
     display:flex;
     align-items: center;
     width: 100vw;
-    height: 100vh;
+  
     background-color: ${props => props.bg};
     transition: all 1s ease;
     
@@ -115,17 +115,20 @@ const SliderImageContainer = styled.div`
     height: 100%;
 `
 const SliderImage = styled.img`
-    height: 88%;
+    height: 100%;
+    margin-left: 80px;
+    margin-bottom: 25px;
 `
 const SliderInfoContainer = styled.div`
-    flex: 1;
-    padding: 45px;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
 `
 const SlideTitle = styled.h1`
-    font-size: 80px;
+    font-size: 65px;
 `
 const SlideDescription = styled.p`
-    margin: 50px 0;
+    margin: 10px 0;
     font-size: 20px;
     letter-spacing: 4px;
     font-weight: 500;
@@ -135,39 +138,7 @@ const SlideButton = styled.button`
     background-color: transparent;
     cursor: pointer ;
     padding: 15px;
-    
-    animation: ${props => props.myElementIsVisible === true && 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both'};
-    transform: ${props => props.myElementIsVisible === true && 'translate3d(0, 0, 0)'};
-    backface-visibility: ${props => props.myElementIsVisible === true && 'hidden'};
-    perspective: ${props => props.myElementIsVisible === true && '1000px'};
-
-    @keyframes shake {
-        10%, 90% {
-            transform: translate3d(-1px, 0, 0);
-        }
-        
-        20%, 80% {
-            transform: translate3d(2px, 0, 0);
-        }
-        30%, 50%, 70% {
-            transform: translate3d(-4px, 0, 0);
-        }
-        40% , 60% {
-            transform: translate3d(4px, 0, 0);
-        }
-        }
-        &:hover{
-            transform: scale(1.2);
-            border: 2px solid white;
-        }
-        &:active{
-            transform: scale(1);
-            background-color: aqua;
-            color: black;
-            border: none;
-            border-radius: 19px;
-            transition: all 0.5s ease;
-        }
+    width: 15%;
     
 `
 export default function Slider() {

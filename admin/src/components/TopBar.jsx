@@ -19,6 +19,7 @@ import {
 
 // import required image from images library...
 import profilePhoto from '../images/1.jpg'
+import { deleteAll } from '../redux/productSlice';
 
 // Styling...
 const Container = styled.div`
@@ -101,6 +102,10 @@ export default function TopBar() {
         } catch (error) {
         }
     }
+    // emty redux products...
+    const handleClick = () => {
+        dispatch(deleteAll())
+    }
     return (
         <Container>
             <Wrapper>
@@ -112,7 +117,7 @@ export default function TopBar() {
                         <PowerSettingsNewOutlined onClick={handleLogOut} style={{ fontSize: '20px' }} />
                     </TopBarRightIcons>
                     <TopBarRightIcons>
-                        <SettingsOutlined style={{ fontSize: '20px' }} />
+                        <SettingsOutlined style={{ fontSize: '20px' }} onClick={handleClick} />
                     </TopBarRightIcons>
                     <TopBarRightIcons>
                         <NotificationsNone style={{ fontSize: '20px' }} />

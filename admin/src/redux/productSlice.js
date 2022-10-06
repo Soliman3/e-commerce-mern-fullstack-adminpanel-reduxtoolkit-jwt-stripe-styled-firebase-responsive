@@ -74,13 +74,18 @@ export const productSlice = createSlice({
         addProductFailure: (state) => {
             state.loading = false
             state.error = true
-        }
+        },
+        deleteAll: (state) => {
+            state.products = []
+            state.loading = false
+            state.error = false
+        },
     },
 });
 
 export const { getProductStart, getProductSuccess, getProductFailure,
                 deleteProductStart, deleteProductSuccess, deleteProductFailure,
                 updateProductStart, updateProductSuccess, updateProductFailure,
-                addProductStart, addProductSuccess, addProductFailure
+                addProductStart, addProductSuccess, addProductFailure, deleteAll
             } = productSlice.actions;
 export default productSlice.reducer;

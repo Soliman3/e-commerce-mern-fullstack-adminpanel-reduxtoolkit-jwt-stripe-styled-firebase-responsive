@@ -34,7 +34,7 @@ const ProductContainer = styled.div`
 const ProductImage = styled.img`
     width: 35px;
     height: 35px;
-    border-radius: 50%;
+    
     object-fit: cover;
 `
 const EditButton = styled.button`
@@ -102,7 +102,7 @@ export default function ProductList() {
             field: 'product', headerName: 'Product ', width: 300, renderCell: (params) => {
                 return (
                     <ProductContainer>
-                        <ProductImage src={params.row.productImage} alt="" />
+                        <ProductImage src={params.row.image} alt="" />
                         {params.row.title}
                 </ProductContainer>
             )
