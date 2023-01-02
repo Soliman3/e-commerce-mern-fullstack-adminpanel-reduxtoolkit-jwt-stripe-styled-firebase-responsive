@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import axios from 'axios'
@@ -167,6 +167,11 @@ export default function Product() {
     const location = useLocation()
     const productId = location.pathname.split("/")[2]
 
+
+    // open page in top of the window
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     // fetching product data by id from server by axios...
         const [product, setProduct] = useState({})
     

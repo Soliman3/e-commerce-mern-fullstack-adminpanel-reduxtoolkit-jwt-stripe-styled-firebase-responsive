@@ -50,7 +50,7 @@ const BottomContainerItem = styled.div`
     
 `
 const BottomItemImageContainer = styled.div`
-    flex: 3;
+    flex: 4;
     position: relative;
     border: none;
 `
@@ -66,12 +66,12 @@ const BottomItemImage = styled.img`
     border: none;
 `
 const BottomItemTextContainer = styled.div`
-    flex: 1.15;
+    flex: 1;
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
+    padding-top: 25px;
 `
 const BottomItemText = styled.span`
     font-weight: 900;
@@ -79,7 +79,7 @@ const BottomItemText = styled.span`
 `
 const BottomItemTextSale = styled.span`
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
     color: #d11636;
 `
 
@@ -98,7 +98,7 @@ export default function CategoryHotProduct() {
                             <BottomItemImage src={Mobile} />
                         </BottomItemImageContainer>
                         <BottomItemTextContainer>
-                            <BottomItemText>Video Game</BottomItemText>
+                            <BottomItemText>MOBILES</BottomItemText>
                             <BottomItemTextSale>UP TO 50% OFF</BottomItemTextSale>
                         </BottomItemTextContainer>
                     </BottomContainerItem>
@@ -107,7 +107,7 @@ export default function CategoryHotProduct() {
                             <BottomItemImage src={Mobile} />
                         </BottomItemImageContainer>
                         <BottomItemTextContainer>
-                            <BottomItemText>Video Game</BottomItemText>
+                            <BottomItemText>MOBILES</BottomItemText>
                             <BottomItemTextSale>UP TO 50% OFF</BottomItemTextSale>
                         </BottomItemTextContainer>
                     </BottomContainerItem>
@@ -116,7 +116,7 @@ export default function CategoryHotProduct() {
                             <BottomItemImage src={Mobile} />
                         </BottomItemImageContainer>
                         <BottomItemTextContainer>
-                            <BottomItemText>Video Game</BottomItemText>
+                            <BottomItemText>MOBILES</BottomItemText>
                             <BottomItemTextSale>UP TO 50% OFF</BottomItemTextSale>
                         </BottomItemTextContainer>
                     </BottomContainerItem>
@@ -125,7 +125,7 @@ export default function CategoryHotProduct() {
                             <BottomItemImage src={Mobile} />
                         </BottomItemImageContainer>
                         <BottomItemTextContainer>
-                            <BottomItemText>Video Game</BottomItemText>
+                            <BottomItemText>MOBILES</BottomItemText>
                             <BottomItemTextSale>UP TO 50% OFF</BottomItemTextSale>
                         </BottomItemTextContainer>
                     </BottomContainerItem>
@@ -134,7 +134,7 @@ export default function CategoryHotProduct() {
                             <BottomItemImage src={Mobile} />
                         </BottomItemImageContainer>
                         <BottomItemTextContainer>
-                            <BottomItemText>Video Game</BottomItemText>
+                            <BottomItemText>MOBILES</BottomItemText>
                             <BottomItemTextSale>UP TO 50% OFF</BottomItemTextSale>
                         </BottomItemTextContainer>
                     </BottomContainerItem>
@@ -143,7 +143,7 @@ export default function CategoryHotProduct() {
                             <BottomItemImage src={Mobile} />
                         </BottomItemImageContainer>
                         <BottomItemTextContainer>
-                            <BottomItemText>Video Game</BottomItemText>
+                            <BottomItemText>MOBILES</BottomItemText>
                             <BottomItemTextSale>UP TO 50% OFF</BottomItemTextSale>
                         </BottomItemTextContainer>
                     </BottomContainerItem>
@@ -152,7 +152,7 @@ export default function CategoryHotProduct() {
                             <BottomItemImage src={Mobile} />
                         </BottomItemImageContainer>
                         <BottomItemTextContainer>
-                            <BottomItemText>Video Game</BottomItemText>
+                            <BottomItemText>MOBILES</BottomItemText>
                             <BottomItemTextSale>UP TO 50% OFF</BottomItemTextSale>
                         </BottomItemTextContainer>
                     </BottomContainerItem>

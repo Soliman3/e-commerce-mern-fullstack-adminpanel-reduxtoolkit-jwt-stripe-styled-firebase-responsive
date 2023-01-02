@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 
 // import styled component library for styling...
 import styled from 'styled-components'
@@ -24,6 +24,10 @@ const Container = styled.div`
 
 // Home react function component for home page...
 export default function Home({ type }) {
+    // open page in top of the window
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     return (
         <Container>
             <Offers />
